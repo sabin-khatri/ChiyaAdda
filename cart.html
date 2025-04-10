@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chiya-Ghar - Your Cart</title>
+  <link rel="icon" href="images/logo.png" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .cart-count::after {
+        content: attr(data-count);
+        position: absolute;
+        top: -5px;
+        right: -10px;
+        background-color: red;
+        color: white;
+        font-size: 0.7rem;
+        font-weight: bold;
+        border-radius: 50%;
+        padding: 2px 5px;
+        line-height: 1;
+        min-width: 16px;
+        text-align: center;
+    }
+    .cart-link {
+        position: relative;
+        display: inline-block;
+    }
+    .qty-btn {
+        background-color: #7a5c50;
+        border: none;
+        color: white;
+        padding: 2px 8px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-weight: bold;
+        margin: 0 5px;
+    }
+    .qty-btn:hover {
+        background-color: #5C4033;
+    }
+     .remove-btn, .checkout-item-btn { /* Style both action buttons similarly */
+        border: none;
+        color: white;
+        padding: 4px 10px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 0.9rem;
+        transition: background-color 0.2s ease;
+        text-align: center; /* Ensure text is centered */
+    }
+    .remove-btn {
+        background-color: #dc2626; /* Red */
+    }
+    .remove-btn:hover {
+        background-color: #b91c1c; /* Darker Red */
+    }
+    .checkout-item-btn {
+        background-color: #16a34a; /* Green */
+        margin-left: 5px; /* Add space between checkout and remove */
+    }
+    .checkout-item-btn:hover {
+         background-color: #15803d; /* Darker Green */
+    }
+
+    /* Responsive layout adjustments for item actions */
+    .item-actions {
+        display: flex;
+        flex-direction: column; /* Stack vertically on small screens */
+        align-items: flex-end; /* Align to the right */
+        gap: 0.5rem; /* Space between buttons */
+        width: auto; /* Adjust width as needed */
+    }
+    @media (min-width: 640px) { /* sm breakpoint or adjust as needed */
+        .item-actions {
+            flex-direction: row; /* Side-by-side on larger screens */
+            align-items: center;
+        }
+    }
+
+  </style>
+</head>
+
+<body class="bg-[#3C2F2F] text-white">
+
+  <header class="bg-[#5C4033] shadow-md sticky top-0 z-50">
+    <div class="container mx-auto flex items-center justify-between px-6 py-4 relative z-10">
+        <div class="flex items-center">
+          <img src="images/logo.png" alt="Logo" class="md:w-28 md:h-28 h-10 w-10" />
+          <h1 class="text-2xl font-bold text-red-700 mr-2">CHIYA</h1>
+          <h1 class="text-2xl font-bold">GHAR</h1>
+        </div>
+
+        <nav class="hidden md:flex items-center space-x-6">
+          <a href="index.html" class="text-white hover:text-yellow-200">Home</a>
+          <a href="AboutUs.html" class="text-white hover:text-yellow-200">About Us</a>
+          <a href="menu.html" class="text-white hover:text-yellow-200">Menu</a>
+          <a href="cart.html" class="text-white hover:text-yellow-200 font-semibold cart-link" id="nav-cart-link">Cart</a>
+          <a href="order.html" class="text-white hover:text-yellow-200">Order</a>
+          <a href="gallery.html" class="text-white hover:text-yellow-200">Gallery</a>
+          <a href="#" class="text-white border border-white rounded px-3 py-1 hover:bg-white hover:text-[#5C4033]">Contact Us</a>
+        </nav>
+
+        <div class="md:hidden flex items-center">
+           <a href="cart.html" class="text-white hover:text-yellow-200 mr-4 font-semibold cart-link" id="mobile-nav-cart-link">
+             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+               <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+             </svg>
+           </a>
+          <button id="hamburger-button" class="text-white" aria-label="Toggle menu">
+            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    <div id="mobile-menu" class="md:hidden absolute top-0 left-0 w-full bg-[#5C4033] bg-opacity-95 z-40 hidden">
+      <div class="pt-20 pb-8 px-4">
+        <button id="close-menu-button" class="absolute top-5 right-5 text-white">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+        <nav class="flex flex-col items-center space-y-5">
+          <a href="index.html" class="text-lg text-white hover:text-yellow-200">Home</a>
+          <a href="AboutUs.html" class="text-lg text-white hover:text-yellow-200">About Us</a>
+          <a href="menu.html" class="text-lg text-white hover:text-yellow-200">Menu</a>
+          <a href="cart.html" class="text-lg text-white hover:text-yellow-200 font-semibold">Cart</a>
+          <a href="order.html" class="text-lg text-white hover:text-yellow-200">Order</a>
+          <a href="gallery.html" class="text-lg text-white hover:text-yellow-200">Gallery</a>
+          <a href="#" class="text-lg text-white hover:text-yellow-200">Contact Us</a>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <main class="bg-[#4A3A3A] py-16 md:py-24 scroll-mt-20 min-h-screen">
+    <div class="container mx-auto px-6">
+      <h2 class="text-3xl md:text-4xl font-bold mb-12 text-center font-serif text-amber-500">Your Shopping Cart</h2>
+
+      <div id="cart-container" class="bg-[#5C4033] p-4 md:p-6 rounded-lg shadow-lg max-w-4xl mx-auto">
+        <div id="cart-items-container" class="space-y-4">
+          <!-- Cart items will be injected here -->
+        </div>
+
+        <p id="empty-cart-message" class="text-center text-gray-400 py-8 hidden">
+          Your cart is empty. <a href="menu.html" class="text-amber-400 hover:underline">Go to Menu</a>
+        </p>
+
+        <!-- Summary Section (Total and General Actions) -->
+        <div id="cart-summary" class="mt-8 pt-4 border-t border-gray-500 hidden">
+           <div class="text-right text-lg md:text-xl font-semibold mb-4">
+             Cart Total: <span id="cart-total" class="text-yellow-200">Rs. 0.00</span>
+           </div>
+           <!-- General cart actions -->
+           <div class="flex flex-col sm:flex-row justify-end items-center space-y-3 sm:space-y-0 sm:space-x-4">
+              <a href="menu.html" id="add-more-btn" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded transition duration-300 text-center w-full sm:w-auto order-1 sm:order-none">Add More Items</a>
+              <button id="clear-cart-btn" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded transition duration-300 w-full sm:w-auto order-2 sm:order-none">Clear Cart</button>
+              <!-- Global checkout button removed -->
+            </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="bg-[#5C4033] text-gray-300 py-8">
+    <div class="container mx-auto px-6 text-center">
+      <div class="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
+        <p class="text-sm">© <span id="current-year"></span> Chiya Ghar. All Rights Reserved.</p>
+        <div class="flex space-x-4">
+          <a href="#" class="text-sm hover:text-yellow-200">Privacy Policy</a>
+          <a href="#" class="text-sm hover:text-yellow-200">Terms of Service</a>
+        </div>
+        <div class="flex space-x-4">
+           <a href="#" class="hover:text-yellow-200"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" clip-rule="evenodd" /></svg></a>
+           <a href="#" class="hover:text-yellow-200"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M12.315 2.014a.824.824 0 01.169-.138C13.243 1.15 14.58.918 16.04.918c1.42 0 2.66.22 3.43.874a3.917 3.917 0 011.417 1.417c.653.77.873 2.01.873 3.43 0 1.46-.232 2.797-.918 3.74a.87.87 0 01-.138.168c-1.313 1.313-3.243 1.195-7.707 1.195s-6.394.118-7.707-1.195a.824.824 0 01-.169-.138C1.195 13.243.963 11.906.963 10.446c0-1.42.22-2.66.874-3.43a3.917 3.917 0 011.417-1.417c.77-.653 2.01-.873 3.43-.873 1.46 0 2.797.232 3.74.918.06.046.116.092.169.138zM10.875 6.884a.608.608 0 00-.61.608v3.047a.608.608 0 00.61.608h3.047a.608.608 0 00.609-.608V7.491a.608.608 0 00-.609-.608h-3.047zm5.47 1.27a1.047 1.047 0 100-2.094 1.047 1.047 0 000 2.094zM4.858 12c0 3.846 3.075 7.047 6.83 7.047s6.83-3.201 6.83-7.047c0-3.845-3.075-7.047-6.83-7.047s-6.83 3.202-6.83 7.047z" clip-rule="evenodd" /></svg></a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('current-year').textContent = new Date().getFullYear();
+    const hamburgerButton = document.getElementById('hamburger-button');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const closeMenuButton = document.getElementById('close-menu-button');
+
+    hamburgerButton.addEventListener('click', () => {
+      mobileMenu.classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+    });
+
+    closeMenuButton.addEventListener('click', () => {
+      mobileMenu.classList.add('hidden');
+      document.body.style.overflow = '';
+    });
+
+    const CART_KEY = 'chiyaGharCart';
+    const CHECKOUT_ITEM_KEY = 'chiyaGharCheckoutItem'; // Key for sessionStorage
+
+    function getCart() {
+        const cart = localStorage.getItem(CART_KEY);
+        return cart ? JSON.parse(cart) : [];
+    }
+
+    function saveCart(cart) {
+        localStorage.setItem(CART_KEY, JSON.stringify(cart));
+        updateCartCountIndicator();
+        renderCart();
+    }
+
+     function updateCartCountIndicator() {
+        const cart = getCart();
+        const totalItems = cart.reduce((sum, item) => sum + (item.quantity || 0), 0);
+        const navCartLink = document.getElementById('nav-cart-link');
+        const mobileNavCartLink = document.getElementById('mobile-nav-cart-link');
+
+        if (totalItems > 0) {
+            if (navCartLink) navCartLink.classList.add('cart-count');
+            if (mobileNavCartLink) mobileNavCartLink.classList.add('cart-count');
+            if (navCartLink) navCartLink.dataset.count = totalItems;
+            if (mobileNavCartLink) mobileNavCartLink.dataset.count = totalItems;
+        } else {
+             if (navCartLink) navCartLink.classList.remove('cart-count');
+             if (mobileNavCartLink) mobileNavCartLink.classList.remove('cart-count');
+             if (navCartLink) delete navCartLink.dataset.count;
+             if (mobileNavCartLink) delete mobileNavCartLink.dataset.count;
+        }
+    }
+
+    const cartItemsContainer = document.getElementById('cart-items-container');
+    const cartTotalElement = document.getElementById('cart-total');
+    const emptyCartMessage = document.getElementById('empty-cart-message');
+    const cartSummaryElement = document.getElementById('cart-summary');
+    const clearCartBtn = document.getElementById('clear-cart-btn');
+
+    function renderCart() {
+        const cart = getCart();
+        cartItemsContainer.innerHTML = '';
+
+        if (cart.length === 0) {
+            emptyCartMessage.classList.remove('hidden');
+            cartSummaryElement.classList.add('hidden');
+        } else {
+            emptyCartMessage.classList.add('hidden');
+            cartSummaryElement.classList.remove('hidden');
+
+            cart.forEach(item => {
+                const itemElement = document.createElement('div');
+                itemElement.classList.add(
+                    'flex', 'flex-col', 'sm:flex-row', // Stack on small, row on sm+
+                    'items-start', 'sm:items-center',
+                    'justify-between', 'py-3', 'border-b',
+                    'border-gray-600', 'gap-3', 'sm:gap-4'
+                 );
+                itemElement.dataset.itemId = item.id;
+
+                const itemPrice = (item.price || 0).toFixed(2);
+                const itemName = item.name || 'Unknown Item';
+                const itemQuantity = item.quantity || 0;
+
+                // Container for item info and quantity controls
+                const infoQtyContainer = document.createElement('div');
+                infoQtyContainer.classList.add('flex', 'flex-col', 'sm:flex-row', 'sm:items-center', 'flex-grow', 'gap-2', 'sm:gap-4', 'w-full', 'sm:w-auto');
+
+                infoQtyContainer.innerHTML = `
+                    <div class="w-full sm:w-3/5 flex-shrink-0">
+                        <span class="font-semibold text-amber-300">${itemName}</span>
+                        <span class="text-sm text-gray-400 block">Rs. ${itemPrice} each</span>
+                    </div>
+                    <div class="flex items-center justify-start w-auto">
+                        <button class="qty-btn decrease-qty-btn" data-id="${item.id}">-</button>
+                        <span class="mx-2 font-medium">${itemQuantity}</span>
+                        <button class="qty-btn increase-qty-btn" data-id="${item.id}">+</button>
+                    </div>
+                `;
+
+                // Container for action buttons (Checkout Item, Remove)
+                const actionsContainer = document.createElement('div');
+                actionsContainer.classList.add('item-actions', 'self-end', 'sm:self-center'); // Use custom class for responsive actions
+
+                actionsContainer.innerHTML = `
+                    <button class="checkout-item-btn" data-id="${item.id}">Checkout Item</button>
+                    <button class="remove-btn remove-item-btn" data-id="${item.id}">Remove</button>
+                `;
+
+                itemElement.appendChild(infoQtyContainer);
+                itemElement.appendChild(actionsContainer);
+                cartItemsContainer.appendChild(itemElement);
+            });
+            updateTotal(); // Update the total for the entire cart
+        }
+        updateCartCountIndicator();
+    }
+
+    function updateTotal() {
+        const cart = getCart();
+        // Calculate total for all items currently shown in the cart summary
+        const total = cart.reduce((sum, item) => sum + (item.price || 0) * (item.quantity || 0), 0);
+        cartTotalElement.textContent = `Rs. ${total.toFixed(2)}`;
+    }
+
+    function updateQuantity(itemId, change) {
+        const cart = getCart();
+        const itemIndex = cart.findIndex(item => item.id === itemId);
+        if (itemIndex > -1) {
+            cart[itemIndex].quantity = (cart[itemIndex].quantity || 0) + change;
+            if (cart[itemIndex].quantity <= 0) {
+                cart.splice(itemIndex, 1);
+            }
+            saveCart(cart);
+        }
+    }
+
+    function removeFromCart(itemId) {
+        let cart = getCart();
+        cart = cart.filter(item => item.id !== itemId);
+        saveCart(cart);
+    }
+
+    function clearCart() {
+        if (confirm('Are you sure you want to clear the entire cart?')) {
+            saveCart([]);
+        }
+    }
+
+    function checkoutSingleItem(itemId) {
+        const cart = getCart();
+        const itemToCheckout = cart.find(item => item.id === itemId);
+
+        if (itemToCheckout) {
+            console.log('Checking out item:', itemToCheckout);
+            // Store only this item in sessionStorage for checkout.html to pick up
+            sessionStorage.setItem(CHECKOUT_ITEM_KEY, JSON.stringify(itemToCheckout));
+            // Redirect to checkout page
+            window.location.href = 'checkout.html';
+        } else {
+            console.error('Could not find item with ID to checkout:', itemId);
+            alert('Error: Could not find the item to checkout.');
+        }
+    }
+
+
+    cartItemsContainer.addEventListener('click', (event) => {
+        const target = event.target;
+        // Find the closest parent element with data-item-id if the click wasn't directly on a button
+        const itemElement = target.closest('[data-item-id]');
+        const itemId = itemElement ? itemElement.dataset.itemId : null;
+
+        if (!itemId) return; // Exit if no item ID context
+
+        if (target.classList.contains('increase-qty-btn')) {
+            updateQuantity(itemId, 1);
+        } else if (target.classList.contains('decrease-qty-btn')) {
+            updateQuantity(itemId, -1);
+        } else if (target.classList.contains('remove-item-btn')) {
+            removeFromCart(itemId);
+        } else if (target.classList.contains('checkout-item-btn')) {
+            checkoutSingleItem(itemId);
+        }
+    });
+
+    clearCartBtn.addEventListener('click', clearCart);
+
+    document.addEventListener('DOMContentLoaded', () => {
+        sessionStorage.removeItem(CHECKOUT_ITEM_KEY); // Clear any leftover single item checkout data
+        renderCart();
+    });
+
+  </script>
+
+</body>
+</html>

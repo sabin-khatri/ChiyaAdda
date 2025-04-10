@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chiya-Ghar - Checkout</title>
+  <link rel="icon" href="images/logo.png" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Shared cart count style - ensure it's consistent */
+    .cart-count::after {
+        content: attr(data-count); position: absolute; top: -5px; right: -10px;
+        background-color: red; color: white; font-size: 0.7rem; font-weight: bold;
+        border-radius: 50%; padding: 2px 5px; line-height: 1; min-width: 16px; text-align: center;
+    }
+    .cart-link { position: relative; display: inline-block; }
+    /* Basic form styling */
+    label { display: block; margin-bottom: 0.5rem; font-weight: 500; color: #fcd34d; }
+    input[type="text"], input[type="tel"], textarea {
+        width: 100%; padding: 0.75rem; margin-bottom: 1rem;
+        background-color: #4A3A3A; border: 1px solid #7a5c50;
+        border-radius: 4px; color: white; outline: none;
+        transition: border-color 0.2s;
+    }
+    input[type="text"]:focus, input[type="tel"]:focus, textarea:focus {
+        border-color: #f59e0b; /* Amber focus */
+    }
+    /* Error message styling */
+    .error-message { color: #f87171; font-size: 0.875rem; margin-top: -0.5rem; margin-bottom: 1rem; }
+    /* Checkout Item Display */
+    #checkout-item-summary { background-color: #4A3A3A; padding: 1rem; border-radius: 4px; border-left: 3px solid #f59e0b; margin-bottom: 1.5rem;}
+    #checkout-item-summary p { margin-bottom: 0.5rem; }
+    #checkout-item-summary .item-name { font-weight: bold; color: #fcd34d;}
+    #checkout-item-summary .item-total { font-weight: bold; color: #fbbf24; font-size: 1.1em;}
+  </style>
+</head>
+
+<body class="bg-[#3C2F2F] text-white">
+
+  <header class="bg-[#5C4033] shadow-md sticky top-0 z-50">
+    <div class="container mx-auto flex items-center justify-between px-6 py-4 relative z-10">
+        <div class="flex items-center">
+          <img src="images/logo.png" alt="Logo" class="md:w-28 md:h-28 h-10 w-10" />
+          <h1 class="text-2xl font-bold text-red-700 mr-2">CHIYA</h1>
+          <h1 class="text-2xl font-bold">GHAR</h1>
+        </div>
+        <nav class="hidden md:flex items-center space-x-6">
+          <a href="index.html" class="text-white hover:text-yellow-200">Home</a>
+          <a href="AboutUs.html" class="text-white hover:text-yellow-200">About Us</a>
+          <a href="menu.html" class="text-white hover:text-yellow-200">Menu</a>
+          <a href="cart.html" class="text-white hover:text-yellow-200 cart-link" id="nav-cart-link">Cart</a>
+          <a href="order.html" class="text-white hover:text-yellow-200">Order</a>
+          <a href="gallery.html" class="text-white hover:text-yellow-200">Gallery</a>
+          <a href="#" class="text-white border border-white rounded px-3 py-1 hover:bg-white hover:text-[#5C4033]">Contact Us</a>
+        </nav>
+        <div class="md:hidden flex items-center">
+           <a href="cart.html" class="text-white hover:text-yellow-200 mr-4 cart-link" id="mobile-nav-cart-link">
+             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
+           </a>
+          <button id="hamburger-button" class="text-white" aria-label="Toggle menu">
+            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
+          </button>
+        </div>
+      </div>
+    <div id="mobile-menu" class="md:hidden absolute top-0 left-0 w-full bg-[#5C4033] bg-opacity-95 z-40 hidden">
+      <div class="pt-20 pb-8 px-4">
+        <button id="close-menu-button" class="absolute top-5 right-5 text-white">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+        </button>
+        <nav class="flex flex-col items-center space-y-5">
+          <a href="index.html" class="text-lg text-white hover:text-yellow-200">Home</a>
+          <a href="AboutUs.html" class="text-lg text-white hover:text-yellow-200">About Us</a>
+          <a href="menu.html" class="text-lg text-white hover:text-yellow-200">Menu</a>
+          <a href="cart.html" class="text-lg text-white hover:text-yellow-200">Cart</a>
+          <a href="order.html" class="text-lg text-white hover:text-yellow-200">Order</a>
+          <a href="gallery.html" class="text-lg text-white hover:text-yellow-200">Gallery</a>
+          <a href="#" class="text-lg text-white hover:text-yellow-200">Contact Us</a>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <main class="bg-[#4A3A3A] py-16 md:py-24 scroll-mt-20 min-h-screen">
+    <div class="container mx-auto px-6">
+      <h2 class="text-3xl md:text-4xl font-bold mb-12 text-center font-serif text-amber-500">Checkout</h2>
+
+      <div class="max-w-3xl mx-auto bg-[#5C4033] p-6 md:p-8 rounded-lg shadow-lg">
+
+        <!-- Section to display the single item being checked out -->
+        <div id="checkout-item-summary" class="hidden">
+             <h3 class="text-xl font-semibold mb-3 text-amber-400 border-b border-gray-600 pb-2">Item to Checkout</h3>
+             <p><strong>Item:</strong> <span id="checkout-item-name" class="item-name"></span></p>
+             <p><strong>Quantity:</strong> <span id="checkout-item-quantity"></span></p>
+             <p><strong>Price:</strong> Rs. <span id="checkout-item-price"></span></p>
+             <p class="mt-2 pt-2 border-t border-gray-600"><strong>Total for this item:</strong> Rs. <span id="checkout-item-total" class="item-total"></span></p>
+        </div>
+
+        <!-- Message area for errors or info -->
+        <p id="checkout-message" class="text-center text-yellow-300 py-6 text-lg hidden"></p>
+
+        <!-- Checkout Form -->
+        <form id="checkout-form" class="hidden">
+            <h3 class="text-xl font-semibold mb-4 text-amber-400">Your Details</h3>
+            <div>
+                <label for="name">Full Name</label>
+                <input type="text" id="name" name="name" required>
+                <p id="name-error" class="error-message hidden">Please enter your name.</p>
+            </div>
+            <div>
+                <label for="address">Delivery Address</label>
+                <textarea id="address" name="address" rows="3" required></textarea>
+                 <p id="address-error" class="error-message hidden">Please enter your address.</p>
+            </div>
+            <div>
+                <label for="phone">Phone Number</label>
+                <input type="tel" id="phone" name="phone" required pattern="[0-9]{10}" title="Please enter a 10-digit phone number">
+                <p id="phone-error" class="error-message hidden">Please enter a valid 10-digit phone number.</p>
+            </div>
+
+            <div class="mt-6 text-right">
+                <button type="submit" id="place-order-btn" class="bg-green-600 hover:bg-green-700 text-white px-8 py-3 rounded transition duration-300 font-semibold">Place Order</button>
+            </div>
+        </form>
+      </div>
+    </div>
+  </main>
+
+   <footer class="bg-[#5C4033] text-gray-300 py-8">
+     <div class="container mx-auto px-6 text-center">
+       <p class="text-sm">© <span id="current-year"></span> Chiya Ghar. All Rights Reserved.</p>
+     </div>
+   </footer>
+
+
+  <script>
+    document.getElementById('current-year').textContent = new Date().getFullYear();
+    // --- Navigation Toggle (Standard) ---
+    const hamburgerButton = document.getElementById('hamburger-button');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const closeMenuButton = document.getElementById('close-menu-button');
+    hamburgerButton.addEventListener('click', () => { mobileMenu.classList.remove('hidden'); document.body.style.overflow = 'hidden'; });
+    closeMenuButton.addEventListener('click', () => { mobileMenu.classList.add('hidden'); document.body.style.overflow = ''; });
+
+    // --- Key Definitions ---
+    const CART_KEY = 'chiyaGharCart';
+    const ORDERS_KEY = 'chiyaGharOrders';
+    const CHECKOUT_ITEM_KEY = 'chiyaGharCheckoutItem'; // Key for sessionStorage
+    const CHECKOUT_DETAILS_KEY = 'chiyaGharCheckoutDetails'; // Key for localStorage prefill (used by order history edit)
+
+    // --- Storage Helper Functions ---
+    function getCart() {
+        const cart = localStorage.getItem(CART_KEY);
+        return cart ? JSON.parse(cart) : [];
+    }
+    function saveCart(cart) {
+        localStorage.setItem(CART_KEY, JSON.stringify(cart));
+        updateCartCountIndicator(); // Update nav count when cart changes
+    }
+    function getOrders() {
+        const orders = localStorage.getItem(ORDERS_KEY);
+        return orders ? JSON.parse(orders) : [];
+    }
+    function saveOrders(orders) {
+        localStorage.setItem(ORDERS_KEY, JSON.stringify(orders));
+    }
+
+    // --- Update Cart Count Indicator in Nav ---
+    function updateCartCountIndicator() {
+        const cart = getCart(); // Always read the full cart for the indicator
+        const totalItems = cart.reduce((sum, item) => sum + (item.quantity || 0), 0);
+        const navCartLink = document.getElementById('nav-cart-link');
+        const mobileNavCartLink = document.getElementById('mobile-nav-cart-link');
+        const count = totalItems > 0 ? totalItems.toString() : '';
+
+        [navCartLink, mobileNavCartLink].forEach(link => {
+            if (link) {
+                if (count) {
+                    link.classList.add('cart-count');
+                    link.dataset.count = count;
+                } else {
+                    link.classList.remove('cart-count');
+                    delete link.dataset.count;
+                }
+            }
+        });
+    }
+
+    // --- DOM Element References ---
+    const checkoutItemSummaryDiv = document.getElementById('checkout-item-summary');
+    const checkoutItemNameSpan = document.getElementById('checkout-item-name');
+    const checkoutItemQuantitySpan = document.getElementById('checkout-item-quantity');
+    const checkoutItemPriceSpan = document.getElementById('checkout-item-price');
+    const checkoutItemTotalSpan = document.getElementById('checkout-item-total');
+    const checkoutForm = document.getElementById('checkout-form');
+    const placeOrderBtn = document.getElementById('place-order-btn');
+    const messageElement = document.getElementById('checkout-message');
+
+    // --- Form Input References ---
+    const nameInput = document.getElementById('name');
+    const addressInput = document.getElementById('address');
+    const phoneInput = document.getElementById('phone');
+    const nameError = document.getElementById('name-error');
+    const addressError = document.getElementById('address-error');
+    const phoneError = document.getElementById('phone-error');
+
+    // --- Single Item Checkout Logic ---
+
+    function displaySingleItemCheckout(item) {
+        if (!item || typeof item.price !== 'number' || typeof item.quantity !== 'number') {
+            showErrorMessage('Invalid item data for checkout.', true);
+            return; // Exit if item data is invalid
+        }
+
+        checkoutItemNameSpan.textContent = item.name || 'N/A';
+        checkoutItemQuantitySpan.textContent = item.quantity;
+        checkoutItemPriceSpan.textContent = item.price.toFixed(2);
+        const itemTotal = item.price * item.quantity;
+        checkoutItemTotalSpan.textContent = itemTotal.toFixed(2);
+
+        checkoutItemSummaryDiv.classList.remove('hidden');
+        checkoutForm.classList.remove('hidden'); // Show the form only if item is valid
+        messageElement.classList.add('hidden'); // Hide any previous messages
+    }
+
+    function validateForm() {
+        let isValid = true;
+        nameError.classList.add('hidden');
+        addressError.classList.add('hidden');
+        phoneError.classList.add('hidden');
+
+        if (!nameInput.value.trim()) {
+            nameError.classList.remove('hidden');
+            isValid = false;
+        }
+        if (!addressInput.value.trim()) {
+            addressError.classList.remove('hidden');
+            isValid = false;
+        }
+        // Basic 10-digit phone validation
+        if (!/^[0-9]{10}$/.test(phoneInput.value)) {
+             phoneError.classList.remove('hidden');
+             isValid = false;
+         }
+
+        return isValid;
+    }
+
+    function placeSingleItemOrder(item) {
+        if (!validateForm()) {
+            return; // Stop if form is invalid
+        }
+        if (!item || !item.id) {
+            alert('Error: Cannot place order without valid item data.');
+            return;
+        }
+
+        const customerDetails = {
+            name: nameInput.value.trim(),
+            address: addressInput.value.trim(),
+            phone: phoneInput.value.trim()
+        };
+
+        const itemTotal = (item.price || 0) * (item.quantity || 0);
+
+        const newOrder = {
+            orderId: `CG-${Date.now()}-${Math.random().toString(16).slice(2, 8)}`, // More unique ID
+            orderDate: new Date().toISOString(),
+            customerDetails: customerDetails,
+            items: [item], // Order contains only this single item
+            totalAmount: itemTotal
+        };
+
+        try {
+            const orders = getOrders();
+            orders.push(newOrder);
+            saveOrders(orders);
+
+            // Remove the *checked out item* from the main cart in localStorage
+            let cart = getCart();
+            cart = cart.filter(cartItem => cartItem.id !== item.id);
+            saveCart(cart); // This also updates the nav count
+
+            alert(`Order placed successfully!\nOrder ID: ${newOrder.orderId}\nTotal: Rs. ${itemTotal.toFixed(2)}`);
+            checkoutForm.reset();
+            // Redirect to order history or a success page
+            window.location.href = 'order.html';
+
+        } catch (error) {
+            console.error("Error saving order:", error);
+            alert('There was an error placing your order. Please try again.');
+        }
+    }
+
+    function showErrorMessage(message, hideForm = false) {
+        messageElement.textContent = message;
+        messageElement.classList.remove('hidden');
+        checkoutItemSummaryDiv.classList.add('hidden');
+        if (hideForm) {
+            checkoutForm.classList.add('hidden');
+        }
+    }
+
+    // --- Pre-fill form from Order History Edit ---
+    function prefillCheckoutFormFromHistory() {
+        const prefillDataString = localStorage.getItem(CHECKOUT_DETAILS_KEY);
+        if (prefillDataString) {
+            try {
+                const prefillData = JSON.parse(prefillDataString);
+                if (nameInput && prefillData.name) nameInput.value = prefillData.name;
+                if (addressInput && prefillData.address) addressInput.value = prefillData.address;
+                if (phoneInput && prefillData.phone) phoneInput.value = prefillData.phone;
+                localStorage.removeItem(CHECKOUT_DETAILS_KEY); // Clean up
+                console.log('Checkout form pre-filled from edited order history.');
+            } catch (error) {
+                console.error('Error parsing prefill data from history:', error);
+                localStorage.removeItem(CHECKOUT_DETAILS_KEY);
+            }
+        }
+    }
+
+
+    // --- Initial Setup on Page Load ---
+    document.addEventListener('DOMContentLoaded', () => {
+        updateCartCountIndicator(); // Initial cart count
+
+        const singleItemDataString = sessionStorage.getItem(CHECKOUT_ITEM_KEY);
+        let itemToCheckout = null;
+
+        if (singleItemDataString) {
+            try {
+                itemToCheckout = JSON.parse(singleItemDataString);
+                 // IMPORTANT: Remove from sessionStorage immediately after reading
+                sessionStorage.removeItem(CHECKOUT_ITEM_KEY);
+            } catch (error) {
+                console.error("Error parsing item data from sessionStorage:", error);
+                showErrorMessage('Error loading item data. Please go back to the cart and try again.', true);
+                return; // Stop execution if data is invalid
+            }
+        }
+
+        if (itemToCheckout) {
+            // We have a single item to checkout
+            displaySingleItemCheckout(itemToCheckout);
+            prefillCheckoutFormFromHistory(); // Check if details came from order history edit
+
+            checkoutForm.addEventListener('submit', (event) => {
+                event.preventDefault(); // Prevent default submission
+                placeSingleItemOrder(itemToCheckout); // Pass the specific item
+            });
+
+        } else {
+            // No single item was passed via sessionStorage
+            showErrorMessage('No item selected for checkout. Please select an item from your cart.', true);
+            // Optionally disable the form submit button explicitly
+            if(placeOrderBtn) placeOrderBtn.disabled = true;
+        }
+    });
+
+  </script>
+
+</body>
+</html>
