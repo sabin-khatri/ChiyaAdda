@@ -13,8 +13,12 @@
         extend: {
           keyframes: {
             'pulse-slow': {
-              '0%, 100%': { opacity: 0.9 },
-              '50%': { opacity: 1 },
+              '0%, 100%': {
+                opacity: 0.9
+              },
+              '50%': {
+                opacity: 1
+              },
             }
           },
           animation: {
@@ -31,31 +35,30 @@
   <!-- Header -->
   <header class="bg-[#5C4033] shadow-md sticky top-0 z-50">
     <div class="container mx-auto flex items-center justify-between px-6 py-4 relative z-10">
-        <div class="flex items-center">
-          <img src="images/logo.png" alt="Logo" class="md:w-28 md:h-28 h-10 w-10" />
-          <h1 class="text-2xl font-bold text-red-700 mr-2">CHIYA</h1>
-          <h1 class="text-2xl font-bold">GHAR</h1>
-        </div>
-    
-        <nav class="hidden md:flex items-center space-x-6">
-          <a href="index.html" class="text-white hover:text-yellow-200">Home</a>
-          <a href="AboutUs.html" class="text-white hover:text-yellow-200">About Us</a>
-          <a href="menu.html" class="text-white hover:text-yellow-200">Menu</a>
-          <a href="cart.html" class="text-white hover:text-yellow-200">Cart</a>
-          <a href="order.html" class="text-white hover:text-yellow-200">Order</a>
-          <a href="gallery.html" class="text-white hover:text-yellow-200">Gallery</a>
-          <a href="contactus.html" class="text-white border border-white rounded px-3 py-1 hover:bg-white hover:text-[#5C4033]">Contact Us</a>
-        </nav>
-    
-        <div class="md:hidden flex items-center">
-          <button id="hamburger-button" class="text-white" aria-label="Toggle menu">
-            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M4 6h16M4 12h16M4 18h16" />
-            </svg>
-          </button>
-        </div>
+      <div class="flex items-center">
+        <img src="images/logo.png" alt="Logo" class="md:w-28 md:h-28 h-10 w-10" />
+        <h1 class="text-2xl font-bold text-red-700 mr-2">CHIYA</h1>
+        <h1 class="text-2xl font-bold text-white">GHAR</h1>
       </div>
+
+      <nav class="hidden md:flex items-center space-x-6 text-white">
+        <a href="index.html" class="hover:text-yellow-200">Home</a>
+        <a href="AboutUs.html" class="hover:text-yellow-200">About Us</a>
+        <a href="menu.html" class="hover:text-yellow-200">Menu</a>
+        <a href="cart.html" class="hover:text-yellow-200">Cart</a>
+        <a href="order.html" class="hover:text-yellow-200">Order</a>
+        <a href="gallery.html" class="hover:text-yellow-200">Gallery</a>
+        <a href="contactus.html" class="border border-white rounded px-3 py-1 hover:bg-white hover:text-[#5C4033]">Contact Us</a>
+      </nav>
+
+      <div class="md:hidden flex items-center">
+        <button id="hamburger-button" class="text-white" aria-label="Toggle menu">
+          <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+      </div>
+    </div>
     <div id="mobile-menu" class="md:hidden absolute top-0 left-0 w-full bg-[#5C4033] bg-opacity-95 z-40 hidden">
       <div class="pt-20 pb-8 px-4">
         <button id="close-menu-button" class="absolute top-5 right-5 text-white">
@@ -65,7 +68,7 @@
         </button>
         <nav class="flex flex-col items-center space-y-5">
           <a href="index.html" class="text-lg text-white hover:text-yellow-200">Home</a>
-          <a href="#about-us" class="text-lg text-white hover:text-yellow-200">About Us</a>
+          <a href="AboutUs.html" class="text-lg text-white hover:text-yellow-200">About Us</a>
           <a href="menu.html" class="text-lg text-white hover:text-yellow-200">Menu</a>
           <a href="cart.html" class="text-lg text-white hover:text-yellow-200">Cart</a>
           <a href="order.html" class="text-lg text-white hover:text-yellow-200">Order</a>
@@ -95,31 +98,177 @@
     </div>
   </section>
 
-  <!-- Footer -->
-  <footer class="bg-[#5C4033] text-gray-300 py-8">
+  <!-- About Us Section -->
+  <section id="about-us" class="py-16 md:py-24 text-white">
+    <div class="container mx-auto grid md:grid-cols-2 gap-12 items-center px-6">
+      <div class="text-center md:text-left">
+        <h2 class="text-3xl md:text-4xl font-bold mb-4">A Taste of <span class="text-amber-500">Tradition</span></h2>
+        <p class="text-gray-300 mb-6 leading-relaxed">
+          Chiya Ghar is more than just a tea shop; it's a celebration of culture, community, and the timeless ritual of drinking chiya. We source the finest tea leaves and spices to bring you an authentic taste that warms the soul and brings people together.
+        </p>
+        <a href="AboutUs.html" class="bg-transparent border border-amber-500 text-amber-500 py-2 px-6 font-semibold rounded-lg hover:bg-amber-500 hover:text-[#3C2F2F] transition-colors">Learn More</a>
+      </div>
+      <div>
+        <img src="images/about.png" alt="Inside Chiya Ghar" class="rounded-lg shadow-2xl w-full h-auto object-cover">
+      </div>
+    </div>
+  </section>
+
+  <!-- Popular Menu Section -->
+  <section class="bg-[#5C4033] py-16 md:py-24 text-white">
     <div class="container mx-auto px-6 text-center">
-      <div class="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
-        <p class="text-sm">© <span id="current-year"></span> Chiya Ghar. All Rights Reserved.</p>
-        <div class="flex space-x-4">
-          <a href="#" class="text-sm hover:text-yellow-200">Privacy Policy</a>
-          <a href="#" class="text-sm hover:text-yellow-200">Terms of Service</a>
+      <h2 class="text-3xl md:text-4xl font-bold mb-12">Our Popular <span class="text-amber-400">Chiya</span></h2>
+      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <!-- Menu Item 1 -->
+        <div class="bg-[#3C2F2F] rounded-lg shadow-lg overflow-hidden transform hover:scale-105 transition-transform">
+          <img src="images/masala-chiya.webp" alt="Masala Chiya" class="w-full h-48 object-cover">
+          <div class="p-6">
+            <h3 class="text-xl font-bold mb-2">Masala Chiya</h3>
+            <p class="text-gray-400 text-sm">Aromatic and spicy, brewed with a blend of traditional spices.</p>
+          </div>
         </div>
-        <div class="flex space-x-4">
-          <a href="#" aria-label="Facebook" class="hover:text-yellow-200">
-            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M22 12c0-5.523-4.477-10..."/></svg>
-          </a>
-          <a href="#" aria-label="Instagram" class="hover:text-yellow-200">
-            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M12.315 2.014a..."/></svg>
-          </a>
+        <!-- Menu Item 2 -->
+        <div class="bg-[#3C2F2F] rounded-lg shadow-lg overflow-hidden transform hover:scale-105 transition-transform">
+          <img src="images/lemon-ginger-chiya.webp" alt="Lemon Chiya" class="w-full h-48 object-cover">
+          <div class="p-6">
+            <h3 class="text-xl font-bold mb-2">Lemon Honey Chiya</h3>
+            <p class="text-gray-400 text-sm">A refreshing and zesty blend, perfect for a soothing experience.</p>
+          </div>
+        </div>
+        <!-- Menu Item 3 -->
+        <div class="bg-[#3C2F2F] rounded-lg shadow-lg overflow-hidden transform hover:scale-105 transition-transform">
+          <img src="images/dudh-chiya.webp" alt="Dudh Chiya" class="w-full h-48 object-cover">
+          <div class="p-6">
+            <h3 class="text-xl font-bold mb-2">Classic Dudh Chiya</h3>
+            <p class="text-gray-400 text-sm">The simple, comforting, and creamy classic loved by everyone.</p>
+          </div>
+        </div>
+        <!-- Menu Item 4 -->
+        <div class="bg-[#3C2F2F] rounded-lg shadow-lg overflow-hidden transform hover:scale-105 transition-transform">
+          <img src="images/kalo-chiya.webp" alt="Samosa" class="w-full h-48 object-cover">
+          <div class="p-6">
+            <h3 class="text-xl font-bold mb-2">Hot Samosa</h3>
+            <p class="text-gray-400 text-sm">The perfect savory snack to accompany your favorite chiya.</p>
+          </div>
+        </div>
+      </div>
+      <a href="menu.html" class="mt-12 inline-block bg-amber-500 text-[#3C2F2F] py-3 px-8 font-semibold rounded-lg hover:bg-amber-600 hover:text-white transition-colors shadow-lg">View Full Menu</a>
+    </div>
+  </section>
+
+  <!-- Why Choose Us Section -->
+  <section class="py-16 md:py-24 text-white">
+    <div class="container mx-auto px-6 text-center">
+      <h2 class="text-3xl md:text-4xl font-bold mb-12">Why <span class="text-red-600">Chiya Ghar</span>?</h2>
+      <div class="grid md:grid-cols-3 gap-10">
+        <!-- Feature 1 -->
+        <div class="flex flex-col items-center">
+          <div class="bg-[#5C4033] p-4 rounded-full mb-4">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+            </svg>
+          </div>
+          <h3 class="text-xl font-bold mb-2">Authentic Flavors</h3>
+          <p class="text-gray-300">We use traditional recipes and fresh, high-quality spices to create the perfect cup of chiya every time.</p>
+        </div>
+        <!-- Feature 2 -->
+        <div class="flex flex-col items-center">
+          <div class="bg-[#5C4033] p-4 rounded-full mb-4">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-amber-400" viewBox="0 0 20 20" fill="currentColor">
+              <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 16a2 2 0 110-4 2 2 0 010 4z" />
+            </svg>
+          </div>
+          <h3 class="text-xl font-bold mb-2">Cozy Ambiance</h3>
+          <p class="text-gray-300">Our space is designed to be a warm, inviting retreat where you can relax, chat, and enjoy your time.</p>
+        </div>
+        <!-- Feature 3 -->
+        <div class="flex flex-col items-center">
+          <div class="bg-[#5C4033] p-4 rounded-full mb-4">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.085a2 2 0 00-1.736.93L5.5 8m7-3H9m6 3v4m0 0H9" />
+            </svg>
+          </div>
+          <h3 class="text-xl font-bold mb-2">Excellent Service</h3>
+          <p class="text-gray-300">We believe in making every guest feel welcome and valued, ensuring a delightful experience from start to finish.</p>
         </div>
       </div>
     </div>
+  </section>
+
+  <!-- Testimonials Section -->
+  <section class="bg-[#5C4033] py-16 md:py-24 text-white">
+    <div class="container mx-auto px-6 text-center">
+      <h2 class="text-3xl md:text-4xl font-bold mb-12">What Our Customers Say</h2>
+      <div class="grid md:grid-cols-2 gap-8 text-left">
+        <div class="bg-[#3C2F2F] p-8 rounded-lg shadow-xl">
+          <p class="italic text-gray-300 mb-4">"The best masala chiya I've had outside of Nepal! The atmosphere is so relaxing. It feels like a home away from home."</p>
+          <p class="font-bold text-amber-400">- Anjali S.</p>
+        </div>
+        <div class="bg-[#3C2F2F] p-8 rounded-lg shadow-xl">
+          <p class="italic text-gray-300 mb-4">"Chiya Ghar is my go-to spot for meetings and catching up with friends. The tea is consistently amazing and the samosas are a must-try!"</p>
+          <p class="font-bold text-amber-400">- David L.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- Footer -->
+  <footer class="bg-[#2a2121] text-gray-300 py-12">
+    <div class="container mx-auto px-6">
+      <div class="grid md:grid-cols-3 gap-8 text-center md:text-left">
+        <!-- About -->
+        <div>
+          <h3 class="text-lg font-bold text-white mb-4">Chiya Ghar</h3>
+          <p class="text-sm text-gray-400">Your cozy corner for authentic, soul-warming chiya and delightful conversations. est. 2023.</p>
+        </div>
+        <!-- Quick Links -->
+        <div>
+          <h3 class="text-lg font-bold text-white mb-4">Quick Links</h3>
+          <nav class="flex flex-col space-y-2">
+            <a href="menu.html" class="text-sm text-gray-400 hover:text-yellow-200">Menu</a>
+            <a href="gallery.html" class="text-sm text-gray-400 hover:text-yellow-200">Gallery</a>
+            <a href="contactus.html" class="text-sm text-gray-400 hover:text-yellow-200">Contact Us</a>
+            <a href="order.html" class="text-sm text-gray-400 hover:text-yellow-200">Order Online</a>
+          </nav>
+        </div>
+        <!-- Social Media -->
+        <div>
+          <h3 class="text-lg font-bold text-white mb-4">Follow Us</h3>
+          <div class="flex space-x-4 justify-center md:justify-start">
+            <a href="#" aria-label="Facebook" class="hover:text-yellow-200">
+              <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" clip-rule="evenodd" /></svg>
+            </a>
+            <a href="#" aria-label="Instagram" class="hover:text-yellow-200">
+              <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M12.315 2.014a.5.5 0 01.37.195l.872.872a.5.5 0 01.195.37V12a.5.5 0 00.5.5h8.026a.5.5 0 01.37.195l.872.872a.5.5 0 01.195.37V21.5a.5.5 0 01-.5.5h-18a.5.5 0 01-.5-.5v-18a.5.5 0 01.5-.5h8.026zM12 8.25a.75.75 0 01.75.75v3.25H16a.75.75 0 010 1.5h-3.25V17a.75.75 0 01-1.5 0v-3.25H8a.75.75 0 010-1.5h3.25V9a.75.75 0 01.75-.75z" clip-rule="evenodd" /></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="mt-8 pt-8 border-t border-gray-700 text-center text-sm text-gray-500">
+        <p>© <span id="current-year"></span> Chiya Ghar. All Rights Reserved.</p>
+      </div>
+    </div>
   </footer>
-  <script src="script.js"></script>
 
   <script>
+    // Simple script for mobile menu toggle
+    const hamburgerButton = document.getElementById('hamburger-button');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const closeMenuButton = document.getElementById('close-menu-button');
+
+    hamburgerButton.addEventListener('click', () => {
+      mobileMenu.classList.remove('hidden');
+    });
+
+    closeMenuButton.addEventListener('click', () => {
+      mobileMenu.classList.add('hidden');
+    });
+
+    // Set current year in footer
     document.getElementById("current-year").textContent = new Date().getFullYear();
   </script>
 
 </body>
+
 </html>
