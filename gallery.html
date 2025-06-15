@@ -26,13 +26,15 @@
         position: relative;
         display: inline-block;
     }
-    /* Basic modal styles */
     #image-modal {
         transition: opacity 0.3s ease-in-out;
     }
     #image-modal.hidden {
         opacity: 0;
         pointer-events: none;
+    }
+    .modal-nav-button {
+      @apply absolute top-1/2 -translate-y-1/2 bg-black bg-opacity-40 text-white p-2 rounded-full hover:bg-opacity-70 transition-opacity duration-300;
     }
   </style>
 </head>
@@ -89,8 +91,6 @@
       <h2 class="text-3xl md:text-4xl font-bold mb-12 text-center font-serif text-amber-500">Our Gallery</h2>
 
       <div id="gallery-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
-        <!-- Images will be added here dynamically or statically -->
-        <!-- Example Static Images (replace with your actual images) -->
         <div class="gallery-item group overflow-hidden rounded-lg shadow-md">
           <img src="images/gallery/photo-1.jpg" alt="Chiya Ghar Ambiance 1" class="w-full h-64 object-cover cursor-pointer transition-transform duration-300 group-hover:scale-105">
         </div>
@@ -113,23 +113,40 @@
           <img src="images/gallery/photo-7.jpg" alt="Special Milk Tea" class="w-full h-64 object-cover cursor-pointer transition-transform duration-300 group-hover:scale-105 ">
         </div>
         <div class="gallery-item group overflow-hidden rounded-lg shadow-md">
-          <img src="images/gallery/photo-8.jpg" alt="View from the window" class="w-full h-64 object-cover cursor-pointer transition-transform duration-300 group-hover:scale-105 group-hover:scale-110 ">
+          <img src="images/gallery/photo-8.jpg" alt="View from the window" class="w-full h-64 object-cover cursor-pointer transition-transform duration-300 group-hover:scale-105">
         </div>
-         <!-- Add more gallery items as needed -->
-
       </div>
     </div>
   </main>
 
   <!-- Image Modal -->
-  <div id="image-modal" class="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-[60] hidden p-4">
-    <div class="relative bg-white p-2 rounded-lg max-w-4xl max-h-[90vh] w-auto">
-       <button id="close-modal-button" class="absolute -top-4 -right-4 text-white bg-red-600 rounded-full p-1.5 hover:bg-red-700 z-10" aria-label="Close image viewer">
-         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-           <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-         </svg>
-       </button>
-       <img id="modal-image" src="" alt="Enlarged gallery image" class="max-w-full max-h-[85vh] object-contain block mx-auto">
+  <div id="image-modal" class="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-[60] hidden p-4">
+    <div class="relative max-w-5xl max-h-[90vh] w-full flex items-center justify-center">
+      <!-- Close Button -->
+      <button id="close-modal-button" class="absolute -top-2 -right-2 sm:top-0 sm:-right-10 text-white bg-red-600 rounded-full p-1.5 hover:bg-red-700 z-20" aria-label="Close image viewer">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+
+      <!-- Previous Button -->
+      <button id="prev-button" class="modal-nav-button left-2 z-20" aria-label="Previous image">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+        </svg>
+      </button>
+
+      <!-- Image Container -->
+      <div class="relative bg-white p-2 rounded-lg w-auto">
+        <img id="modal-image" src="" alt="Enlarged gallery image" class="max-w-full max-h-[85vh] object-contain block mx-auto">
+      </div>
+      
+      <!-- Next Button -->
+      <button id="next-button" class="modal-nav-button right-2 z-20" aria-label="Next image">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+        </svg>
+      </button>
     </div>
   </div>
 
@@ -151,105 +168,116 @@
   </footer>
 
   <script>
-    document.getElementById('current-year').textContent = new Date().getFullYear();
-    const hamburgerButton = document.getElementById('hamburger-button');
-    const mobileMenu = document.getElementById('mobile-menu');
-    const closeMenuButton = document.getElementById('close-menu-button');
+    document.addEventListener('DOMContentLoaded', () => {
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+        const hamburgerButton = document.getElementById('hamburger-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const closeMenuButton = document.getElementById('close-menu-button');
 
-    hamburgerButton.addEventListener('click', () => {
-      mobileMenu.classList.remove('hidden');
-      document.body.style.overflow = 'hidden'; // Prevent scrolling background
-    });
+        hamburgerButton.addEventListener('click', () => {
+            mobileMenu.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        });
 
-    closeMenuButton.addEventListener('click', () => {
-      mobileMenu.classList.add('hidden');
-      document.body.style.overflow = ''; // Restore scrolling
-    });
+        closeMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.add('hidden');
+            document.body.style.overflow = '';
+        });
 
-    // Close mobile menu if clicked outside
-    mobileMenu.addEventListener('click', (e) => {
-        if (e.target === mobileMenu) {
-             mobileMenu.classList.add('hidden');
-             document.body.style.overflow = '';
+        const CART_KEY = 'chiyaGharCart';
+        function getCart() {
+            const cart = localStorage.getItem(CART_KEY);
+            return cart ? JSON.parse(cart) : [];
         }
-    });
 
+        function updateCartCountIndicator() {
+            const cart = getCart();
+            const totalItems = cart.reduce((sum, item) => sum + (item.quantity || 0), 0);
+            const navCartLink = document.getElementById('nav-cart-link');
+            const mobileNavCartLink = document.getElementById('mobile-nav-cart-link');
+            const count = totalItems > 0 ? totalItems.toString() : '';
 
-    const CART_KEY = 'chiyaGharCart';
-
-    function getCart() {
-        const cart = localStorage.getItem(CART_KEY);
-        return cart ? JSON.parse(cart) : [];
-    }
-
-    function updateCartCountIndicator() {
-        const cart = getCart();
-        const totalItems = cart.reduce((sum, item) => sum + (item.quantity || 0), 0);
-        const navCartLink = document.getElementById('nav-cart-link');
-        const mobileNavCartLink = document.getElementById('mobile-nav-cart-link');
-        const count = totalItems > 0 ? totalItems.toString() : '';
-
-        [navCartLink, mobileNavCartLink].forEach(link => {
-             if (link) {
-                if (count) {
-                    link.classList.add('cart-count');
-                    link.dataset.count = count;
-                } else {
-                    link.classList.remove('cart-count');
-                    delete link.dataset.count;
+            [navCartLink, mobileNavCartLink].forEach(link => {
+                if (link) {
+                    if (count) {
+                        link.classList.add('cart-count');
+                        link.dataset.count = count;
+                    } else {
+                        link.classList.remove('cart-count');
+                        delete link.dataset.count;
+                    }
                 }
+            });
+        }
+        
+        updateCartCountIndicator();
+
+        // --- Gallery Modal with Slider Functionality ---
+        const modal = document.getElementById('image-modal');
+        const modalImage = document.getElementById('modal-image');
+        const closeModalButton = document.getElementById('close-modal-button');
+        const prevButton = document.getElementById('prev-button');
+        const nextButton = document.getElementById('next-button');
+
+        const allImages = Array.from(document.querySelectorAll('.gallery-item img'));
+        let currentIndex = 0;
+
+        function showImage(index) {
+            const image = allImages[index];
+            modalImage.src = image.src;
+            modalImage.alt = image.alt;
+            currentIndex = index;
+        }
+
+        function openModal(index) {
+            showImage(index);
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            modal.classList.add('hidden');
+            document.body.style.overflow = '';
+        }
+
+        function showNextImage() {
+            const nextIndex = (currentIndex + 1) % allImages.length;
+            showImage(nextIndex);
+        }
+
+        function showPrevImage() {
+            const prevIndex = (currentIndex - 1 + allImages.length) % allImages.length;
+            showImage(prevIndex);
+        }
+
+        allImages.forEach((item, index) => {
+            item.addEventListener('click', () => {
+                openModal(index);
+            });
+        });
+
+        closeModalButton.addEventListener('click', closeModal);
+        nextButton.addEventListener('click', showNextImage);
+        prevButton.addEventListener('click', showPrevImage);
+
+        modal.addEventListener('click', (event) => {
+            if (event.target === modal) {
+                closeModal();
             }
         });
-    }
 
-    // Gallery Modal Functionality
-    const galleryItems = document.querySelectorAll('.gallery-item img');
-    const modal = document.getElementById('image-modal');
-    const modalImage = document.getElementById('modal-image');
-    const closeModalButton = document.getElementById('close-modal-button');
+        document.addEventListener('keydown', (event) => {
+            if (modal.classList.contains('hidden')) return; 
 
-    function openModal(src, alt) {
-        modalImage.src = src;
-        modalImage.alt = alt;
-        modal.classList.remove('hidden');
-        document.body.style.overflow = 'hidden'; // Prevent background scroll
-    }
-
-    function closeModal() {
-        modal.classList.add('hidden');
-        modalImage.src = ''; // Clear src
-        modalImage.alt = '';
-        document.body.style.overflow = ''; // Restore background scroll
-    }
-
-    galleryItems.forEach(item => {
-        item.addEventListener('click', () => {
-            openModal(item.src, item.alt);
+            if (event.key === 'Escape') {
+                closeModal();
+            } else if (event.key === 'ArrowRight') {
+                showNextImage();
+            } else if (event.key === 'ArrowLeft') {
+                showPrevImage();
+            }
         });
     });
-
-    closeModalButton.addEventListener('click', closeModal);
-
-    // Close modal if clicking outside the image container (on the backdrop)
-    modal.addEventListener('click', (event) => {
-        if (event.target === modal) {
-            closeModal();
-        }
-    });
-
-    // Close modal with Escape key
-    document.addEventListener('keydown', (event) => {
-        if (event.key === 'Escape' && !modal.classList.contains('hidden')) {
-            closeModal();
-        }
-    });
-
-
-    // Initial setup on page load
-    document.addEventListener('DOMContentLoaded', () => {
-        updateCartCountIndicator();
-    });
-
   </script>
 
 </body>
