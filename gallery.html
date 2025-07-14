@@ -41,50 +41,53 @@
 
 <body class="bg-[#3C2F2F] text-white">
 
-  <header class="bg-[#5C4033] shadow-md sticky top-0 z-50">
-    <div class="container mx-auto flex items-center justify-between px-4 sm:px-6 py-4 relative z-10">
-        <div class="flex items-center">
-          <img src="images/logo.png" alt="Logo" class="md:w-28 md:h-28 h-10 w-10" />
-          <h1 class="text-xl sm:text-2xl font-bold text-red-700 mr-1 sm:mr-2">CHIYA</h1>
-          <h1 class="text-xl sm:text-2xl font-bold">GHAR</h1>
-        </div>
+ <header class="bg-[#5C4033] shadow-md sticky top-0 z-50">
+      <div class="container mx-auto flex items-center justify-between px-6 py-3 relative">
+        <a href="index.html" class="flex items-center gap-2">
+          <img src="images/logo.png" alt="Logo" class="h-12 w-12" />
+          <div>
+            <span class="text-xl font-bold text-red-700">CHIYA</span>
+            <span class="text-xl font-bold text-white">GHAR</span>
+          </div>
+        </a>
 
-        <nav class="hidden md:flex items-center space-x-6">
-          <a href="index.html" class="text-white hover:text-yellow-200">Home</a>
-          <a href="AboutUs.html" class="text-white hover:text-yellow-200">About Us</a>
-          <a href="menu.html" class="text-white hover:text-yellow-200">Menu</a>
-          <a href="cart.html" class="text-white hover:text-yellow-200 cart-link" id="nav-cart-link">Cart</a>
-          <a href="order.html" class="text-white hover:text-yellow-200">Order</a>
-          <a href="gallery.html" class="text-white hover:text-yellow-200 font-semibold">Gallery</a>
-          <a href="contactus.html" class="text-white border border-white rounded px-3 py-1 hover:bg-white hover:text-[#5C4033]">Contact Us</a>
+        <!-- Desktop Navigation -->
+        <nav class="hidden md:flex items-center space-x-6 text-white">
+          <a href="index.html" class="nav-link hover:text-yellow-300 transition-colors">Home</a>
+          <a href="AboutUs.html" class="nav-link hover:text-yellow-300 transition-colors">About Us</a>
+          <a href="menu.html" class="nav-link hover:text-yellow-300 transition-colors">Menu</a>
+          <a href="cart.html" class="nav-link hover:text-yellow-300 transition-colors">Cart</a>
+          <a href="order.html" class="nav-link hover:text-yellow-300 transition-colors">Order</a>
+          <a href="gallery.html" class="nav-link hover:text-yellow-300 transition-colors">Gallery</a>
+          <a href="contactus.html" class="border border-white rounded px-4 py-2 text-sm hover:bg-white hover:text-[#5C4033] transition-all">Contact Us</a>
         </nav>
 
-        <div class="md:hidden flex items-center">
-           <a href="cart.html" class="text-white hover:text-yellow-200 mr-3 sm:mr-4 cart-link" id="mobile-nav-cart-link">
-             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
-           </a>
-          <button id="hamburger-button" class="text-white" aria-label="Toggle menu">
-            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
+        <!-- Mobile Menu Button -->
+        <div class="md:hidden">
+          <button id="hamburger-button" class="text-white focus:outline-none" aria-label="Toggle menu">
+            <svg id="menu-icon" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+            </svg>
+            <svg id="close-icon" class="h-6 w-6 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
           </button>
         </div>
       </div>
-    <div id="mobile-menu" class="md:hidden absolute top-0 left-0 w-full bg-[#5C4033] bg-opacity-95 z-40 hidden">
-      <div class="pt-20 pb-8 px-4">
-        <button id="close-menu-button" class="absolute top-5 right-5 text-white">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
-        </button>
-        <nav class="flex flex-col items-center space-y-5">
-          <a href="index.html" class="text-lg text-white hover:text-yellow-200">Home</a>
-          <a href="AboutUs.html" class="text-lg text-white hover:text-yellow-200">About Us</a>
-          <a href="menu.html" class="text-lg text-white hover:text-yellow-200">Menu</a>
-          <a href="cart.html" class="text-lg text-white hover:text-yellow-200">Cart</a>
-          <a href="order.html" class="text-lg text-white hover:text-yellow-200">Order</a>
-          <a href="gallery.html" class="text-lg text-white hover:text-yellow-200 font-semibold">Gallery</a>
-          <a href="contactus.html" class="text-lg text-white hover:text-yellow-200">Contact Us</a>
-        </nav>
+      
+      <!-- Mobile Menu Panel -->
+      <div id="mobile-menu" class="md:hidden absolute left-0 w-full bg-[#5C4033] shadow-lg max-h-0 opacity-0 overflow-hidden transition-all duration-300 ease-in-out">
+          <nav class="flex flex-col items-center space-y-4 py-6">
+            <a href="index.html" class="nav-link text-lg text-white hover:text-yellow-300">Home</a>
+            <a href="AboutUs.html" class="nav-link text-lg text-white hover:text-yellow-300">About Us</a>
+            <a href="menu.html" class="nav-link text-lg text-white hover:text-yellow-300">Menu</a>
+            <a href="cart.html" class="nav-link text-lg text-white hover:text-yellow-300">Cart</a>
+            <a href="order.html" class="nav-link text-lg text-white hover:text-yellow-300">Order</a>
+            <a href="gallery.html" class="nav-link text-lg text-white hover:text-yellow-300">Gallery</a>
+            <a href="contactus.html" class="nav-link text-lg text-white hover:text-yellow-300">Contact Us</a>
+          </nav>
       </div>
-    </div>
-  </header>
+    </header>
 
   <main class="bg-[#4A3A3A] py-16 md:py-24 scroll-mt-20 min-h-screen">
     <div class="container mx-auto px-4 sm:px-6">
