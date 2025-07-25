@@ -5,85 +5,113 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Chiya-Ghar - About Us</title>
   <link rel="icon" href="images/logo.png" />
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Playfair+Display:ital,wght@0,700;1,600&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
+  
   <style>
-    /* Style for FAQ accordion answer panel */
+    /* Apply custom fonts */
+    body {
+      font-family: 'Lato', sans-serif;
+    }
+    .font-serif {
+      font-family: 'Playfair Display', serif;
+    }
+    .nav-link.active {
+      color: #f59e0b; /* amber-500 */
+      font-weight: 600;
+    }
+    
+    /* Styles for scroll-triggered animations */
+    .animate-on-scroll {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    }
+    .animate-on-scroll.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    /* Staggered delay for animations */
+    .delay-1 { transition-delay: 100ms; }
+    .delay-2 { transition-delay: 200ms; }
+    .delay-3 { transition-delay: 300ms; }
+
+    /* Styles for FAQ accordion */
     .faq-answer {
       max-height: 0;
       overflow: hidden;
-      transition: max-height 0.3s ease-in-out, padding 0.3s ease-in-out;
+      transition: max-height 0.4s ease-in-out;
     }
     .faq-item.open .faq-answer {
-      max-height: 200px; /* Adjust as needed */
-      padding-top: 1rem;
-      padding-bottom: 1rem;
+      max-height: 200px; /* Adjust if answers are longer */
     }
     .faq-item.open .faq-icon {
-        transform: rotate(45deg);
+      transform: rotate(180deg);
     }
     .faq-icon {
-        transition: transform 0.3s ease-in-out;
+      transition: transform 0.4s ease-in-out;
     }
   </style>
 </head>
 
 <body class="bg-[#3C2F2F] text-white">
 
-   <header class="bg-[#5C4033] shadow-md sticky top-0 z-50">
-      <div class="container mx-auto flex items-center justify-between px-6 py-3 relative">
+   <!-- Header (Consistent with Homepage) -->
+   <header id="main-header" class="fixed top-0 left-0 w-full z-50 transition-all duration-300">
+      <div class="container mx-auto flex items-center justify-between px-6 py-3">
         <a href="index.html" class="flex items-center gap-2">
           <img src="images/logo.png" alt="Logo" class="h-12 w-12" />
           <div>
-            <span class="text-xl font-bold text-red-700">CHIYA</span>
+            <span class="text-xl font-bold text-red-600">CHIYA</span>
             <span class="text-xl font-bold text-white">GHAR</span>
           </div>
         </a>
 
-        <!-- Desktop Navigation -->
-        <nav class="hidden md:flex items-center space-x-6 text-white">
-          <a href="index.html" class="nav-link hover:text-yellow-300 transition-colors">Home</a>
-          <a href="AboutUs.html" class="nav-link hover:text-yellow-300 transition-colors">About Us</a>
-          <a href="menu.html" class="nav-link hover:text-yellow-300 transition-colors">Menu</a>
-          <a href="cart.html" class="nav-link hover:text-yellow-300 transition-colors">Cart</a>
-          <a href="order.html" class="nav-link hover:text-yellow-300 transition-colors">Order</a>
-          <a href="gallery.html" class="nav-link hover:text-yellow-300 transition-colors">Gallery</a>
-          <a href="contactus.html" class="border border-white rounded px-4 py-2 text-sm hover:bg-white hover:text-[#5C4033] transition-all">Contact Us</a>
+        <nav class="hidden md:flex items-center space-x-6 text-white text-sm font-medium">
+          <a href="index.html" class="nav-link hover:text-amber-400 transition-colors">Home</a>
+          <a href="AboutUs.html" class="nav-link hover:text-amber-400 transition-colors">About Us</a>
+          <a href="menu.html" class="nav-link hover:text-amber-400 transition-colors">Menu</a>
+          <a href="cart.html" class="nav-link hover:text-amber-400 transition-colors">Cart</a>
+          <a href="order.html" class="nav-link hover:text-amber-400 transition-colors">Order</a>
+          <a href="gallery.html" class="nav-link hover:text-amber-400 transition-colors">Gallery</a>
+          <a href="contactus.html" class="border border-amber-500 text-amber-500 rounded-full px-4 py-2 text-sm font-bold hover:bg-amber-500 hover:text-[#3C2F2F] transition-all">Contact Us</a>
         </nav>
 
-        <!-- Mobile Menu Button -->
         <div class="md:hidden">
-          <button id="hamburger-button" class="text-white focus:outline-none" aria-label="Toggle menu">
-            <svg id="menu-icon" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
-            </svg>
-            <svg id="close-icon" class="h-6 w-6 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-            </svg>
+          <button id="hamburger-button" class="text-white focus:outline-none z-50 relative" aria-label="Toggle menu">
+            <svg id="menu-icon" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" /></svg>
+            <svg id="close-icon" class="h-7 w-7 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
           </button>
         </div>
       </div>
       
-      <!-- Mobile Menu Panel -->
-      <div id="mobile-menu" class="md:hidden absolute left-0 w-full bg-[#5C4033] shadow-lg max-h-0 opacity-0 overflow-hidden transition-all duration-300 ease-in-out">
-          <nav class="flex flex-col items-center space-y-4 py-6">
-            <a href="index.html" class="nav-link text-lg text-white hover:text-yellow-300">Home</a>
-            <a href="AboutUs.html" class="nav-link text-lg text-white hover:text-yellow-300">About Us</a>
-            <a href="menu.html" class="nav-link text-lg text-white hover:text-yellow-300">Menu</a>
-            <a href="cart.html" class="nav-link text-lg text-white hover:text-yellow-300">Cart</a>
-            <a href="order.html" class="nav-link text-lg text-white hover:text-yellow-300">Order</a>
-            <a href="gallery.html" class="nav-link text-lg text-white hover:text-yellow-300">Gallery</a>
-            <a href="contactus.html" class="nav-link text-lg text-white hover:text-yellow-300">Contact Us</a>
+      <div id="mobile-menu" class="md:hidden fixed top-0 right-0 h-full w-full bg-[#3C2F2F]/95 backdrop-blur-lg transform translate-x-full transition-transform duration-500 ease-in-out">
+          <nav class="flex flex-col items-center justify-center h-full space-y-8">
+            <a href="index.html" class="nav-link text-2xl text-white hover:text-amber-400">Home</a>
+            <a href="AboutUs.html" class="nav-link text-2xl text-white hover:text-amber-400">About Us</a>
+            <a href="menu.html" class="nav-link text-2xl text-white hover:text-amber-400">Menu</a>
+            <a href="cart.html" class="nav-link text-2xl text-white hover:text-amber-400">Cart</a>
+            <a href="order.html" class="nav-link text-2xl text-white hover:text-amber-400">Order</a>
+            <a href="gallery.html" class="nav-link text-2xl text-white hover:text-amber-400">Gallery</a>
+            <a href="contactus.html" class="nav-link text-2xl text-white hover:text-amber-400">Contact Us</a>
           </nav>
       </div>
     </header>
 
   <main>
     <!-- Our Story Section -->
-    <section id="about-us" class="bg-[#4A3A3A] pt-16 md:pt-24 pb-12 md:pb-16 scroll-mt-20">
+    <section id="about-us" class="bg-gradient-to-b from-[#5C4033] to-[#4A3A3A] pt-28 md:pt-32 pb-16 md:pb-24 scroll-mt-20 overflow-hidden">
       <div class="container mx-auto px-6">
         <div class="grid md:grid-cols-2 gap-12 items-center">
-          <div class="text-center md:text-left">
-            <h2 class="text-3xl md:text-4xl font-bold mb-6 font-serif text-amber-500">Our Story</h2>
+          <div class="animate-on-scroll text-center md:text-left">
+            <h2 class="text-4xl md:text-5xl font-bold mb-6 font-serif text-amber-400">Our Story</h2>
             <p class="text-lg text-gray-300 mb-4 leading-relaxed">
               Welcome to Chiya Ghar, where every cup tells a story. Born from a deep love for authentic Nepali tea culture, we started as a small dream to bring the warmth and comfort of traditional chiya to our community.
             </p>
@@ -94,88 +122,88 @@
               Join us and experience the heart of Nepal, one sip at a time.
             </p>
           </div>
-          <div class="flex justify-center">
-            <img src="images/aboutus.png" alt="Cozy interior of Chiya Ghar" class="w-full max-w-md h-auto rounded-lg shadow-xl object-cover object-center transform hover:scale-110 transition-transform duration-500 ease-in-out hover:shadow-xl hover:shadow-amber-500 hover:scale-110 hover:rotate-2 hover:-translate-y-1 hover:cursor-pointer">
+          <div class="animate-on-scroll delay-1 flex justify-center">
+            <img src="images/aboutus.png" alt="Cozy interior of Chiya Ghar" class="w-full max-w-md h-auto rounded-lg shadow-2xl object-cover transform transition-all duration-500 ease-in-out hover:scale-105 hover:shadow-amber-500/30 hover:shadow-2xl">
           </div>
         </div>
       </div>
     </section>
 
     <!-- Our Promise Section -->
-    <section id="our-promise" class="bg-[#3C2F2F] py-16 md:py-24">
+    <section id="our-promise" class="bg-[#3C2F2F] py-20 md:py-28">
       <div class="container mx-auto px-6 text-center">
-        <h2 class="text-3xl md:text-4xl font-bold mb-12 font-serif text-amber-500">Our Promise</h2>
+        <h2 class="animate-on-scroll text-4xl md:text-5xl font-bold mb-16 font-serif text-amber-400">Our Promise</h2>
         <div class="grid md:grid-cols-3 gap-10">
           <!-- Promise 1: Quality -->
-          <div class="flex flex-col items-center">
-            <div class="bg-amber-600 p-4 rounded-full mb-4">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" /></svg>
+          <div class="animate-on-scroll flex flex-col items-center p-8 bg-[#4A3A3A] rounded-xl border border-gray-700 hover:border-amber-500 transition-all duration-300 transform hover:-translate-y-2 group">
+            <div class="bg-amber-600/20 p-4 rounded-full mb-5 border-2 border-amber-600/50 group-hover:bg-amber-500 transition-all duration-300 group-hover:scale-110">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-amber-300 group-hover:text-white transition-colors duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" /></svg>
             </div>
             <h3 class="text-2xl font-semibold mb-3 text-amber-300">Authentic Ingredients</h3>
-            <p class="text-gray-300 leading-relaxed">We use only the finest, hand-picked tea leaves and freshly ground spices, following traditional recipes to ensure every sip is genuine and flavorful.</p>
+            <p class="text-gray-300 leading-relaxed">We use only the finest, hand-picked tea leaves and freshly ground spices, ensuring every sip is genuine and flavorful.</p>
           </div>
           <!-- Promise 2: Community -->
-          <div class="flex flex-col items-center">
-             <div class="bg-amber-600 p-4 rounded-full mb-4">
-               <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
+          <div class="animate-on-scroll delay-1 flex flex-col items-center p-8 bg-[#4A3A3A] rounded-xl border border-gray-700 hover:border-amber-500 transition-all duration-300 transform hover:-translate-y-2 group">
+             <div class="bg-amber-600/20 p-4 rounded-full mb-5 border-2 border-amber-600/50 group-hover:bg-amber-500 transition-all duration-300 group-hover:scale-110">
+               <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-amber-300 group-hover:text-white transition-colors duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
             </div>
             <h3 class="text-2xl font-semibold mb-3 text-amber-300">A Place to Connect</h3>
-            <p class="text-gray-300 leading-relaxed">Our doors are always open for you to find a quiet corner to work, catch up with friends, or simply enjoy a moment of peace in a welcoming atmosphere.</p>
+            <p class="text-gray-300 leading-relaxed">Our doors are always open for you to find a quiet corner, catch up with friends, or simply enjoy a moment of peace.</p>
           </div>
           <!-- Promise 3: Experience -->
-          <div class="flex flex-col items-center">
-             <div class="bg-amber-600 p-4 rounded-full mb-4">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" /></svg>
+          <div class="animate-on-scroll delay-2 flex flex-col items-center p-8 bg-[#4A3A3A] rounded-xl border border-gray-700 hover:border-amber-500 transition-all duration-300 transform hover:-translate-y-2 group">
+             <div class="bg-amber-600/20 p-4 rounded-full mb-5 border-2 border-amber-600/50 group-hover:bg-amber-500 transition-all duration-300 group-hover:scale-110">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-amber-300 group-hover:text-white transition-colors duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" /></svg>
             </div>
             <h3 class="text-2xl font-semibold mb-3 text-amber-300">Warm Hospitality</h3>
-            <p class="text-gray-300 leading-relaxed">Inspired by Nepali traditions, we greet every guest with a warm smile and dedicated service, making your visit feel like coming home.</p>
+            <p class="text-gray-300 leading-relaxed">Inspired by Nepali traditions, we greet every guest with a warm smile, making your visit feel like coming home.</p>
           </div>
         </div>
       </div>
     </section>
 
     <!-- FAQ Section -->
-    <section id="faq" class="bg-[#4A3A3A] py-16 md:py-24">
+    <section id="faq" class="bg-[#4A3A3A] py-20 md:py-28">
         <div class="container mx-auto px-6 max-w-3xl">
-            <h2 class="text-3xl md:text-4xl font-bold mb-12 text-center font-serif text-amber-500">Common Questions</h2>
+            <h2 class="animate-on-scroll text-4xl md:text-5xl font-bold mb-12 text-center font-serif text-amber-400">Common Questions</h2>
             <div class="space-y-4">
                 <!-- FAQ Item 1 -->
-                <div class="faq-item bg-[#5C4033] rounded-lg">
-                    <button class="faq-question flex justify-between items-center w-full p-5 text-left text-lg font-semibold text-amber-200">
+                <div class="animate-on-scroll faq-item bg-[#5C4033] rounded-lg">
+                    <button class="faq-question flex justify-between items-center w-full p-6 text-left text-lg font-semibold text-amber-200 hover:text-white transition-colors">
                         <span>Do you offer non-dairy milk alternatives?</span>
-                        <span class="faq-icon">+</span>
+                        <svg class="faq-icon h-6 w-6 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" /></svg>
                     </button>
-                    <div class="faq-answer px-5 text-gray-300">
+                    <div class="faq-answer px-6 pb-4 text-gray-300">
                         <p>Yes, absolutely! We offer oat milk and almond milk as dairy-free alternatives for most of our milk-based teas. Just let our staff know your preference when you order.</p>
                     </div>
                 </div>
                 <!-- FAQ Item 2 -->
-                <div class="faq-item bg-[#5C4033] rounded-lg">
-                    <button class="faq-question flex justify-between items-center w-full p-5 text-left text-lg font-semibold text-amber-200">
+                <div class="animate-on-scroll delay-1 faq-item bg-[#5C4033] rounded-lg">
+                    <button class="faq-question flex justify-between items-center w-full p-6 text-left text-lg font-semibold text-amber-200 hover:text-white transition-colors">
                         <span>Is there Wi-Fi available for customers?</span>
-                        <span class="faq-icon">+</span>
+                        <svg class="faq-icon h-6 w-6 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" /></svg>
                     </button>
-                    <div class="faq-answer px-5 text-gray-300">
+                    <div class="faq-answer px-6 pb-4 text-gray-300">
                         <p>Yes, we provide free, high-speed Wi-Fi for all our guests. Feel free to settle in, work, or browse while you enjoy your chiya.</p>
                     </div>
                 </div>
                 <!-- FAQ Item 3 -->
-                <div class="faq-item bg-[#5C4033] rounded-lg">
-                    <button class="faq-question flex justify-between items-center w-full p-5 text-left text-lg font-semibold text-amber-200">
+                <div class="animate-on-scroll delay-2 faq-item bg-[#5C4033] rounded-lg">
+                    <button class="faq-question flex justify-between items-center w-full p-6 text-left text-lg font-semibold text-amber-200 hover:text-white transition-colors">
                         <span>Can I buy your tea blends to make at home?</span>
-                        <span class="faq-icon">+</span>
+                        <svg class="faq-icon h-6 w-6 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" /></svg>
                     </button>
-                    <div class="faq-answer px-5 text-gray-300">
+                    <div class="faq-answer px-6 pb-4 text-gray-300">
                         <p>We're glad you asked! We sell packaged bags of our signature Masala Chiya blend and other select tea leaves. You can find them near the counter.</p>
                     </div>
                 </div>
                  <!-- FAQ Item 4 -->
-                <div class="faq-item bg-[#5C4033] rounded-lg">
-                    <button class="faq-question flex justify-between items-center w-full p-5 text-left text-lg font-semibold text-amber-200">
+                <div class="animate-on-scroll delay-3 faq-item bg-[#5C4033] rounded-lg">
+                    <button class="faq-question flex justify-between items-center w-full p-6 text-left text-lg font-semibold text-amber-200 hover:text-white transition-colors">
                         <span>Do you serve food or snacks?</span>
-                        <span class="faq-icon">+</span>
+                        <svg class="faq-icon h-6 w-6 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" /></svg>
                     </button>
-                    <div class="faq-answer px-5 text-gray-300">
+                    <div class="faq-answer px-6 pb-4 text-gray-300">
                         <p>Yes, we have a small selection of traditional Nepali snacks and baked goods that pair perfectly with our teas. Please check our menu or ask our staff for today's offerings.</p>
                     </div>
                 </div>
@@ -184,28 +212,20 @@
     </section>
   </main>
 
+   <!-- Footer (Consistent with Homepage) -->
    <footer class="bg-[#2a2121] text-gray-300 py-12">
       <div class="container mx-auto px-6">
         <div class="grid md:grid-cols-3 gap-8 text-center md:text-left">
-          <div class="animate-on-scroll">
-            <h3 class="text-lg font-bold text-white mb-4">Chiya Ghar</h3>
-            <p class="text-sm text-gray-400">Your cozy corner for authentic, soul-warming chiya and delightful conversations. est. 2023.</p>
-          </div>
-          <div class="animate-on-scroll delay-1">
-            <h3 class="text-lg font-bold text-white mb-4">Quick Links</h3>
-            <nav class="flex flex-col space-y-2"><a href="menu.html" class="text-sm text-gray-400 hover:text-amber-300 transition-colors">Menu</a><a href="gallery.html" class="text-sm text-gray-400 hover:text-amber-300 transition-colors">Gallery</a><a href="contactus.html" class="text-sm text-gray-400 hover:text-amber-300 transition-colors">Contact Us</a><a href="order.html" class="text-sm text-gray-400 hover:text-amber-300 transition-colors">Order Online</a></nav>
-          </div>
-          <div class="animate-on-scroll delay-2">
-            <h3 class="text-lg font-bold text-white mb-4">Follow Us</h3>
-            <div class="flex space-x-4 justify-center md:justify-start"><a href="index.html" target="_blank" class="hover:text-amber-300 transition-colors">Facebook</a><a href="index.html" target="_blank" class="hover:text-amber-300 transition-colors">Instagram</a><a href="index.html" target="_blank" class="hover:text-amber-300 transition-colors">TikTok</a></div>
-          </div>
+          <div><h3 class="text-lg font-bold text-white mb-4">Chiya Ghar</h3><p class="text-sm text-gray-400">Your cozy corner for authentic, soul-warming chiya and delightful conversations. est. 2023.</p></div>
+          <div><h3 class="text-lg font-bold text-white mb-4">Quick Links</h3><nav class="flex flex-col space-y-2"><a href="menu.html" class="text-sm text-gray-400 hover:text-amber-300 transition-colors">Menu</a><a href="gallery.html" class="text-sm text-gray-400 hover:text-amber-300 transition-colors">Gallery</a><a href="contactus.html" class="text-sm text-gray-400 hover:text-amber-300 transition-colors">Contact Us</a><a href="order.html" class="text-sm text-gray-400 hover:text-amber-300 transition-colors">Order Online</a></nav></div>
+          <div><h3 class="text-lg font-bold text-white mb-4">Follow Us</h3><div class="flex space-x-4 justify-center md:justify-start"><a href="#" target="_blank" class="hover:text-amber-300 transition-colors">Facebook</a><a href="#" target="_blank" class="hover:text-amber-300 transition-colors">Instagram</a><a href="#" target="_blank" class="hover:text-amber-300 transition-colors">TikTok</a></div></div>
         </div>
-        <div class="mt-8 pt-8 border-t border-gray-700 text-center text-sm text-gray-500">
-          <p>© <span id="current-year"></span> Chiya Ghar. All Rights Reserved.</p>
-        </div>
+        <div class="mt-8 pt-8 border-t border-gray-700 text-center text-sm text-gray-500"><p>© <span id="current-year"></span> Chiya Ghar. All Rights Reserved.</p></div>
       </div>
     </footer>
 
- 
+    <!-- Link to the external JavaScript file. 'defer' ensures it runs after the HTML is parsed. -->
+    <script src="AboutUs.js" defer></script>
+
 </body>
 </html>
