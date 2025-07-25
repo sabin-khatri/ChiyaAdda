@@ -185,80 +185,27 @@
   </main>
 
    <footer class="bg-[#2a2121] text-gray-300 py-12">
-    <div class="container mx-auto px-6">
-      <div class="grid md:grid-cols-3 gap-8 text-center md:text-left">
-        <!-- About -->
-        <div>
-          <h3 class="text-lg font-bold text-white mb-4">Chiya Ghar</h3>
-          <p class="text-sm text-gray-400">Your cozy corner for authentic, soul-warming chiya and delightful conversations.</p>
-        </div>
-        <!-- Quick Links -->
-        <div>
-          <h3 class="text-lg font-bold text-white mb-4">Quick Links</h3>
-          <nav class="flex flex-col space-y-2">
-            <a href="menu.html" class="text-sm text-gray-400 hover:text-yellow-200">Menu</a>
-            <a href="gallery.html" class="text-sm text-gray-400 hover:text-yellow-200">Gallery</a>
-            <a href="contactus.html" class="text-sm text-gray-400 hover:text-yellow-200">Contact Us</a>
-            <a href="order.html" class="text-sm text-gray-400 hover:text-yellow-200">Order Online</a>
-          </nav>
-        </div>
-        <!-- Social Media -->
-        <div>
-          <h3 class="text-lg font-bold text-white mb-4">Follow Us</h3>
-          <div class="flex space-x-4 justify-center md:justify-start">
-            <a href="#" aria-label="Facebook" class="hover:text-yellow-200">
-              <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" clip-rule="evenodd" /></svg>
-            </a>
-            <a href="#" aria-label="Instagram" class="hover:text-yellow-200">
-              <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M12.315 2.014a.824.824 0 01.169-.138C13.243 1.15 14.58.918 16.04.918c1.42 0 2.66.22 3.43.874a3.917 3.917 0 011.417 1.417c.653.77.873 2.01.873 3.43 0 1.46-.232 2.797-.918 3.74a.87.87 0 01-.138.168c-1.313 1.313-3.243 1.195-7.707 1.195s-6.394.118-7.707-1.195a.824.824 0 01-.169-.138C1.195 13.243.963 11.906.963 10.446c0-1.42.22-2.66.874-3.43a3.917 3.917 0 011.417-1.417c.77-.653 2.01-.873 3.43-.873 1.46 0 2.797.232 3.74.918.06.046.116.092.169.138zM10.875 6.884a.608.608 0 00-.61.608v3.047a.608.608 0 00.61.608h3.047a.608.608 0 00.609-.608V7.491a.608.608 0 00-.609-.608h-3.047zm5.47 1.27a1.047 1.047 0 100-2.094 1.047 1.047 0 000 2.094zM4.858 12c0 3.846 3.075 7.047 6.83 7.047s6.83-3.201 6.83-7.047c0-3.845-3.075-7.047-6.83-7.047s-6.83 3.202-6.83 7.047z" clip-rule="evenodd" /></svg>
-            </a>
+      <div class="container mx-auto px-6">
+        <div class="grid md:grid-cols-3 gap-8 text-center md:text-left">
+          <div class="animate-on-scroll">
+            <h3 class="text-lg font-bold text-white mb-4">Chiya Ghar</h3>
+            <p class="text-sm text-gray-400">Your cozy corner for authentic, soul-warming chiya and delightful conversations. est. 2023.</p>
+          </div>
+          <div class="animate-on-scroll delay-1">
+            <h3 class="text-lg font-bold text-white mb-4">Quick Links</h3>
+            <nav class="flex flex-col space-y-2"><a href="menu.html" class="text-sm text-gray-400 hover:text-amber-300 transition-colors">Menu</a><a href="gallery.html" class="text-sm text-gray-400 hover:text-amber-300 transition-colors">Gallery</a><a href="contactus.html" class="text-sm text-gray-400 hover:text-amber-300 transition-colors">Contact Us</a><a href="order.html" class="text-sm text-gray-400 hover:text-amber-300 transition-colors">Order Online</a></nav>
+          </div>
+          <div class="animate-on-scroll delay-2">
+            <h3 class="text-lg font-bold text-white mb-4">Follow Us</h3>
+            <div class="flex space-x-4 justify-center md:justify-start"><a href="#" target="_blank" class="hover:text-amber-300 transition-colors">Facebook</a><a href="#" target="_blank" class="hover:text-amber-300 transition-colors">Instagram</a><a href="#" target="_blank" class="hover:text-amber-300 transition-colors">TikTok</a></div>
           </div>
         </div>
+        <div class="mt-8 pt-8 border-t border-gray-700 text-center text-sm text-gray-500">
+          <p>© <span id="current-year"></span> Chiya Ghar. All Rights Reserved.</p>
+        </div>
       </div>
-      <div class="mt-8 pt-8 border-t border-gray-700 text-center text-sm text-gray-500">
-        <p>© <span id="current-year"></span> Chiya Ghar. All Rights Reserved.</p>
-      </div>
-    </div>
-  </footer>
+    </footer>
 
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        // --- Navigation ---
-        document.getElementById('current-year').textContent = new Date().getFullYear();
-        const hamburgerButton = document.getElementById('hamburger-button');
-        const mobileMenu = document.getElementById('mobile-menu');
-        const closeMenuButton = document.getElementById('close-menu-button');
-
-        hamburgerButton.addEventListener('click', () => {
-          mobileMenu.classList.remove('hidden');
-          document.body.style.overflow = 'hidden';
-        });
-
-        closeMenuButton.addEventListener('click', () => {
-          mobileMenu.classList.add('hidden');
-          document.body.style.overflow = '';
-        });
-
-        // --- FAQ Accordion Logic ---
-        const faqItems = document.querySelectorAll('.faq-item');
-
-        faqItems.forEach(item => {
-            const questionButton = item.querySelector('.faq-question');
-            questionButton.addEventListener('click', () => {
-                const wasOpen = item.classList.contains('open');
-
-                // Close all other items
-                faqItems.forEach(otherItem => {
-                    otherItem.classList.remove('open');
-                });
-                
-                // Toggle the clicked item
-                if (!wasOpen) {
-                    item.classList.add('open');
-                }
-            });
-        });
-    });
-  </script>
+ 
 </body>
 </html>

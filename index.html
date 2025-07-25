@@ -3,33 +3,65 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Chiya-Ghar</title>
+    <title>Chiya-Ghar | A Taste of Tradition</title>
     <link rel="icon" href="images/logo.png" />
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Playfair+Display:ital,wght@0,700;1,600&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    
     <style>
+      /* Apply custom fonts */
+      body {
+        font-family: 'Lato', sans-serif;
+      }
+      .font-serif {
+        font-family: 'Playfair Display', serif;
+      }
+
       /* Custom style for the active navigation link */
       .nav-link.active {
         color: #f59e0b; /* amber-500 */
         font-weight: 600;
       }
+      
+      /* Styles for scroll-triggered animations */
+      .animate-on-scroll {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+      }
+      .animate-on-scroll.is-visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      
+      /* Staggered delay for animations */
+      .delay-1 { transition-delay: 100ms; }
+      .delay-2 { transition-delay: 200ms; }
+      .delay-3 { transition-delay: 300ms; }
     </style>
+    
     <script>
       tailwind.config = {
         theme: {
           extend: {
+            fontFamily: {
+              sans: ['Lato', 'sans-serif'],
+              serif: ['Playfair Display', 'serif'],
+            },
             keyframes: {
-              "pulse-slow": {
-                "0%, 100%": {
-                  opacity: 0.9,
-                },
-                "50%": {
-                  opacity: 1,
-                },
+              "float": {
+                "0%, 100%": { transform: 'translateY(-5px)' },
+                "50%": { transform: 'translateY(5px)' },
               },
             },
             animation: {
-              "pulse-slow":
-                "pulse-slow 3s cubic-bezier(0.4, 0, 0.6, 1) infinite",
+              "float": "float 4s ease-in-out infinite",
             },
           },
         },
@@ -39,34 +71,34 @@
 
   <body class="bg-[#3C2F2F]">
     <!-- Header -->
-    <header class="bg-[#5C4033] shadow-md sticky top-0 z-50">
-      <div class="container mx-auto flex items-center justify-between px-6 py-3 relative">
+    <header id="main-header" class="fixed top-0 left-0 w-full z-50 transition-all duration-300">
+      <div class="container mx-auto flex items-center justify-between px-6 py-3">
         <a href="index.html" class="flex items-center gap-2">
           <img src="images/logo.png" alt="Logo" class="h-12 w-12" />
           <div>
-            <span class="text-xl font-bold text-red-700">CHIYA</span>
+            <span class="text-xl font-bold text-red-600">CHIYA</span>
             <span class="text-xl font-bold text-white">GHAR</span>
           </div>
         </a>
 
         <!-- Desktop Navigation -->
-        <nav class="hidden md:flex items-center space-x-6 text-white">
-          <a href="index.html" class="nav-link hover:text-yellow-300 transition-colors">Home</a>
-          <a href="AboutUs.html" class="nav-link hover:text-yellow-300 transition-colors">About Us</a>
-          <a href="menu.html" class="nav-link hover:text-yellow-300 transition-colors">Menu</a>
-          <a href="cart.html" class="nav-link hover:text-yellow-300 transition-colors">Cart</a>
-          <a href="order.html" class="nav-link hover:text-yellow-300 transition-colors">Order</a>
-          <a href="gallery.html" class="nav-link hover:text-yellow-300 transition-colors">Gallery</a>
-          <a href="contactus.html" class="border border-white rounded px-4 py-2 text-sm hover:bg-white hover:text-[#5C4033] transition-all">Contact Us</a>
+        <nav class="hidden md:flex items-center space-x-6 text-white text-sm font-medium">
+          <a href="index.html" class="nav-link hover:text-amber-400 transition-colors">Home</a>
+          <a href="AboutUs.html" class="nav-link hover:text-amber-400 transition-colors">About Us</a>
+          <a href="menu.html" class="nav-link hover:text-amber-400 transition-colors">Menu</a>
+          <a href="cart.html" class="nav-link hover:text-amber-400 transition-colors">Cart</a>
+          <a href="order.html" class="nav-link hover:text-amber-400 transition-colors">Order</a>
+          <a href="gallery.html" class="nav-link hover:text-amber-400 transition-colors">Gallery</a>
+          <a href="contactus.html" class="border border-amber-500 text-amber-500 rounded-full px-4 py-2 text-sm font-bold hover:bg-amber-500 hover:text-[#3C2F2F] transition-all">Contact Us</a>
         </nav>
 
         <!-- Mobile Menu Button -->
         <div class="md:hidden">
-          <button id="hamburger-button" class="text-white focus:outline-none" aria-label="Toggle menu">
-            <svg id="menu-icon" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <button id="hamburger-button" class="text-white focus:outline-none z-50 relative" aria-label="Toggle menu">
+            <svg id="menu-icon" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
             </svg>
-            <svg id="close-icon" class="h-6 w-6 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg id="close-icon" class="h-7 w-7 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
             </svg>
           </button>
@@ -74,51 +106,51 @@
       </div>
       
       <!-- Mobile Menu Panel -->
-      <div id="mobile-menu" class="md:hidden absolute left-0 w-full bg-[#5C4033] shadow-lg max-h-0 opacity-0 overflow-hidden transition-all duration-300 ease-in-out">
-          <nav class="flex flex-col items-center space-y-4 py-6">
-            <a href="index.html" class="nav-link text-lg text-white hover:text-yellow-300">Home</a>
-            <a href="AboutUs.html" class="nav-link text-lg text-white hover:text-yellow-300">About Us</a>
-            <a href="menu.html" class="nav-link text-lg text-white hover:text-yellow-300">Menu</a>
-            <a href="cart.html" class="nav-link text-lg text-white hover:text-yellow-300">Cart</a>
-            <a href="order.html" class="nav-link text-lg text-white hover:text-yellow-300">Order</a>
-            <a href="gallery.html" class="nav-link text-lg text-white hover:text-yellow-300">Gallery</a>
-            <a href="contactus.html" class="nav-link text-lg text-white hover:text-yellow-300">Contact Us</a>
+      <div id="mobile-menu" class="md:hidden fixed top-0 right-0 h-full w-full bg-[#3C2F2F]/95 backdrop-blur-lg transform translate-x-full transition-transform duration-500 ease-in-out">
+          <nav class="flex flex-col items-center justify-center h-full space-y-8">
+            <a href="index.html" class="nav-link text-2xl text-white hover:text-amber-400">Home</a>
+            <a href="AboutUs.html" class="nav-link text-2xl text-white hover:text-amber-400">About Us</a>
+            <a href="menu.html" class="nav-link text-2xl text-white hover:text-amber-400">Menu</a>
+            <a href="cart.html" class="nav-link text-2xl text-white hover:text-amber-400">Cart</a>
+            <a href="order.html" class="nav-link text-2xl text-white hover:text-amber-400">Order</a>
+            <a href="gallery.html" class="nav-link text-2xl text-white hover:text-amber-400">Gallery</a>
+            <a href="contactus.html" class="nav-link text-2xl text-white hover:text-amber-400">Contact Us</a>
           </nav>
       </div>
     </header>
 
     <!-- Hero Section -->
-    <section class="relative bg-gradient-to-b from-[#5C4033] to-[#3C2F2F] text-white py-16 md:py-24">
+    <section class="relative min-h-screen flex items-center bg-gradient-to-b from-[#5C4033] to-[#3C2F2F] text-white pt-24 pb-16">
       <div class="container mx-auto grid md:grid-cols-2 gap-8 items-center px-6">
         <div class="text-center md:text-left">
-          <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold italic mb-2 font-serif text-red-600">
+          <h1 class="animate-on-scroll text-5xl sm:text-6xl md:text-7xl font-bold italic font-serif text-red-600 leading-tight">
             CHIYA
           </h1>
-          <div class="flex items-center justify-center md:justify-start mb-2">
-            <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold italic text-white mr-2">
+          <div class="animate-on-scroll delay-1 flex items-center justify-center md:justify-start mb-2">
+            <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold italic text-white mr-3">
               IS OUR
             </h2>
-            <img src="images/chiya.svg" alt="Tea icon" class="w-10 h-10" />
+            <img src="images/chiya.svg" alt="Tea icon" class="w-12 h-12" />
           </div>
-          <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold italic mb-6 text-white">
+          <h1 class="animate-on-scroll delay-2 text-5xl sm:text-6xl md:text-7xl font-bold italic text-white mb-6">
             PASSION
           </h1>
-          <p class="text-lg font-light mb-8 text-gray-200">
+          <p class="animate-on-scroll delay-3 text-lg font-light mb-8 text-gray-200">
             TRY IT TODAY. LOVE IT FOREVER.
           </p>
-          <a href="menu.html" class="bg-amber-500 text-[#3C2F2F] py-3 px-8 font-semibold rounded-lg hover:bg-amber-600 hover:text-white transition-all duration-300 shadow-lg hover:shadow-xl hover:shadow-amber-500/50 hover:scale-105">Shop Now</a>
+          <a href="menu.html" class="animate-on-scroll delay-3 inline-block bg-amber-500 text-[#3C2F2F] py-3 px-8 font-semibold rounded-full hover:bg-amber-400 transition-all duration-300 shadow-lg hover:shadow-xl hover:shadow-amber-500/50 transform hover:scale-105">Shop Now</a>
         </div>
-        <div class="flex justify-center mt-8 md:mt-0">
-          <img src="images/coffeecup.png" alt="Chiya cup" class="max-w-md w-full animate-pulse-slow transform hover:scale-105 transition-transform duration-500 ease-in-out" />
+        <div class="animate-on-scroll flex justify-center mt-8 md:mt-0">
+          <img src="images/coffeecup.png" alt="Chiya cup" class="max-w-md w-full animate-float" />
         </div>
       </div>
     </section>
 
     <!-- About Us Section -->
-    <section id="about-us" class="py-16 md:py-24 text-white">
+    <section id="about-us" class="py-20 md:py-28 text-white overflow-hidden">
       <div class="container mx-auto grid md:grid-cols-2 gap-12 items-center px-6">
-        <div class="text-center md:text-left">
-          <h2 class="text-3xl md:text-4xl font-bold mb-4">
+        <div class="animate-on-scroll text-center md:text-left">
+          <h2 class="text-4xl md:text-5xl font-bold mb-4 font-serif">
             A Taste of <span class="text-amber-500">Tradition</span>
           </h2>
           <p class="text-gray-300 mb-6 leading-relaxed">
@@ -127,130 +159,118 @@
             source the finest tea leaves and spices to bring you an authentic
             taste that warms the soul and brings people together.
           </p>
-          <a href="AboutUs.html" class="bg-transparent border border-amber-500 text-amber-500 py-2 px-6 font-semibold rounded-lg hover:bg-amber-500 hover:text-[#3C2F2F] transition-colors duration-300 ease-in-out">Learn More</a>
+          <a href="AboutUs.html" class="inline-block bg-transparent border-2 border-amber-500 text-amber-500 py-2 px-6 font-semibold rounded-full hover:bg-amber-500 hover:text-[#3C2F2F] transition-colors duration-300 ease-in-out transform hover:scale-105">Learn More</a>
         </div>
-        <div>
+        <div class="animate-on-scroll delay-1">
           <img src="images/about.png" alt="Inside Chiya Ghar" class="rounded-lg shadow-2xl w-full h-auto object-cover transform hover:scale-105 transition-transform duration-500 ease-in-out" />
         </div>
       </div>
     </section>
 
     <!-- Popular Menu Section -->
-    <section class="bg-[#5C4033] py-16 md:py-24 text-white">
+    <section class="bg-[#5C4033] py-20 md:py-28 text-white">
       <div class="container mx-auto px-6 text-center">
-        <h2 class="text-3xl md:text-4xl font-bold mb-12">
+        <h2 class="animate-on-scroll text-4xl md:text-5xl font-bold mb-16 font-serif">
           Our Popular <span class="text-amber-400">Chiya</span>
         </h2>
         <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-          <div class="bg-[#3C2F2F] rounded-lg shadow-lg overflow-hidden transform hover:-translate-y-2 transition-transform">
-            <img src="images/masala-chiya.webp" alt="Masala Chiya" class="w-full h-48 object-cover" />
+          <!-- Menu Item 1 -->
+          <div class="animate-on-scroll bg-[#3C2F2F] rounded-lg shadow-lg overflow-hidden transform hover:-translate-y-3 transition-transform duration-300">
+            <img src="images/masala-chiya.webp" alt="Masala Chiya" class="w-full h-56 object-cover" />
             <div class="p-6">
               <h3 class="text-xl font-bold mb-2">Masala Chiya</h3>
-              <p class="text-gray-400 text-sm">
-                Aromatic and spicy, brewed with a blend of traditional spices.
-              </p>
+              <p class="text-gray-400 text-sm">Aromatic and spicy, brewed with a blend of traditional spices.</p>
             </div>
           </div>
-          <div class="bg-[#3C2F2F] rounded-lg shadow-lg overflow-hidden transform hover:-translate-y-2 transition-transform">
-            <img src="images/lemon-ginger-chiya.webp" alt="Lemon Chiya" class="w-full h-48 object-cover" />
+          <!-- Menu Item 2 -->
+          <div class="animate-on-scroll delay-1 bg-[#3C2F2F] rounded-lg shadow-lg overflow-hidden transform hover:-translate-y-3 transition-transform duration-300">
+            <img src="images/lemon-ginger-chiya.webp" alt="Lemon Chiya" class="w-full h-56 object-cover" />
             <div class="p-6">
               <h3 class="text-xl font-bold mb-2">Lemon Honey Chiya</h3>
-              <p class="text-gray-400 text-sm">
-                A refreshing and zesty blend, perfect for a soothing experience.
-              </p>
+              <p class="text-gray-400 text-sm">A refreshing and zesty blend, perfect for a soothing experience.</p>
             </div>
           </div>
-          <div class="bg-[#3C2F2F] rounded-lg shadow-lg overflow-hidden transform hover:-translate-y-2 transition-transform">
-            <img src="images/dudh-chiya.webp" alt="Dudh Chiya" class="w-full h-48 object-cover" />
+          <!-- Menu Item 3 -->
+          <div class="animate-on-scroll delay-2 bg-[#3C2F2F] rounded-lg shadow-lg overflow-hidden transform hover:-translate-y-3 transition-transform duration-300">
+            <img src="images/dudh-chiya.webp" alt="Dudh Chiya" class="w-full h-56 object-cover" />
             <div class="p-6">
               <h3 class="text-xl font-bold mb-2">Classic Dudh Chiya</h3>
-              <p class="text-gray-400 text-sm">
-                The simple, comforting, and creamy classic loved by everyone.
-              </p>
+              <p class="text-gray-400 text-sm">The simple, comforting, and creamy classic loved by everyone.</p>
             </div>
           </div>
-          <div class="bg-[#3C2F2F] rounded-lg shadow-lg overflow-hidden transform hover:-translate-y-2 transition-transform">
-            <img src="images/kalo-chiya.webp" alt="Samosa" class="w-full h-48 object-cover" />
+          <!-- Menu Item 4 -->
+          <div class="animate-on-scroll delay-3 bg-[#3C2F2F] rounded-lg shadow-lg overflow-hidden transform hover:-translate-y-3 transition-transform duration-300">
+            <img src="images/kalo-chiya.webp" alt="Samosa" class="w-full h-56 object-cover" />
             <div class="p-6">
               <h3 class="text-xl font-bold mb-2">Hot Samosa</h3>
-              <p class="text-gray-400 text-sm">
-                The perfect savory snack to accompany your favorite chiya.
-              </p>
+              <p class="text-gray-400 text-sm">The perfect savory snack to accompany your favorite chiya.</p>
             </div>
           </div>
         </div>
-        <a href="menu.html" class="mt-12 inline-block bg-amber-500 text-[#3C2F2F] py-3 px-8 font-semibold rounded-lg hover:bg-amber-600 hover:text-white transition-colors shadow-lg hover:shadow-xl hover:shadow-amber-500/50 hover:scale-105">View Full Menu</a>
+        <a href="menu.html" class="animate-on-scroll mt-16 inline-block bg-amber-500 text-[#3C2F2F] py-3 px-8 font-semibold rounded-full hover:bg-amber-400 transition-all shadow-lg hover:shadow-xl hover:shadow-amber-500/50 transform hover:scale-105">View Full Menu</a>
       </div>
     </section>
 
     <!-- Why Choose Us Section -->
-    <section class="py-16 md:py-24 text-white">
+    <section class="py-20 md:py-28 text-white">
         <div class="container mx-auto px-6 text-center">
-            <h2 class="text-3xl md:text-4xl font-bold mb-12">
+            <h2 class="animate-on-scroll text-4xl md:text-5xl font-bold mb-16 font-serif">
                 Why <span class="text-red-600">Chiya Ghar</span>?
             </h2>
-            <div class="grid md:grid-cols-3 gap-10">
-                <div class="flex flex-col items-center">
-                    <div class="bg-[#5C4033] p-4 rounded-full mb-4">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
-                        </svg>
+            <div class="grid md:grid-cols-3 gap-12">
+                <!-- Feature 1 -->
+                <div class="animate-on-scroll flex flex-col items-center">
+                    <div class="bg-[#5C4033] p-5 rounded-full mb-5 border-2 border-amber-400/50">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" /></svg>
                     </div>
-                    <h3 class="text-xl font-bold mb-2">Authentic Flavors</h3>
-                    <p class="text-gray-300">
-                        We use traditional recipes and fresh, high-quality spices to
-                        create the perfect cup of chiya every time.
-                    </p>
+                    <h3 class="text-2xl font-bold mb-2">Authentic Flavors</h3>
+                    <p class="text-gray-300 leading-relaxed">We use traditional recipes and fresh, high-quality spices to create the perfect cup of chiya every time.</p>
                 </div>
-                <div class="flex flex-col items-center">
-                    <div class="bg-[#5C4033] p-4 rounded-full mb-4">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-amber-400" viewBox="0 0 20 20" fill="currentColor">
-                            <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 16a2 2 0 110-4 2 2 0 010 4z" />
-                        </svg>
+                <!-- Feature 2 -->
+                <div class="animate-on-scroll delay-1 flex flex-col items-center">
+                    <div class="bg-[#5C4033] p-5 rounded-full mb-5 border-2 border-amber-400/50">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-amber-400" viewBox="0 0 20 20" fill="currentColor"><path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 16a2 2 0 110-4 2 2 0 010 4z" /></svg>
                     </div>
-                    <h3 class="text-xl font-bold mb-2">Cozy Ambiance</h3>
-                    <p class="text-gray-300">
-                        Our space is designed to be a warm, inviting retreat where you can
-                        relax, chat, and enjoy your time.
-                    </p>
+                    <h3 class="text-2xl font-bold mb-2">Cozy Ambiance</h3>
+                    <p class="text-gray-300 leading-relaxed">Our space is designed to be a warm, inviting retreat where you can relax, chat, and enjoy your time.</p>
                 </div>
-                <div class="flex flex-col items-center">
-                    <div class="bg-[#5C4033] p-4 rounded-full mb-4">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.085a2 2 0 00-1.736.93L5.5 8m7-3H9m6 3v4m0 0H9" />
-                        </svg>
+                <!-- Feature 3 -->
+                <div class="animate-on-scroll delay-2 flex flex-col items-center">
+                    <div class="bg-[#5C4033] p-5 rounded-full mb-5 border-2 border-amber-400/50">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.085a2 2 0 00-1.736.93L5.5 8m7-3H9m6 3v4m0 0H9" /></svg>
                     </div>
-                    <h3 class="text-xl font-bold mb-2">Excellent Service</h3>
-                    <p class="text-gray-300">
-                        We believe in making every guest feel welcome and valued, ensuring
-                        a delightful experience from start to finish.
-                    </p>
+                    <h3 class="text-2xl font-bold mb-2">Excellent Service</h3>
+                    <p class="text-gray-300 leading-relaxed">We believe in making every guest feel welcome and valued, ensuring a delightful experience from start to finish.</p>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Testimonials Section -->
-    <section class="bg-[#5C4033] py-16 md:py-24 text-white">
+    <section class="bg-[#5C4033] py-20 md:py-28 text-white">
       <div class="container mx-auto px-6 text-center">
-        <h2 class="text-3xl md:text-4xl font-bold mb-12">
+        <h2 class="animate-on-scroll text-4xl md:text-5xl font-bold mb-16 font-serif">
           What Our Customers Say
         </h2>
         <div class="grid md:grid-cols-2 gap-8 text-left">
-          <div class="bg-[#3C2F2F] p-8 rounded-lg shadow-xl">
-            <p class="italic text-gray-300 mb-4">
+          <!-- Testimonial 1 -->
+          <div class="animate-on-scroll bg-[#3C2F2F] p-8 rounded-lg shadow-xl relative">
+             <div class="absolute top-4 left-4 text-7xl text-gray-700/50 font-serif opacity-50">“</div>
+            <p class="italic text-gray-300 mb-4 z-10 relative">
               "The best masala chiya I've had outside of Nepal! The atmosphere
               is so relaxing. It feels like a home away from home."
             </p>
-            <p class="font-bold text-amber-400">- Sabin Khatri</p>
+            <p class="font-bold text-amber-400 z-10 relative">- Sabin Khatri</p>
           </div>
-          <div class="bg-[#3C2F2F] p-8 rounded-lg shadow-xl">
-            <p class="italic text-gray-300 mb-4">
+          <!-- Testimonial 2 -->
+          <div class="animate-on-scroll delay-1 bg-[#3C2F2F] p-8 rounded-lg shadow-xl relative">
+            <div class="absolute top-4 left-4 text-7xl text-gray-700/50 font-serif opacity-50">“</div>
+            <p class="italic text-gray-300 mb-4 z-10 relative">
               "Chiya Ghar is my go-to spot for meetings and catching up with
               friends. The tea is consistently amazing and the samosas are a
               must-try!"
             </p>
-            <p class="font-bold text-amber-400">- Neera Khatree</p>
+            <p class="font-bold text-amber-400 z-10 relative">- Neera Khatree</p>
           </div>
         </div>
       </div>
@@ -260,73 +280,26 @@
     <footer class="bg-[#2a2121] text-gray-300 py-12">
       <div class="container mx-auto px-6">
         <div class="grid md:grid-cols-3 gap-8 text-center md:text-left">
-          <div>
+          <div class="animate-on-scroll">
             <h3 class="text-lg font-bold text-white mb-4">Chiya Ghar</h3>
-            <p class="text-sm text-gray-400">
-              Your cozy corner for authentic, soul-warming chiya and delightful
-              conversations. est. 2023.
-            </p>
+            <p class="text-sm text-gray-400">Your cozy corner for authentic, soul-warming chiya and delightful conversations. est. 2023.</p>
           </div>
-          <div>
+          <div class="animate-on-scroll delay-1">
             <h3 class="text-lg font-bold text-white mb-4">Quick Links</h3>
-            <nav class="flex flex-col space-y-2">
-              <a href="menu.html" class="text-sm text-gray-400 hover:text-yellow-200">Menu</a>
-              <a href="gallery.html" class="text-sm text-gray-400 hover:text-yellow-200">Gallery</a>
-              <a href="contactus.html" class="text-sm text-gray-400 hover:text-yellow-200">Contact Us</a>
-              <a href="order.html" class="text-sm text-gray-400 hover:text-yellow-200">Order Online</a>
-            </nav>
+            <nav class="flex flex-col space-y-2"><a href="menu.html" class="text-sm text-gray-400 hover:text-amber-300 transition-colors">Menu</a><a href="gallery.html" class="text-sm text-gray-400 hover:text-amber-300 transition-colors">Gallery</a><a href="contactus.html" class="text-sm text-gray-400 hover:text-amber-300 transition-colors">Contact Us</a><a href="order.html" class="text-sm text-gray-400 hover:text-amber-300 transition-colors">Order Online</a></nav>
           </div>
-          <div>
+          <div class="animate-on-scroll delay-2">
             <h3 class="text-lg font-bold text-white mb-4">Follow Us</h3>
-            <div class="flex space-x-4 justify-center md:justify-start">
-              <a href="#" target="_blank" class="hover:text-yellow-200">Facebook</a>
-              <a href="#" target="_blank" class="hover:text-yellow-200">Instagram</a>
-              <a href="#" target="_blank" class="hover:text-yellow-200">TikTok</a>
-            </div>
+            <div class="flex space-x-4 justify-center md:justify-start"><a href="#" target="_blank" class="hover:text-amber-300 transition-colors">Facebook</a><a href="#" target="_blank" class="hover:text-amber-300 transition-colors">Instagram</a><a href="#" target="_blank" class="hover:text-amber-300 transition-colors">TikTok</a></div>
           </div>
         </div>
         <div class="mt-8 pt-8 border-t border-gray-700 text-center text-sm text-gray-500">
-          <p>
-            © <span id="current-year"></span> Chiya Ghar. All Rights Reserved.
-          </p>
+          <p>© <span id="current-year"></span> Chiya Ghar. All Rights Reserved.</p>
         </div>
       </div>
     </footer>
 
-    <script>
-      const hamburgerButton = document.getElementById("hamburger-button");
-      const mobileMenu = document.getElementById("mobile-menu");
-      const menuIcon = document.getElementById("menu-icon");
-      const closeIcon = document.getElementById("close-icon");
-
-      hamburgerButton.addEventListener("click", () => {
-        // Toggle menu visibility classes
-        mobileMenu.classList.toggle("max-h-0");
-        mobileMenu.classList.toggle("opacity-0");
-        mobileMenu.classList.toggle("max-h-screen"); // Use a large enough max-height
-        mobileMenu.classList.toggle("opacity-100");
-
-        // Toggle icon visibility
-        menuIcon.classList.toggle("hidden");
-        closeIcon.classList.toggle("hidden");
-      });
-
-      // Highlight active navigation link
-      document.addEventListener('DOMContentLoaded', function() {
-        const navLinks = document.querySelectorAll('.nav-link');
-        const currentPage = window.location.pathname.split('/').pop() || 'index.html';
-        
-        navLinks.forEach(link => {
-            const linkPage = link.getAttribute('href').split('/').pop();
-            if (linkPage === currentPage) {
-                link.classList.add('active');
-            }
-        });
-      });
-
-      // Set current year in footer
-      document.getElementById("current-year").textContent = new Date().getFullYear();
-    </script>
     <script src="script.js"></script>
+   
   </body>
 </html>
