@@ -5,121 +5,96 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Chiya-Ghar - Menu</title>
   <link rel="icon" href="images/logo.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Playfair+Display:ital,wght@0,700;1,600&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
+    body { font-family: 'Lato', sans-serif; }
+    .font-serif { font-family: 'Playfair Display', serif; }
+    .nav-link.active { color: #f59e0b; font-weight: 600; }
     .cart-count::after {
         content: attr(data-count);
         position: absolute;
-        top: -5px;
-        right: -10px;
-        background-color: red;
+        top: -8px;
+        right: -8px;
+        background-color: #ef4444; /* red-500 */
         color: white;
         font-size: 0.7rem;
         font-weight: bold;
         border-radius: 50%;
-        padding: 2px 5px;
+        padding: 2px 6px;
         line-height: 1;
-        min-width: 16px;
+        min-width: 18px;
         text-align: center;
+        border: 2px solid #5C4033;
     }
-    .cart-link {
-        position: relative; 
-        display: inline-block; 
-    }
+    .cart-link { position: relative; display: inline-block; }
+    .animate-on-scroll { opacity: 0; transform: translateY(30px); transition: opacity 0.6s ease-out, transform 0.6s ease-out; }
+    .animate-on-scroll.is-visible { opacity: 1; transform: translateY(0); }
   </style>
 </head>
 
 <body class="bg-[#3C2F2F] text-white">
 
-  <!-- Authentication Overlay -->
   <div id="auth-overlay" class="fixed inset-0 bg-[#3C2F2F] bg-opacity-95 flex items-center justify-center z-[100] p-4">
     <div class="relative bg-[#5C4033] p-8 rounded-lg shadow-2xl w-full max-w-sm">
-
-      <!-- Close Icon to redirect to Home -->
       <a href="index.html" class="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors" aria-label="Close and go to Home">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" class="stroke-current text-white transition-colors duration-300 ease-in-out hover:text-yellow-200 hover:scale-110 hover:rotate-2 hover:-translate-y-1 hover:cursor-pointer" />
-        </svg>
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
       </a>
 
-      <!-- Login Form Container -->
       <div id="login-container">
         <h2 class="text-2xl font-bold text-center text-amber-300 mb-6">Login to Chiya Ghar</h2>
         <form id="login-form">
-          <div class="mb-4">
-            <label for="login-username" class="block text-sm font-medium text-gray-300 mb-1">Username</label>
-            <input type="text" id="login-username" required class="w-full px-3 py-2 bg-[#4A3A3A] border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500">
-          </div>
-          <div class="mb-6">
-            <label for="login-password" class="block text-sm font-medium text-gray-300 mb-1">Password</label>
-            <input type="password" id="login-password" required class="w-full px-3 py-2 bg-[#4A3A3A] border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500">
-          </div>
+          <div class="mb-4"><label for="login-username" class="block text-sm font-medium text-gray-300 mb-1">Username</label><input type="text" id="login-username" required class="w-full px-3 py-2 bg-[#4A3A3A] border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500"></div>
+          <div class="mb-6"><label for="login-password" class="block text-sm font-medium text-gray-300 mb-1">Password</label><input type="password" id="login-password" required class="w-full px-3 py-2 bg-[#4A3A3A] border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500"></div>
           <p id="login-error" class="text-red-500 text-sm mb-4 text-center hidden"></p>
-          <button type="submit" class="w-full bg-amber-600 hover:bg-amber-700 text-white font-bold py-2 px-4 rounded-md transition duration-300">
-            Login
-          </button>
+          <button type="submit" class="w-full bg-amber-600 hover:bg-amber-700 text-white font-bold py-2 px-4 rounded-md transition duration-300">Login</button>
         </form>
-        <p class="mt-6 text-center text-sm text-gray-400">
-          Don't have an account? 
-          <button id="show-signup-btn" class="font-semibold text-amber-400 hover:text-amber-300">Sign Up</button>
-        </p>
+        <p class="mt-6 text-center text-sm text-gray-400">Don't have an account? <button id="show-signup-btn" class="font-semibold text-amber-400 hover:text-amber-300">Sign Up</button></p>
       </div>
 
-      <!-- Signup Form Container (hidden by default) -->
       <div id="signup-container" class="hidden">
         <h2 class="text-2xl font-bold text-center text-amber-300 mb-6">Create an Account</h2>
         <form id="signup-form">
-          <div class="mb-4">
-            <label for="signup-username" class="block text-sm font-medium text-gray-300 mb-1">Username</label>
-            <input type="text" id="signup-username" required class="w-full px-3 py-2 bg-[#4A3A3A] border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500">
-          </div>
-          <div class="mb-4">
-            <label for="signup-password" class="block text-sm font-medium text-gray-300 mb-1">Password</label>
-            <input type="password" id="signup-password" required class="w-full px-3 py-2 bg-[#4A3A3A] border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500">
-          </div>
+          <div class="mb-4"><label for="signup-username" class="block text-sm font-medium text-gray-300 mb-1">Username</label><input type="text" id="signup-username" required class="w-full px-3 py-2 bg-[#4A3A3A] border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500"></div>
+          <div class="mb-4"><label for="signup-password" class="block text-sm font-medium text-gray-300 mb-1">Password</label><input type="password" id="signup-password" required class="w-full px-3 py-2 bg-[#4A3A3A] border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500"></div>
           <p id="signup-error" class="text-red-500 text-sm mb-4 text-center hidden"></p>
-          <button type="submit" class="w-full bg-amber-600 hover:bg-amber-700 text-white font-bold py-2 px-4 rounded-md transition duration-300">
-            Sign Up
-          </button>
+          <button type="submit" class="w-full bg-amber-600 hover:bg-amber-700 text-white font-bold py-2 px-4 rounded-md transition duration-300">Sign Up</button>
         </form>
-        <p class="mt-6 text-center text-sm text-gray-400">
-          Already have an account? 
-          <button id="show-login-btn" class="font-semibold text-amber-400 hover:text-amber-300">Login</button>
-        </p>
+        <p class="mt-6 text-center text-sm text-gray-400">Already have an account? <button id="show-login-btn" class="font-semibold text-amber-400 hover:text-amber-300">Login</button></p>
       </div>
-
     </div>
   </div>
 
-
- <header class="bg-[#5C4033] shadow-md sticky top-0 z-50">
-      <div class="container mx-auto flex items-center justify-between px-6 py-3 relative">
+  <header id="main-header" class="fixed top-0 left-0 w-full z-50 transition-all duration-300">
+      <div class="container mx-auto flex items-center justify-between px-6 py-3">
         <a href="index.html" class="flex items-center gap-2">
           <img src="images/logo.png" alt="Logo" class="h-12 w-12" />
           <div>
-            <span class="text-xl font-bold text-red-700">CHIYA</span>
+            <span class="text-xl font-bold text-red-600">CHIYA</span>
             <span class="text-xl font-bold text-white">GHAR</span>
           </div>
         </a>
 
         <!-- Desktop Navigation -->
-        <nav class="hidden md:flex items-center space-x-6 text-white">
-          <a href="index.html" class="nav-link hover:text-yellow-300 transition-colors">Home</a>
-          <a href="AboutUs.html" class="nav-link hover:text-yellow-300 transition-colors">About Us</a>
-          <a href="menu.html" class="nav-link hover:text-yellow-300 transition-colors">Menu</a>
-          <a href="cart.html" class="nav-link hover:text-yellow-300 transition-colors">Cart</a>
-          <a href="order.html" class="nav-link hover:text-yellow-300 transition-colors">Order</a>
-          <a href="gallery.html" class="nav-link hover:text-yellow-300 transition-colors">Gallery</a>
-          <a href="contactus.html" class="border border-white rounded px-4 py-2 text-sm hover:bg-white hover:text-[#5C4033] transition-all">Contact Us</a>
+        <nav class="hidden md:flex items-center space-x-6 text-white text-sm font-medium">
+          <a href="index.html" class="nav-link hover:text-amber-400 transition-colors">Home</a>
+          <a href="AboutUs.html" class="nav-link hover:text-amber-400 transition-colors">About Us</a>
+          <a href="menu.html" class="nav-link hover:text-amber-400 transition-colors">Menu</a>
+          <a href="cart.html" class="nav-link hover:text-amber-400 transition-colors">Cart</a>
+          <a href="order.html" class="nav-link hover:text-amber-400 transition-colors">Order</a>
+          <a href="gallery.html" class="nav-link hover:text-amber-400 transition-colors">Gallery</a>
+          <a href="contactus.html" class="border border-amber-500 text-amber-500 rounded-full px-4 py-2 text-sm font-bold hover:bg-amber-500 hover:text-[#3C2F2F] transition-all">Contact Us</a>
         </nav>
 
         <!-- Mobile Menu Button -->
         <div class="md:hidden">
-          <button id="hamburger-button" class="text-white focus:outline-none" aria-label="Toggle menu">
-            <svg id="menu-icon" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <button id="hamburger-button" class="text-white focus:outline-none z-50 relative" aria-label="Toggle menu">
+            <svg id="menu-icon" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
             </svg>
-            <svg id="close-icon" class="h-6 w-6 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg id="close-icon" class="h-7 w-7 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
             </svg>
           </button>
@@ -127,134 +102,38 @@
       </div>
       
       <!-- Mobile Menu Panel -->
-      <div id="mobile-menu" class="md:hidden absolute left-0 w-full bg-[#5C4033] shadow-lg max-h-0 opacity-0 overflow-hidden transition-all duration-300 ease-in-out">
-          <nav class="flex flex-col items-center space-y-4 py-6">
-            <a href="index.html" class="nav-link text-lg text-white hover:text-yellow-300">Home</a>
-            <a href="AboutUs.html" class="nav-link text-lg text-white hover:text-yellow-300">About Us</a>
-            <a href="menu.html" class="nav-link text-lg text-white hover:text-yellow-300">Menu</a>
-            <a href="cart.html" class="nav-link text-lg text-white hover:text-yellow-300">Cart</a>
-            <a href="order.html" class="nav-link text-lg text-white hover:text-yellow-300">Order</a>
-            <a href="gallery.html" class="nav-link text-lg text-white hover:text-yellow-300">Gallery</a>
-            <a href="contactus.html" class="nav-link text-lg text-white hover:text-yellow-300">Contact Us</a>
+      <div id="mobile-menu" class="md:hidden fixed top-0 right-0 h-full w-full bg-[#3C2F2F]/95 backdrop-blur-lg transform translate-x-full transition-transform duration-500 ease-in-out">
+          <nav class="flex flex-col items-center justify-center h-full space-y-8">
+            <a href="index.html" class="nav-link text-2xl text-white hover:text-amber-400">Home</a>
+            <a href="AboutUs.html" class="nav-link text-2xl text-white hover:text-amber-400">About Us</a>
+            <a href="menu.html" class="nav-link text-2xl text-white hover:text-amber-400">Menu</a>
+            <a href="cart.html" class="nav-link text-2xl text-white hover:text-amber-400">Cart</a>
+            <a href="order.html" class="nav-link text-2xl text-white hover:text-amber-400">Order</a>
+            <a href="gallery.html" class="nav-link text-2xl text-white hover:text-amber-400">Gallery</a>
+            <a href="contactus.html" class="nav-link text-2xl text-white hover:text-amber-400">Contact Us</a>
           </nav>
       </div>
     </header>
 
   <main class="hidden">
-    <section id="menu" class="bg-[#4A3A3A] py-16 md:py-24 scroll-mt-20">
+    <section id="menu" class="bg-[#4A3A3A] pt-28 pb-16 md:pb-24 scroll-mt-20">
       <div class="container mx-auto px-6">
-        <h2 class="text-3xl md:text-4xl font-bold mb-12 text-center font-serif text-amber-500">Our Menu</h2>
+        <h2 class="text-4xl md:text-5xl font-bold mb-12 text-center font-serif text-amber-400">Our Menu</h2>
         <div id="menu-items-container" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          <div class="bg-[#5C4033] rounded-lg shadow-lg overflow-hidden flex flex-col">
-            <img src="images/masala-chiya.webp" alt="Masala Chiya" class="w-full h-48 object-cover">
-            <div class="p-6 flex flex-col flex-grow">
-              <h3 class="text-xl font-semibold mb-2 text-amber-300">Masala Chiya</h3>
-              <p class="text-gray-300 mb-4 flex-grow">Classic Nepali spiced tea with milk, ginger, cardamom, and cloves.</p>
-              <div class="flex justify-between items-center mt-auto">
-                <span class="text-lg font-bold text-yellow-200">Rs.30</span>
-                <button class="add-to-cart-btn bg-amber-600 hover:bg-amber-700 text-white px-4 py-2 rounded transition duration-300"
-                        data-id="masala-chiya" data-name="Masala Chiya" data-price="30">
-                  Add to Cart
-                </button>
-              </div>
-            </div>
-          </div>
-          <div class="bg-[#5C4033] rounded-lg shadow-lg overflow-hidden flex flex-col">
-            <img src="images/dudh-chiya.webp" alt="Dudh Chiya" class="w-full h-48 object-cover">
-            <div class="p-6 flex flex-col flex-grow">
-              <h3 class="text-xl font-semibold mb-2 text-amber-300">Dudh Chiya</h3>
-              <p class="text-gray-300 mb-4 flex-grow">Simple, comforting milk tea, brewed strong and sweet.</p>
-              <div class="flex justify-between items-center mt-auto">
-                <span class="text-lg font-bold text-yellow-200">Rs.25</span>
-                <button class="add-to-cart-btn bg-amber-600 hover:bg-amber-700 text-white px-4 py-2 rounded transition duration-300"
-                        data-id="dudh-chiya" data-name="Dudh Chiya" data-price="25">
-                  Add to Cart
-                </button>
-              </div>
-            </div>
-          </div>
-          <div class="bg-[#5C4033] rounded-lg shadow-lg overflow-hidden flex flex-col">
-            <img src="images/kalo-chiya.webp" alt="Kalo Chiya" class="w-full h-48 object-cover">
-            <div class="p-6 flex flex-col flex-grow">
-              <h3 class="text-xl font-semibold mb-2 text-amber-300">Kalo Chiya</h3>
-              <p class="text-gray-300 mb-4 flex-grow">Traditional Nepali black tea, served without milk.</p>
-              <div class="flex justify-between items-center mt-auto">
-                <span class="text-lg font-bold text-yellow-200">Rs.15</span>
-                <button class="add-to-cart-btn bg-amber-600 hover:bg-amber-700 text-white px-4 py-2 rounded transition duration-300"
-                        data-id="kalo-chiya" data-name="Kalo Chiya" data-price="15">
-                  Add to Cart
-                </button>
-              </div>
-            </div>
-          </div>
-          <div class="bg-[#5C4033] rounded-lg shadow-lg overflow-hidden flex flex-col">
-            <img src="images/lemon-ginger-chiya.webp" alt="Lemon Ginger Chiya" class="w-full h-48 object-cover">
-            <div class="p-6 flex flex-col flex-grow">
-                <h3 class="text-xl font-semibold mb-2 text-amber-300">Lemon Ginger Chiya</h3>
-                <p class="text-gray-300 mb-4 flex-grow">Refreshing black tea infused with fresh ginger and a squeeze of lemon.</p>
-                <div class="flex justify-between items-center mt-auto">
-                  <span class="text-lg font-bold text-yellow-200">Rs.60</span>
-                  <button class="add-to-cart-btn bg-amber-600 hover:bg-amber-700 text-white px-4 py-2 rounded transition duration-300"
-                          data-id="lemon-ginger-chiya" data-name="Lemon Ginger Chiya" data-price="60">
-                    Add to Cart
-                  </button>
-                </div>
-            </div>
-           </div>
-          <div class="bg-[#5C4033] rounded-lg shadow-lg overflow-hidden flex flex-col">
-            <img src="images/honey-lemon-ginger-chiya.webp" alt="Honey Lemon Ginger Chiya" class="w-full h-48 object-cover">
-            <div class="p-6 flex flex-col flex-grow">
-                <h3 class="text-xl font-semibold mb-2 text-amber-300">Honey Lemon Ginger Chiya</h3>
-                <p class="text-gray-300 mb-4 flex-grow">Zesty lemon and ginger tea sweetened naturally with pure honey.</p>
-                <div class="flex justify-between items-center mt-auto">
-                  <span class="text-lg font-bold text-yellow-200">Rs.70</span>
-                  <button class="add-to-cart-btn bg-amber-600 hover:bg-amber-700 text-white px-4 py-2 rounded transition duration-300"
-                          data-id="honey-lemon-ginger-chiya" data-name="Honey Lemon Ginger Chiya" data-price="70">
-                    Add to Cart
-                  </button>
-                </div>
-            </div>
-           </div>
-          <div class="bg-[#5C4033] rounded-lg shadow-lg overflow-hidden flex flex-col">
-            <img src="images/Pudina-Chiya.webp" alt="Pudina Chiya (Mint Tea)" class="w-full h-48 object-cover">
-            <div class="p-6 flex flex-col flex-grow">
-                <h3 class="text-xl font-semibold mb-2 text-amber-300">Pudina Chiya (Mint Tea)</h3>
-                <p class="text-gray-300 mb-4 flex-grow">Aromatic and refreshing black tea infused with fresh mint leaves (pudina).</p>
-                <div class="flex justify-between items-center mt-auto">
-                  <span class="text-lg font-bold text-yellow-200">Rs.50</span>
-                  <button class="add-to-cart-btn bg-amber-600 hover:bg-amber-700 text-white px-4 py-2 rounded transition duration-300 ease-in-out hover:scale-110 hover:rotate-2 hover:-translate-y-1 hover:cursor-pointer"
-                          data-id="pudina-chiya" data-name="Pudina Chiya (Mint Tea)" data-price="50">
-                    Add to Cart
-                  </button>
-                </div>
-            </div>
-           </div>
+          <div class="bg-[#5C4033] rounded-lg shadow-lg overflow-hidden flex flex-col"><img src="images/masala-chiya.webp" alt="Masala Chiya" class="w-full h-56 object-cover"><div class="p-6 flex flex-col flex-grow"><h3 class="text-xl font-semibold mb-2 text-amber-300">Masala Chiya</h3><p class="text-gray-300 mb-4 flex-grow">Classic Nepali spiced tea with milk, ginger, cardamom, and cloves.</p><div class="flex justify-between items-center mt-auto"><span class="text-lg font-bold text-amber-300">Rs. 30</span><button class="add-to-cart-btn bg-amber-600 hover:bg-amber-700 text-white px-4 py-2 rounded transition duration-300" data-id="masala-chiya" data-name="Masala Chiya" data-price="30">Add to Cart</button></div></div></div>
+          <div class="bg-[#5C4033] rounded-lg shadow-lg overflow-hidden flex flex-col"><img src="images/dudh-chiya.webp" alt="Dudh Chiya" class="w-full h-56 object-cover"><div class="p-6 flex flex-col flex-grow"><h3 class="text-xl font-semibold mb-2 text-amber-300">Dudh Chiya</h3><p class="text-gray-300 mb-4 flex-grow">Simple, comforting milk tea, brewed strong and sweet.</p><div class="flex justify-between items-center mt-auto"><span class="text-lg font-bold text-amber-300">Rs. 25</span><button class="add-to-cart-btn bg-amber-600 hover:bg-amber-700 text-white px-4 py-2 rounded transition duration-300" data-id="dudh-chiya" data-name="Dudh Chiya" data-price="25">Add to Cart</button></div></div></div>
+          <div class="bg-[#5C4033] rounded-lg shadow-lg overflow-hidden flex flex-col"><img src="images/kalo-chiya.webp" alt="Kalo Chiya" class="w-full h-56 object-cover"><div class="p-6 flex flex-col flex-grow"><h3 class="text-xl font-semibold mb-2 text-amber-300">Kalo Chiya</h3><p class="text-gray-300 mb-4 flex-grow">Traditional Nepali black tea, served without milk.</p><div class="flex justify-between items-center mt-auto"><span class="text-lg font-bold text-amber-300">Rs. 15</span><button class="add-to-cart-btn bg-amber-600 hover:bg-amber-700 text-white px-4 py-2 rounded transition duration-300" data-id="kalo-chiya" data-name="Kalo Chiya" data-price="15">Add to Cart</button></div></div></div>
+          <div class="bg-[#5C4033] rounded-lg shadow-lg overflow-hidden flex flex-col"><img src="images/lemon-ginger-chiya.webp" alt="Lemon Ginger Chiya" class="w-full h-56 object-cover"><div class="p-6 flex flex-col flex-grow"><h3 class="text-xl font-semibold mb-2 text-amber-300">Lemon Ginger Chiya</h3><p class="text-gray-300 mb-4 flex-grow">Refreshing black tea infused with fresh ginger and a squeeze of lemon.</p><div class="flex justify-between items-center mt-auto"><span class="text-lg font-bold text-amber-300">Rs. 60</span><button class="add-to-cart-btn bg-amber-600 hover:bg-amber-700 text-white px-4 py-2 rounded transition duration-300" data-id="lemon-ginger-chiya" data-name="Lemon Ginger Chiya" data-price="60">Add to Cart</button></div></div></div>
+          <div class="bg-[#5C4033] rounded-lg shadow-lg overflow-hidden flex flex-col"><img src="images/honey-lemon-ginger-chiya.webp" alt="Honey Lemon Ginger Chiya" class="w-full h-56 object-cover"><div class="p-6 flex flex-col flex-grow"><h3 class="text-xl font-semibold mb-2 text-amber-300">Honey Lemon Ginger Chiya</h3><p class="text-gray-300 mb-4 flex-grow">Zesty lemon and ginger tea sweetened naturally with pure honey.</p><div class="flex justify-between items-center mt-auto"><span class="text-lg font-bold text-amber-300">Rs. 70</span><button class="add-to-cart-btn bg-amber-600 hover:bg-amber-700 text-white px-4 py-2 rounded transition duration-300" data-id="honey-lemon-ginger-chiya" data-name="Honey Lemon Ginger Chiya" data-price="70">Add to Cart</button></div></div></div>
+          <div class="bg-[#5C4033] rounded-lg shadow-lg overflow-hidden flex flex-col"><img src="images/Pudina-Chiya.webp" alt="Pudina Chiya (Mint Tea)" class="w-full h-56 object-cover"><div class="p-6 flex flex-col flex-grow"><h3 class="text-xl font-semibold mb-2 text-amber-300">Pudina Chiya (Mint Tea)</h3><p class="text-gray-300 mb-4 flex-grow">Aromatic and refreshing black tea infused with fresh mint leaves (pudina).</p><div class="flex justify-between items-center mt-auto"><span class="text-lg font-bold text-amber-300">Rs. 50</span><button class="add-to-cart-btn bg-amber-600 hover:bg-amber-700 text-white px-4 py-2 rounded transition duration-300" data-id="pudina-chiya" data-name="Pudina Chiya (Mint Tea)" data-price="50">Add to Cart</button></div></div></div>
         </div>
       </div>
     </section>
   </main>
 
   <footer class="bg-[#2a2121] text-gray-300 py-12">
-      <div class="container mx-auto px-6">
-        <div class="grid md:grid-cols-3 gap-8 text-center md:text-left">
-          <div class="animate-on-scroll">
-            <h3 class="text-lg font-bold text-white mb-4">Chiya Ghar</h3>
-            <p class="text-sm text-gray-400">Your cozy corner for authentic, soul-warming chiya and delightful conversations. est. 2023.</p>
-          </div>
-          <div class="animate-on-scroll delay-1">
-            <h3 class="text-lg font-bold text-white mb-4">Quick Links</h3>
-            <nav class="flex flex-col space-y-2"><a href="menu.html" class="text-sm text-gray-400 hover:text-amber-300 transition-colors">Menu</a><a href="gallery.html" class="text-sm text-gray-400 hover:text-amber-300 transition-colors">Gallery</a><a href="contactus.html" class="text-sm text-gray-400 hover:text-amber-300 transition-colors">Contact Us</a><a href="order.html" class="text-sm text-gray-400 hover:text-amber-300 transition-colors">Order Online</a></nav>
-          </div>
-          <div class="animate-on-scroll delay-2">
-            <h3 class="text-lg font-bold text-white mb-4">Follow Us</h3>
-            <div class="flex space-x-4 justify-center md:justify-start"><a href="index.html" target="_blank" class="hover:text-amber-300 transition-colors">Facebook</a><a href="index.html" target="_blank" class="hover:text-amber-300 transition-colors">Instagram</a><a href="index.html" target="_blank" class="hover:text-amber-300 transition-colors">TikTok</a></div>
-          </div>
-        </div>
-        <div class="mt-8 pt-8 border-t border-gray-700 text-center text-sm text-gray-500">
-          <p>© <span id="current-year"></span> Chiya Ghar. All Rights Reserved.</p>
-        </div>
-      </div>
-    </footer>
+    <div class="container mx-auto px-6"><div class="grid md:grid-cols-3 gap-8 text-center md:text-left"><div><h3 class="text-lg font-bold text-white mb-4">Chiya Ghar</h3><p class="text-sm text-gray-400">Your cozy corner for authentic, soul-warming chiya and delightful conversations. est. 2023.</p></div><div><h3 class="text-lg font-bold text-white mb-4">Quick Links</h3><nav class="flex flex-col space-y-2"><a href="menu.html" class="text-sm text-gray-400 hover:text-amber-300 transition-colors">Menu</a><a href="gallery.html" class="text-sm text-gray-400 hover:text-amber-300 transition-colors">Gallery</a><a href="contactus.html" class="text-sm text-gray-400 hover:text-amber-300 transition-colors">Contact Us</a><a href="order.html" class="text-sm text-gray-400 hover:text-amber-300 transition-colors">Order Online</a></nav></div><div><h3 class="text-lg font-bold text-white mb-4">Follow Us</h3><div class="flex space-x-4 justify-center md:justify-start"><a href="index.html" target="_blank" class="hover:text-amber-300 transition-colors">Facebook</a><a href="index.html" target="_blank" class="hover:text-amber-300 transition-colors">Instagram</a><a href="index.html" target="_blank" class="hover:text-amber-300 transition-colors">TikTok</a></div></div></div><div class="mt-8 pt-8 border-t border-gray-700 text-center text-sm text-gray-500"><p>© <span id="current-year"></span> Chiya Ghar. All Rights Reserved.</p></div></div>
+  </footer>
 
   <script src="menu.js"></script>
 
