@@ -1,89 +1,34 @@
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Chiya-Ghar - Order History</title>
-    <link rel="icon" href="images/logo.png" />
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-      .cart-count::after {
-        content: attr(data-count);
-        position: absolute;
-        top: -5px;
-        right: -10px;
-        background-color: red;
-        color: white;
-        font-size: 0.7rem;
-        font-weight: bold;
-        border-radius: 50%;
-        padding: 2px 5px;
-        line-height: 1;
-        min-width: 16px;
-        text-align: center;
-      }
-      .cart-link {
-        position: relative;
-        display: inline-block;
-      }
-      .order-item-list {
-        background-color: #4a3a3a;
-        padding: 8px 12px;
-        margin-top: 8px;
-        border-radius: 4px;
-        font-size: 0.9em;
-        border-left: 3px solid #f59e0b;
-      }
-      .toggle-details-btn {
-        background: none;
-        border: none;
-        color: #fcd34d;
-        text-decoration: underline;
-        cursor: pointer;
-        font-size: 0.9em;
-        padding: 0 5px;
-        margin-right: 5px;
-        vertical-align: middle;
-        margin-bottom: 4px; /* Spacing for wrap */
-      }
-      .toggle-details-btn:hover {
-        color: #fbbf24;
-      }
-      .edit-order-btn,
-      .delete-order-btn {
-        background: none;
-        border: 1px solid transparent;
-        text-decoration: none;
-        cursor: pointer;
-        font-size: 0.85em;
-        padding: 2px 6px;
-        margin-left: 8px;
-        border-radius: 3px;
-        transition: all 0.2s ease;
-        vertical-align: middle;
-        margin-bottom: 4px; /* Spacing for wrap */
-      }
-      .edit-order-btn {
-        border-color: #60a5fa;
-        color: #60a5fa;
-      }
-      .edit-order-btn:hover {
-        background-color: #60a5fa;
-        color: #1e3a8a;
-      }
-      .delete-order-btn {
-        border-color: #f87171;
-        color: #f87171;
-      }
-      .delete-order-btn:hover {
-        background-color: #f87171;
-        color: #7f1d1d;
-      }
-    </style>
-  </head>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chiya-Ghar - Order History</title>
+  <link rel="icon" href="images/logo.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Playfair+Display:ital,wght@0,700;1,600&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { font-family: 'Lato', sans-serif; }
+    .font-serif { font-family: 'Playfair Display', serif; }
+    .cart-count::after{content:attr(data-count);position:absolute;top:-8px;right:-8px;background-color:#ef4444;color:white;font-size:.7rem;font-weight:700;border-radius:9999px;padding:2px 6px;line-height:1;min-width:18px;text-align:center;border:2px solid #5C4033}.cart-link{position:relative;display:inline-block}
+    .accordion-content { max-height: 0; overflow: hidden; transition: max-height 0.5s ease-in-out; }
+  </style>
+</head>
 
-  <body class="bg-[#3C2F2F] text-white">
-  <!-- Header (Updated & Enhanced) -->
+<body class="bg-[#3C2F2F] text-white">
+
+  <!-- Authentication Gate -->
+  <div id="auth-gate" class="fixed inset-0 bg-[#3C2F2F] bg-opacity-95 z-[100] flex items-center justify-center p-4">
+    <div class="text-center">
+      <h2 class="text-3xl font-serif text-amber-400 mb-4">Access Denied</h2>
+      <p class="text-gray-300 mb-6">You must be logged in to view your order history.</p>
+      <a href="menu.html" class="bg-amber-600 hover:bg-amber-700 text-white font-bold py-2 px-6 rounded-md transition duration-300">Login or Sign Up</a>
+    </div>
+  </div>
+  
+ <!-- Header (Updated & Enhanced) -->
 <header id="main-header" class="fixed top-0 left-0 w-full z-50 transition-all duration-300">
   <div class="container mx-auto flex items-center justify-between px-6 py-3">
     <a href="index.html" class="flex items-center gap-2">
@@ -132,53 +77,151 @@
   </div>
 </header>
 
-    <main class="bg-[#4A3A3A] py-16 md:py-24 scroll-mt-20 min-h-screen">
-      <div class="container mx-auto px-4 sm:px-6">
-        <h2
-          class="text-3xl md:text-4xl font-bold mb-12 text-center font-serif text-amber-500"
-        >
-          Your Order History
-        </h2>
+  <main id="main-content" class="invisible bg-[#4A3A3A] py-16 md:py-24 min-h-screen">
+    <div class="container mx-auto px-6">
+      <h2 class="text-3xl md:text-4xl font-bold mb-12 text-center font-serif text-amber-500">Your Order History</h2>
 
-        <div id="orders-container" class="space-y-6 max-w-4xl mx-auto"></div>
-
-        <p
-          id="no-orders-message"
-          class="text-center text-gray-400 py-16 hidden text-xl bg-[#5C4033] p-6 md:p-8 rounded-lg shadow-lg max-w-3xl mx-auto"
-        >
-          You haven't placed any orders yet.
-          <br />
-          <a
-            href="menu.html"
-            class="text-amber-400 hover:underline mt-4 inline-block"
-            >Start Shopping</a
-          >
-        </p>
+      <div id="orders-container" class="max-w-3xl mx-auto space-y-4">
+        <!-- Orders will be injected here by JS -->
       </div>
-    </main>
-
-    <footer class="bg-[#2a2121] text-gray-300 py-12">
-      <div class="container mx-auto px-6">
-        <div class="grid md:grid-cols-3 gap-8 text-center md:text-left">
-          <div class="animate-on-scroll">
-            <h3 class="text-lg font-bold text-white mb-4">Chiya Ghar</h3>
-            <p class="text-sm text-gray-400">Your cozy corner for authentic, soul-warming chiya and delightful conversations. est. 2023.</p>
-          </div>
-          <div class="animate-on-scroll delay-1">
-            <h3 class="text-lg font-bold text-white mb-4">Quick Links</h3>
-            <nav class="flex flex-col space-y-2"><a href="menu.html" class="text-sm text-gray-400 hover:text-amber-300 transition-colors">Menu</a><a href="gallery.html" class="text-sm text-gray-400 hover:text-amber-300 transition-colors">Gallery</a><a href="contactus.html" class="text-sm text-gray-400 hover:text-amber-300 transition-colors">Contact Us</a><a href="order.html" class="text-sm text-gray-400 hover:text-amber-300 transition-colors">Order Online</a></nav>
-          </div>
-          <div class="animate-on-scroll delay-2">
-            <h3 class="text-lg font-bold text-white mb-4">Follow Us</h3>
-            <div class="flex space-x-4 justify-center md:justify-start"><a href="index.html" target="_blank" class="hover:text-amber-300 transition-colors">Facebook</a><a href="index.html" target="_blank" class="hover:text-amber-300 transition-colors">Instagram</a><a href="index.html" target="_blank" class="hover:text-amber-300 transition-colors">TikTok</a></div>
-          </div>
-        </div>
-        <div class="mt-8 pt-8 border-t border-gray-700 text-center text-sm text-gray-500">
-          <p>© <span id="current-year"></span> Chiya Ghar. All Rights Reserved.</p>
-        </div>
+      
+      <div id="no-orders-message" class="text-center text-gray-400 py-8 hidden">
+        <p>You haven't placed any orders yet.</p>
+        <a href="menu.html" class="text-amber-400 hover:underline mt-2 inline-block">Start Shopping</a>
       </div>
-    </footer>
+    </div>
+  </main>
+<!-- In order.html, replace the entire <script> tag with this -->
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const authGate = document.getElementById('auth-gate');
+      const mainHeader = document.getElementById('main-header');
+      const mainContent = document.getElementById('main-content');
+      
+      const checkAuth = () => {
+        if (sessionStorage.getItem('chiyaGharUser')) {
+          authGate.style.display = 'none';
+          mainHeader.classList.remove('invisible');
+          mainContent.classList.remove('invisible');
+          initializeOrderPage();
+        } else {
+            authGate.classList.remove('hidden');
+            authGate.classList.add('flex');
+            mainHeader.classList.add('invisible');
+            mainContent.classList.add('invisible');
+        }
+      };
 
-    <script src="order.js"></script>
-  </body>
+      const initializeOrderPage = () => {
+        // --- START: NEW MOBILE NAVIGATION CODE ---
+        const hamburgerButton = document.getElementById('hamburger-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const menuIcon = document.getElementById('menu-icon');
+        const closeIcon = document.getElementById('close-icon');
+
+        if (hamburgerButton) {
+            hamburgerButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('translate-x-full');
+                menuIcon.classList.toggle('hidden');
+                closeIcon.classList.toggle('hidden');
+            });
+        }
+        // --- END: NEW MOBILE NAVIGATION CODE ---
+        
+        // Existing order page logic
+        const ordersContainer = document.getElementById('orders-container');
+        const noOrdersMessage = document.getElementById('no-orders-message');
+        const cartLinkIcons = document.querySelectorAll('.cart-link');
+
+        const updateCartIcon = () => {
+            const cart = JSON.parse(localStorage.getItem('chiyaGharCart')) || [];
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            cartLinkIcons.forEach(icon => {
+                if (totalItems > 0) {
+                    icon.setAttribute('data-count', totalItems);
+                    icon.classList.add('cart-count');
+                } else {
+                    icon.removeAttribute('data-count');
+                    icon.classList.remove('cart-count');
+                }
+            });
+        };
+
+        const renderOrders = () => {
+          const allOrders = JSON.parse(localStorage.getItem('chiyaGharOrders')) || [];
+          const currentUser = sessionStorage.getItem('chiyaGharUser');
+          const userOrders = allOrders
+            .filter(order => order.user === currentUser)
+            .sort((a, b) => new Date(b.orderDate) - new Date(a.orderDate)); 
+
+          if (userOrders.length === 0) {
+            noOrdersMessage.classList.remove('hidden');
+            return;
+          }
+
+          userOrders.forEach(order => {
+            const orderDate = new Date(order.orderDate);
+            const formattedDate = orderDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+            
+            let itemsHtml = '';
+            order.items.forEach(item => {
+              itemsHtml += `
+                <div class="flex items-center justify-between py-2">
+                    <div class="flex items-center gap-3">
+                        <img src="${item.image}" alt="${item.name}" class="w-10 h-10 object-cover rounded">
+                        <span>${item.name} <span class="text-gray-400 text-sm">x ${item.quantity}</span></span>
+                    </div>
+                    <span>Rs. ${(item.price * item.quantity).toFixed(2)}</span>
+                </div>
+              `;
+            });
+
+            const orderElement = document.createElement('div');
+            orderElement.className = 'bg-[#5C4033] rounded-lg shadow-md';
+            orderElement.innerHTML = `
+              <div class="accordion-header flex justify-between items-center p-4 cursor-pointer">
+                <div>
+                  <p class="font-bold text-amber-300">Order ID: ${order.orderId || 'N/A'}</p>
+                  <p class="text-sm text-gray-400">${formattedDate}</p>
+                </div>
+                <div class="text-right">
+                  <p class="font-semibold">${order.totals.grandTotal}</p>
+                  <span class="text-xs text-gray-400">Click to view details</span>
+                </div>
+              </div>
+              <div class="accordion-content border-t border-gray-600">
+                  <div class="p-4 space-y-2">
+                      ${itemsHtml}
+                      <div class="border-t border-gray-500 pt-2 mt-2 flex justify-between font-semibold">
+                        <span>Total</span>
+                        <span>${order.totals.grandTotal}</span>
+                      </div>
+                  </div>
+              </div>
+            `;
+            ordersContainer.appendChild(orderElement);
+          });
+        };
+
+        ordersContainer.addEventListener('click', (e) => {
+          const header = e.target.closest('.accordion-header');
+          if (header) {
+            const content = header.nextElementSibling;
+            if (content.style.maxHeight) {
+              content.style.maxHeight = null;
+            } else {
+              content.style.maxHeight = content.scrollHeight + "px";
+            }
+          }
+        });
+
+        renderOrders();
+        updateCartIcon();
+      };
+      
+      checkAuth();
+    });
+  </script>
+
+</body>
 </html>
