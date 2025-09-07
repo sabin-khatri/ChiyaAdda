@@ -1,37 +1,35 @@
-document.addEventListener('DOMContentLoaded', function() {
-  const hamburgerButton = document.getElementById("hamburger-button");
-  const mobileMenu = document.getElementById("mobile-menu");
-  const menuIcon = document.getElementById("menu-icon");
-  const closeIcon = document.getElementById("close-icon");
-  const mainHeader = document.getElementById("main-header");
+document.addEventListener('DOMContentLoaded', () => {
+  // Elements
+  const hamburgerButton = document.getElementById('hamburger-button');
+  const mobileMenu = document.getElementById('mobile-menu');
+  const menuIcon = document.getElementById('menu-icon');
+  const closeIcon = document.getElementById('close-icon');
+  const mainHeader = document.getElementById('main-header');
 
-  // --- Mobile Menu Toggle ---
-  hamburgerButton.addEventListener("click", () => {
-    mobileMenu.classList.toggle("translate-x-full");
-    menuIcon.classList.toggle("hidden");
-    closeIcon.classList.toggle("hidden");
+  // Toggle mobile menu
+  hamburgerButton.addEventListener('click', () => {
+    mobileMenu.classList.toggle('translate-x-full');
+    menuIcon.classList.toggle('hidden');
+    closeIcon.classList.toggle('hidden');
   });
 
-  // Close mobile menu when a link is clicked
-  const mobileLinks = document.querySelectorAll('.nav-link-mobile');
-  mobileLinks.forEach(link => {
+  // Close mobile menu on link click
+  document.querySelectorAll('.nav-link-mobile').forEach(link => {
     link.addEventListener('click', () => {
-      mobileMenu.classList.add("translate-x-full");
-      menuIcon.classList.remove("hidden");
-      closeIcon.classList.add("hidden");
+      mobileMenu.classList.add('translate-x-full');
+      menuIcon.classList.remove('hidden');
+      closeIcon.classList.add('hidden');
     });
   });
 
-  // --- Header Style on Scroll ---
+  // Header scroll effect
   window.addEventListener('scroll', () => {
-    if (window.scrollY > 50) {
-      mainHeader.classList.add('bg-[#5C4033]/90', 'shadow-xl', 'backdrop-blur-lg');
-    } else {
-      mainHeader.classList.remove('bg-[#5C4033]/90', 'shadow-xl', 'backdrop-blur-lg');
-    }
+    mainHeader.classList.toggle('bg-[#3C2F2F]/95', window.scrollY > 50);
+    mainHeader.classList.toggle('glass-card', window.scrollY > 50);
+    mainHeader.classList.toggle('shadow-2xl', window.scrollY > 50);
   });
 
-  // --- Highlight Active Navigation Link ---
+  // Highlight active nav link
   const navLinks = document.querySelectorAll('.nav-link');
   const currentPage = window.location.pathname.split('/').pop() || 'index.html';
   navLinks.forEach(link => {
@@ -40,31 +38,30 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 
-  // --- Animate on Scroll ---
-  const animatedElements = document.querySelectorAll('.animate-on-scroll');
+  // Scroll animations
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         entry.target.classList.add('is-visible');
-        observer.unobserve(entry.target); // Animate only once
+        observer.unobserve(entry.target);
       }
     });
   }, {
-    threshold: 0.15, // Trigger when 15% of the element is visible
-    rootMargin: '0px 0px -50px 0px' // Adjust for better timing
+    threshold: 0.2,
+    rootMargin: '0px 0px -50px 0px',
   });
 
-  animatedElements.forEach(el => {
+  document.querySelectorAll('.animate-on-scroll').forEach(el => {
     observer.observe(el);
   });
 
-  // --- Parallax Effect for Hero Section ---
+  // Parallax effect for hero section
   const heroSection = document.querySelector('.hero-bg');
   window.addEventListener('scroll', () => {
     const scrollPosition = window.scrollY;
-    heroSection.style.backgroundPositionY = `${scrollPosition * 0.3}px`;
+    heroSection.style.backgroundPositionY = `${scrollPosition * 0.4}px`;
   });
 
-  // --- Set Current Year in Footer ---
-  document.getElementById("current-year").textContent = new Date().getFullYear();
+  // Set current year in footer
+  document.getElementById('current-year').textContent = new Date().getFullYear();
 });
