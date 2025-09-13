@@ -25,7 +25,7 @@
         position: absolute;
         top: -8px;
         right: -8px;
-        background-color: #ef4444;
+        background-color: #ef4444; /* red-500 */
         color: white;
         font-size: 0.7rem;
         font-weight: bold;
@@ -34,7 +34,7 @@
         line-height: 1;
         min-width: 18px;
         text-align: center;
-        border: 2px solid #5C4033;
+        border: 2px solid #5C4033; /* Darker border for contrast */
     }
     .cart-link { 
       position: relative; 
@@ -62,133 +62,87 @@
       pointer-events: none; 
       position: absolute; 
     }
-
-    /* Loading spinner */
-    .loading-spinner {
-      border: 3px solid #f3f3f3;
-      border-top: 3px solid #f59e0b;
-      border-radius: 50%;
-      width: 24px;
-      height: 24px;
-      animation: spin 1s linear infinite;
-      margin: 0 auto;
-    }
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-
-    /* Success message */
-    .success-message {
-      background-color: #10b981;
-      color: white;
-      padding: 8px 16px;
-      border-radius: 8px;
-      margin: 8px 0;
-      animation: slideIn 0.3s ease-out;
-      text-align: center;
-    }
-    @keyframes slideIn {
-      from { opacity: 0; transform: translateY(-10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
   </style>
 </head>
 
 <body class="bg-[#3C2F2F] text-white">
+
   <!-- Authentication Overlay -->
   <div id="auth-overlay" class="fixed inset-0 bg-[#3C2F2F] bg-opacity-95 flex items-center justify-center z-[100] p-4 transition-opacity duration-300">
-    <div class="relative bg-[#5C4033] p-6 sm:p-8 rounded-lg shadow-2xl w-full max-w-sm overflow-hidden">
+    <div class="relative bg-[#5C4033] p-8 rounded-lg shadow-2xl w-full max-w-sm overflow-hidden">
       <a href="index.html" class="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors" aria-label="Close and go to Home">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 sm:h-6 sm:w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
       </a>
 
       <!-- Login Form -->
       <div id="login-container" class="form-container">
-        <h2 class="text-xl sm:text-2xl font-bold text-center text-amber-300 mb-4 sm:mb-6 font-serif">Login to Chiya Ghar</h2>
+        <h2 class="text-2xl font-bold text-center text-amber-300 mb-6 font-serif">Login to Chiya Ghar</h2>
         <form id="login-form">
-          <div class="mb-3 sm:mb-4">
-            <label for="login-username" class="block text-xs sm:text-sm font-medium text-gray-300 mb-1">Username</label>
-            <input type="text" id="login-username" required class="w-full px-3 py-2 bg-[#4A3A3A] border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500 text-white text-sm" placeholder="Enter username" aria-required="true">
-          </div>
-          <div class="mb-4 sm:mb-6">
-            <label for="login-password" class="block text-xs sm:text-sm font-medium text-gray-300 mb-1">Password</label>
-            <input type="password" id="login-password" required class="w-full px-3 py-2 bg-[#4A3A3A] border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500 text-white text-sm" placeholder="Enter password" aria-required="true">
-          </div>
-          <p id="login-error" class="text-red-400 text-xs sm:text-sm mb-3 sm:mb-4 text-center h-5"></p>
-          <p id="login-success" class="success-message hidden h-5"></p>
-          <button type="submit" class="w-full bg-amber-600 hover:bg-amber-700 text-white font-bold py-2 px-4 rounded-md transition duration-300 text-sm" aria-label="Submit login form">Login</button>
+          <div class="mb-4"><label for="login-username" class="block text-sm font-medium text-gray-300 mb-1">Username</label><input type="text" id="login-username" required class="w-full px-3 py-2 bg-[#4A3A3A] border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500 text-white"></div>
+          <div class="mb-6"><label for="login-password" class="block text-sm font-medium text-gray-300 mb-1">Password</label><input type="password" id="login-password" required class="w-full px-3 py-2 bg-[#4A3A3A] border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500 text-white"></div>
+          <p id="login-error" class="text-red-400 text-sm mb-4 text-center h-5"></p>
+          <button type="submit" class="w-full bg-amber-600 hover:bg-amber-700 text-white font-bold py-2 px-4 rounded-md transition duration-300">Login</button>
         </form>
-        <p class="mt-4 sm:mt-6 text-center text-xs sm:text-sm text-gray-400">Don't have an account? <button id="show-signup-btn" class="font-semibold text-amber-400 hover:text-amber-300">Sign Up</button></p>
+        <p class="mt-6 text-center text-sm text-gray-400">Don't have an account? <button id="show-signup-btn" class="font-semibold text-amber-400 hover:text-amber-300">Sign Up</button></p>
       </div>
 
       <!-- Signup Form -->
       <div id="signup-container" class="form-container hidden">
-        <h2 class="text-xl sm:text-2xl font-bold text-center text-amber-300 mb-4 sm:mb-6 font-serif">Create an Account</h2>
+        <h2 class="text-2xl font-bold text-center text-amber-300 mb-6 font-serif">Create an Account</h2>
         <form id="signup-form">
-          <div class="mb-3 sm:mb-4">
-            <label for="signup-username" class="block text-xs sm:text-sm font-medium text-gray-300 mb-1">Username</label>
-            <input type="text" id="signup-username" required class="w-full px-3 py-2 bg-[#4A3A3A] border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500 text-white text-sm" placeholder="Choose username" aria-required="true">
-          </div>
-          <div class="mb-4 sm:mb-6">
-            <label for="signup-password" class="block text-xs sm:text-sm font-medium text-gray-300 mb-1">Password</label>
-            <input type="password" id="signup-password" required class="w-full px-3 py-2 bg-[#4A3A3A] border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500 text-white text-sm" placeholder="Choose password" aria-required="true">
-          </div>
-          <p id="signup-error" class="text-red-400 text-xs sm:text-sm mb-3 sm:mb-4 text-center h-5"></p>
-          <p id="signup-success" class="success-message hidden h-5"></p>
-          <button type="submit" class="w-full bg-amber-600 hover:bg-amber-700 text-white font-bold py-2 px-4 rounded-md transition duration-300 text-sm" aria-label="Submit signup form">Sign Up</button>
+          <div class="mb-4"><label for="signup-username" class="block text-sm font-medium text-gray-300 mb-1">Username</label><input type="text" id="signup-username" required class="w-full px-3 py-2 bg-[#4A3A3A] border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500 text-white"></div>
+          <div class="mb-4"><label for="signup-password" class="block text-sm font-medium text-gray-300 mb-1">Password</label><input type="password" id="signup-password" required class="w-full px-3 py-2 bg-[#4A3A3A] border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500 text-white"></div>
+          <p id="signup-error" class="text-red-400 text-sm mb-4 text-center h-5"></p>
+          <button type="submit" class="w-full bg-amber-600 hover:bg-amber-700 text-white font-bold py-2 px-4 rounded-md transition duration-300">Sign Up</button>
         </form>
-        <p class="mt-4 sm:mt-6 text-center text-xs sm:text-sm text-gray-400">Already have an account? <button id="show-login-btn" class="font-semibold text-amber-400 hover:text-amber-300">Login</button></p>
+        <p class="mt-6 text-center text-sm text-gray-400">Already have an account? <button id="show-login-btn" class="font-semibold text-amber-400 hover:text-amber-300">Login</button></p>
       </div>
     </div>
   </div>
 
-  <!-- Header -->
-  <header id="main-header" class="fixed top-0 left-0 w-full z-50 transition-all duration-500 invisible">
-    <div class="container mx-auto flex items-center justify-between px-4 sm:px-6 py-3">
-      <a href="index.html" class="flex items-center gap-2 sm:gap-3 transition-transform duration-300 hover:scale-105">
-        <img src="images/logo.png" alt="Chiya Ghar Logo" class="h-10 w-10 sm:h-12 sm:w-12" loading="lazy" />
-        <div class="flex items-baseline">
-          <span class="text-xl sm:text-2xl font-bold text-red-600 font-serif">CHIYA</span>
-          <span class="text-xl sm:text-2xl font-bold text-white font-serif">GHAR</span>
-        </div>
-      </a>
-
-      <!-- Desktop Navigation -->
-      <nav class="hidden md:flex items-center space-x-6 lg:space-x-8 text-white text-sm sm:text-base font-medium font-sans">
-        <a href="index.html" class="nav-link hover:text-amber-400 relative transition-colors duration-300 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-amber-400 after:transition-all after:duration-300 hover:after:w-full">Home</a>
-        <a href="AboutUs.html" class="nav-link hover:text-amber-400 relative transition-colors duration-300 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-amber-400 after:transition-all after:duration-300 hover:after:w-full">About Us</a>
-        <a href="menu.html" class="nav-link active hover:text-amber-400 relative transition-colors duration-300 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-amber-400 after:transition-all after:duration-300">Menu</a>
-        <a href="cart.html" class="cart-link nav-link hover:text-amber-400 relative transition-colors duration-300 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-amber-400 after:transition-all after:duration-300 hover:after:w-full">Cart</a>
-        <a href="order.html" class="nav-link hover:text-amber-400 relative transition-colors duration-300 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-amber-400 after:transition-all after:duration-300 hover:after:w-full">Order</a>
-        <a href="gallery.html" class="nav-link hover:text-amber-400 relative transition-colors duration-300 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-amber-400 after:transition-all after:duration-300 hover:after:w-full">Gallery</a>
-        <a href="contactus.html" class="border-2 border-amber-400 text-amber-400 rounded-full px-4 sm:px-5 py-2 font-bold hover:bg-amber-400 hover:text-[#2E1F1F] transition-all duration-300 hover:shadow-lg hover:shadow-amber-400/50">Contact Us</a>
-        <button id="logout-button" class="text-white hover:text-amber-400 transition-colors duration-300 hidden" aria-label="Log out">Logout</button>
-      </nav>
-
-      <!-- Mobile Menu Button -->
-      <div class="md:hidden">
-        <button id="hamburger-button" class="text-white focus:outline-none z-50 relative transition-transform duration-300 hover:scale-110" aria-label="Toggle menu">
-          <svg id="menu-icon" class="h-6 w-6 sm:h-7 sm:w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" /></svg>
-          <svg id="close-icon" class="h-6 w-6 sm:h-7 sm:w-7 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
-        </button>
+ <header id="main-header" class="fixed top-0 left-0 w-full z-50 transition-all duration-500">
+  <div class="container mx-auto flex items-center justify-between px-4 sm:px-6 py-3">
+    <a href="index.html" class="flex items-center gap-2 sm:gap-3 transition-transform duration-300 hover:scale-105">
+      <img src="images/logo.png" alt="Chiya Ghar Logo" class="h-10 w-10 sm:h-12 sm:w-12" />
+      <div class="flex items-baseline">
+        <span class="text-xl sm:text-2xl font-bold text-red-600 font-serif">CHIYA</span>
+        <span class="text-xl sm:text-2xl font-bold text-white font-serif">GHAR</span>
       </div>
+    </a>
+
+    <!-- Desktop Navigation -->
+    <nav class="hidden md:flex items-center space-x-6 lg:space-x-8 text-white text-sm sm:text-base font-medium font-sans">
+      <a href="index.html" class="nav-link hover:text-amber-400 relative transition-colors duration-300 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-amber-400 after:transition-all after:duration-300 hover:after:w-full">Home</a>
+      <a href="AboutUs.html" class="nav-link hover:text-amber-400 relative transition-colors duration-300 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-amber-400 after:transition-all after:duration-300 hover:after:w-full">About Us</a>
+      <a href="menu.html" class="nav-link active hover:text-amber-400 relative transition-colors duration-300 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-amber-400 after:transition-all after:duration-300">Menu</a>
+      <a href="cart.html" class="nav-link hover:text-amber-400 relative transition-colors duration-300 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-amber-400 after:transition-all after:duration-300 hover:after:w-full">Cart</a>
+      <a href="order.html" class="nav-link hover:text-amber-400 relative transition-colors duration-300 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-amber-400 after:transition-all after:duration-300 hover:after:w-full">Order</a>
+      <a href="gallery.html" class="nav-link hover:text-amber-400 relative transition-colors duration-300 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-amber-400 after:transition-all after:duration-300 hover:after:w-full">Gallery</a>
+      <a href="contactus.html" class="border-2 border-amber-400 text-amber-400 rounded-full px-4 sm:px-5 py-2 font-bold hover:bg-amber-400 hover:text-[#2E1F1F] transition-all duration-300 hover:shadow-lg hover:shadow-amber-400/50">Contact Us</a>
+    </nav>
+
+    <!-- Mobile Menu Button -->
+    <div class="md:hidden">
+      <button id="hamburger-button" class="text-white focus:outline-none z-50 relative transition-transform duration-300 hover:scale-110" aria-label="Toggle menu">
+        <svg id="menu-icon" class="h-6 w-6 sm:h-7 sm:w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" /></svg>
+        <svg id="close-icon" class="h-6 w-6 sm:h-7 sm:w-7 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+      </button>
     </div>
-    
-    <!-- Mobile Menu -->
-    <div id="mobile-menu" class="md:hidden fixed top-0 right-0 h-full w-3/4 sm:w-2/3 bg-[#2E1F1F]/95 backdrop-blur-lg transform translate-x-full transition-transform duration-500 ease-in-out max-h-screen overflow-y-auto p-6">
-      <nav class="flex flex-col items-start justify-start space-y-4 text-white text-lg sm:text-xl font-medium font-sans">
-        <a href="index.html" class="nav-link-mobile hover:text-amber-400 transition-colors duration-300 w-full py-2">Home</a>
-        <a href="AboutUs.html" class="nav-link-mobile hover:text-amber-400 transition-colors duration-300 w-full py-2">About Us</a>
-        <a href="menu.html" class="nav-link-mobile active hover:text-amber-400 transition-colors duration-300 w-full py-2">Menu</a>
-        <a href="cart.html" class="cart-link nav-link-mobile hover:text-amber-400 transition-colors duration-300 w-full py-2">Cart</a>
-        <a href="order.html" class="nav-link-mobile hover:text-amber-400 transition-colors duration-300 w-full py-2">Order</a>
-        <a href="gallery.html" class="nav-link-mobile hover:text-amber-400 transition-colors duration-300 w-full py-2">Gallery</a>
-        <a href="contactus.html" class="nav-link-mobile hover:text-amber-400 transition-colors duration-300 w-full py-2">Contact Us</a>
-        <button id="logout-button-mobile" class="nav-link-mobile hover:text-amber-400 transition-colors duration-300 w-full py-2 text-left hidden" aria-label="Log out">Logout</button>
-      </nav>
-    </div>
-  </header>
+  </div>
+  
+  <!-- Mobile Menu -->
+  <div id="mobile-menu" class="md:hidden fixed top-0 right-0 h-full w-3/4 sm:w-2/3 bg-[#2E1F1F]/95 backdrop-blur-lg transform translate-x-full transition-transform duration-500 ease-in-out max-h-screen overflow-y-auto p-6">
+    <nav class="flex flex-col items-start justify-start space-y-4 text-white text-lg sm:text-xl font-medium font-sans">
+      <a href="index.html" class="nav-link-mobile hover:text-amber-400 transition-colors duration-300 w-full py-2">Home</a>
+      <a href="AboutUs.html" class="nav-link-mobile hover:text-amber-400 transition-colors duration-300 w-full py-2">About Us</a>
+      <a href="menu.html" class="nav-link-mobile active hover:text-amber-400 transition-colors duration-300 w-full py-2">Menu</a>
+      <a href="cart.html" class="nav-link-mobile hover:text-amber-400 transition-colors duration-300 w-full py-2">Cart</a>
+      <a href="order.html" class="nav-link-mobile hover:text-amber-400 transition-colors duration-300 w-full py-2">Order</a>
+      <a href="gallery.html" class="nav-link-mobile hover:text-amber-400 transition-colors duration-300 w-full py-2">Gallery</a>
+      <a href="contactus.html" class="nav-link-mobile hover:text-amber-400 transition-colors duration-300 w-full py-2">Contact Us</a>
+    </nav>
+  </div>
+</header>
 
   <!-- Main Content (Visible after login) -->
   <main id="main-content" class="invisible">
@@ -196,15 +150,16 @@
       <div class="container mx-auto px-6">
         <h2 class="text-4xl md:text-5xl font-bold mb-12 text-center font-serif text-amber-400 animate-on-scroll">Our Menu</h2>
         <div id="menu-items-container" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          
           <!-- Menu Item 1 -->
           <div class="animate-on-scroll bg-[#5C4033] rounded-lg shadow-lg overflow-hidden flex flex-col transition-transform duration-300 hover:scale-105 hover:shadow-2xl">
-            <img src="images/masala-chiya.webp" alt="Masala Chiya" class="w-full h-56 object-cover" loading="lazy">
+            <img src="images/masala-chiya.webp" alt="Masala Chiya" class="w-full h-56 object-cover">
             <div class="p-6 flex flex-col flex-grow">
               <h3 class="text-xl font-semibold mb-2 text-amber-300">Masala Chiya</h3>
               <p class="text-gray-300 mb-4 flex-grow">Classic Nepali spiced tea with milk, ginger, cardamom, and cloves.</p>
               <div class="flex justify-between items-center mt-auto">
                 <span class="text-lg font-bold text-amber-300">Rs. 30</span>
-                <button class="add-to-cart-btn relative overflow-hidden bg-amber-600 hover:bg-amber-700 text-white px-4 py-2 rounded transition duration-300" data-id="masala-chiya" data-name="Masala Chiya" data-price="30" data-image="images/masala-chiya.webp" aria-label="Add Masala Chiya to cart">
+                <button class="add-to-cart-btn relative overflow-hidden bg-amber-600 hover:bg-amber-700 text-white px-4 py-2 rounded transition duration-300" data-id="masala-chiya" data-name="Masala Chiya" data-price="30" data-image="images/masala-chiya.webp">
                   <span class="btn-text">Add to Cart</span>
                 </button>
               </div>
@@ -213,13 +168,13 @@
           
           <!-- Menu Item 2 -->
           <div class="animate-on-scroll bg-[#5C4033] rounded-lg shadow-lg overflow-hidden flex flex-col transition-transform duration-300 hover:scale-105 hover:shadow-2xl" style="transition-delay: 100ms;">
-            <img src="images/dudh-chiya.webp" alt="Dudh Chiya" class="w-full h-56 object-cover" loading="lazy">
+            <img src="images/dudh-chiya.webp" alt="Dudh Chiya" class="w-full h-56 object-cover">
             <div class="p-6 flex flex-col flex-grow">
               <h3 class="text-xl font-semibold mb-2 text-amber-300">Dudh Chiya</h3>
               <p class="text-gray-300 mb-4 flex-grow">Simple, comforting milk tea, brewed strong and sweet.</p>
               <div class="flex justify-between items-center mt-auto">
                 <span class="text-lg font-bold text-amber-300">Rs. 25</span>
-                <button class="add-to-cart-btn relative overflow-hidden bg-amber-600 hover:bg-amber-700 text-white px-4 py-2 rounded transition duration-300" data-id="dudh-chiya" data-name="Dudh Chiya" data-price="25" data-image="images/dudh-chiya.webp" aria-label="Add Dudh Chiya to cart">
+                <button class="add-to-cart-btn relative overflow-hidden bg-amber-600 hover:bg-amber-700 text-white px-4 py-2 rounded transition duration-300" data-id="dudh-chiya" data-name="Dudh Chiya" data-price="25" data-image="images/dudh-chiya.webp">
                   <span class="btn-text">Add to Cart</span>
                 </button>
               </div>
@@ -228,13 +183,13 @@
           
           <!-- Menu Item 3 -->
           <div class="animate-on-scroll bg-[#5C4033] rounded-lg shadow-lg overflow-hidden flex flex-col transition-transform duration-300 hover:scale-105 hover:shadow-2xl" style="transition-delay: 200ms;">
-            <img src="images/kalo-chiya.webp" alt="Kalo Chiya" class="w-full h-56 object-cover" loading="lazy">
+            <img src="images/kalo-chiya.webp" alt="Kalo Chiya" class="w-full h-56 object-cover">
             <div class="p-6 flex flex-col flex-grow">
               <h3 class="text-xl font-semibold mb-2 text-amber-300">Kalo Chiya</h3>
               <p class="text-gray-300 mb-4 flex-grow">Traditional Nepali black tea, served without milk.</p>
               <div class="flex justify-between items-center mt-auto">
                 <span class="text-lg font-bold text-amber-300">Rs. 15</span>
-                <button class="add-to-cart-btn relative overflow-hidden bg-amber-600 hover:bg-amber-700 text-white px-4 py-2 rounded transition duration-300" data-id="kalo-chiya" data-name="Kalo Chiya" data-price="15" data-image="images/kalo-chiya.webp" aria-label="Add Kalo Chiya to cart">
+                <button class="add-to-cart-btn relative overflow-hidden bg-amber-600 hover:bg-amber-700 text-white px-4 py-2 rounded transition duration-300" data-id="kalo-chiya" data-name="Kalo Chiya" data-price="15" data-image="images/kalo-chiya.webp">
                   <span class="btn-text">Add to Cart</span>
                 </button>
               </div>
@@ -243,48 +198,48 @@
 
           <!-- Menu Item 4 -->
           <div class="animate-on-scroll bg-[#5C4033] rounded-lg shadow-lg overflow-hidden flex flex-col transition-transform duration-300 hover:scale-105 hover:shadow-2xl" style="transition-delay: 300ms;">
-            <img src="images/lemon-ginger-chiya.webp" alt="Lemon Ginger Chiya" class="w-full h-56 object-cover" loading="lazy">
+            <img src="images/lemon-ginger-chiya.webp" alt="Lemon Ginger Chiya" class="w-full h-56 object-cover">
             <div class="p-6 flex flex-col flex-grow">
               <h3 class="text-xl font-semibold mb-2 text-amber-300">Lemon Ginger Chiya</h3>
               <p class="text-gray-300 mb-4 flex-grow">Refreshing black tea infused with fresh ginger and a squeeze of lemon.</p>
               <div class="flex justify-between items-center mt-auto">
                 <span class="text-lg font-bold text-amber-300">Rs. 60</span>
-                <button class="add-to-cart-btn relative overflow-hidden bg-amber-600 hover:bg-amber-700 text-white px-4 py-2 rounded transition duration-300" data-id="lemon-ginger-chiya" data-name="Lemon Ginger Chiya" data-price="60" data-image="images/lemon-ginger-chiya.webp" aria-label="Add Lemon Ginger Chiya to cart">
+                <button class="add-to-cart-btn relative overflow-hidden bg-amber-600 hover:bg-amber-700 text-white px-4 py-2 rounded transition duration-300" data-id="lemon-ginger-chiya" data-name="Lemon Ginger Chiya" data-price="60" data-image="images/lemon-ginger-chiya.webp">
                   <span class="btn-text">Add to Cart</span>
                 </button>
               </div>
             </div>
           </div>
-
-          <!-- Menu Item 5 -->
-          <div class="animate-on-scroll bg-[#5C4033] rounded-lg shadow-lg overflow-hidden flex flex-col transition-transform duration-300 hover:scale-105 hover:shadow-2xl" style="transition-delay: 400ms;">
-            <img src="images/honey-lemon-ginger-chiya.webp" alt="Honey Lemon Ginger Chiya" class="w-full h-56 object-cover" loading="lazy">
+          <!-- Menu Item 5 --> 
+             <div class="animate-on-scroll bg-[#5C4033] rounded-lg shadow-lg overflow-hidden flex flex-col transition-transform duration-300 hover:scale-105 hover:shadow-2xl" style="transition-delay: 300ms;">
+            <img src="images/honey-lemon-ginger-chiya.webp" alt="Lemon Ginger Chiya" class="w-full h-56 object-cover">
             <div class="p-6 flex flex-col flex-grow">
               <h3 class="text-xl font-semibold mb-2 text-amber-300">Honey Lemon Ginger Chiya</h3>
               <p class="text-gray-300 mb-4 flex-grow">Zesty lemon and ginger tea sweetened naturally with honey.</p>
               <div class="flex justify-between items-center mt-auto">
                 <span class="text-lg font-bold text-amber-300">Rs. 90</span>
-                <button class="add-to-cart-btn relative overflow-hidden bg-amber-600 hover:bg-amber-700 text-white px-4 py-2 rounded transition duration-300" data-id="honey-lemon-ginger-chiya" data-name="Honey Lemon Ginger Chiya" data-price="90" data-image="images/honey-lemon-ginger-chiya.webp" aria-label="Add Honey Lemon Ginger Chiya to cart">
+                <button class="add-to-cart-btn relative overflow-hidden bg-amber-600 hover:bg-amber-700 text-white px-4 py-2 rounded transition duration-300" data-id="lemon-ginger-chiya" data-name="Lemon Ginger Chiya" data-price="60" data-image="images/lemon-ginger-chiya.webp">
                   <span class="btn-text">Add to Cart</span>
                 </button>
               </div>
             </div>
           </div>
 
-          <!-- Menu Item 6 -->
-          <div class="animate-on-scroll bg-[#5C4033] rounded-lg shadow-lg overflow-hidden flex flex-col transition-transform duration-300 hover:scale-105 hover:shadow-2xl" style="transition-delay: 500ms;">
-            <img src="images/pudina-chiya.webp" alt="Pudina Chiya" class="w-full h-56 object-cover" loading="lazy">
+            <div class="animate-on-scroll bg-[#5C4033] rounded-lg shadow-lg overflow-hidden flex flex-col transition-transform duration-300 hover:scale-105 hover:shadow-2xl" style="transition-delay: 300ms;">
+            <img src="images/Pudina-Chiya.webp" alt="Pudina Chiya" class="w-full h-56 object-cover">
             <div class="p-6 flex flex-col flex-grow">
               <h3 class="text-xl font-semibold mb-2 text-amber-300">Pudina Chiya</h3>
-              <p class="text-gray-300 mb-4 flex-grow">A blend of pudina, ginger, cardamom, and cloves, perfect for a warm and comforting cup of tea.</p>
+              <p class="text-gray-300 mb-4 flex-grow">A blend of Pudina, ginger, cardamom, and cloves, perfect for a warm and comforting cup of tea.</p>
               <div class="flex justify-between items-center mt-auto">
                 <span class="text-lg font-bold text-amber-300">Rs. 45</span>
-                <button class="add-to-cart-btn relative overflow-hidden bg-amber-600 hover:bg-amber-700 text-white px-4 py-2 rounded transition duration-300" data-id="pudina-chiya" data-name="Pudina Chiya" data-price="45" data-image="images/pudina-chiya.webp" aria-label="Add Pudina Chiya to cart">
+                <button class="add-to-cart-btn relative overflow-hidden bg-amber-600 hover:bg-amber-700 text-white px-4 py-2 rounded transition duration-300" data-id="lemon-ginger-chiya" data-name="Lemon Ginger Chiya" data-price="60" data-image="images/lemon-ginger-chiya.webp">
                   <span class="btn-text">Add to Cart</span>
                 </button>
               </div>
             </div>
           </div>
+           
+
         </div>
       </div>
     </section>
@@ -321,8 +276,9 @@
       </div>
     </div>
   </footer>
+  <script src="menu.js"></script>
 
-  <script src="auth.js" defer></script>
-  <script src="menu.js" defer></script>
+
+
 </body>
 </html>
