@@ -18,6 +18,8 @@
     /* Apply custom fonts */
     body {
       font-family: 'Lato', sans-serif;
+      background-color: #2E1F1F;
+      overflow-x: hidden;
     }
     .font-serif {
       font-family: 'Playfair Display', serif;
@@ -28,9 +30,9 @@
       @apply text-amber-400 font-semibold;
     }
 
-    /* Scroll-triggered animations */
+    /* Enhanced Scroll-triggered animations */
     .animate-on-scroll {
-      @apply opacity-0 translate-y-10 scale-95 transition-all duration-700 ease-out;
+      @apply opacity-0 translate-y-12 scale-95 transition-all duration-1000 ease-out;
     }
     .animate-on-scroll.is-visible {
       @apply opacity-100 translate-y-0 scale-100;
@@ -38,7 +40,7 @@
 
     /* Hero overlay animation */
     .hero-overlay {
-      @apply transition-opacity duration-1000 ease-in-out;
+      @apply transition-opacity duration-1200 ease-in-out;
     }
     .hero-overlay.is-visible {
       @apply opacity-100;
@@ -46,12 +48,12 @@
 
     /* Parallax effect for hero section */
     .hero-bg {
-      @apply bg-fixed bg-cover bg-center;
+      @apply bg-fixed bg-cover bg-center relative;
     }
 
     /* Subtle background animation */
     .bg-pattern {
-      background-image: radial-gradient(circle, rgba(245, 158, 11, 0.1) 2px, transparent 2px);
+      background-image: radial-gradient(circle, rgba(245, 158, 11, 0.15) 2px, transparent 2px);
       background-size: 20px 20px;
       animation: bg-move 20s linear infinite;
     }
@@ -60,18 +62,84 @@
       100% { background-position: 40px 40px; }
     }
 
+    /* Enhanced Button hover effects */
+    .btn-hover {
+      @apply transition-all duration-400 ease-in-out relative overflow-hidden;
+    }
+    .btn-hover::before {
+      content: '';
+      @apply absolute top-0 left-[-100%] w-full h-full bg-gradient-to-r from-transparent via-white/20 to-transparent;
+      transition: 0.6s;
+    }
+    .btn-hover:hover::before {
+      @apply left-[100%];
+    }
+    .btn-hover:hover {
+      @apply transform -translate-y-1 scale-105 shadow-lg shadow-amber-400/50;
+    }
+
+    /* Enhanced Glassmorphism effect for cards */
+    .glass-card {
+      @apply bg-white/10 backdrop-blur-lg border border-white/15 transition-all duration-300;
+    }
+    .glass-card:hover {
+      @apply bg-white/15 transform -translate-y-2 shadow-lg shadow-amber-400/30;
+    }
+
+    /* Enhanced Image hover */
+    .img-hover {
+      @apply transition-transform duration-600 ease-in-out;
+    }
+    .img-hover:hover {
+      @apply transform scale-105 shadow-2xl shadow-amber-400/30;
+    }
+
     /* FAQ accordion styles */
     .faq-answer {
       @apply max-h-0 overflow-hidden transition-all duration-500 ease-in-out;
     }
     .faq-item.open .faq-answer {
-      @apply max-h-96; /* Increased for longer answers */
+      @apply max-h-[400px]; /* Adjusted for longer answers */
     }
     .faq-item.open .faq-icon {
       @apply rotate-180;
     }
     .faq-icon {
       @apply transition-transform duration-300;
+    }
+    .faq-question {
+      @apply transition-transform duration-200 ease-in-out;
+    }
+    .faq-question:active {
+      @apply scale-98; /* Subtle feedback for mobile tap */
+    }
+
+    /* Loading animation */
+    .loader {
+      @apply fixed top-0 left-0 w-full h-full bg-[#2E1F1F] flex justify-center items-center z-[9999] opacity-100 transition-opacity duration-500 ease-out;
+    }
+    .loader.hidden {
+      @apply opacity-0 pointer-events-none;
+    }
+    .spinner {
+      @apply w-16 h-16 border-4 border-amber-400 border-t-transparent rounded-full animate-spin;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* Particle effect for hero section */
+    .particles {
+      @apply absolute top-0 left-0 w-full h-full z-0;
+    }
+    .particle {
+      @apply absolute bg-amber-400/50 rounded-full animate-float-particle;
+    }
+    @keyframes float-particle {
+      0% { transform: translateY(0) scale(1); opacity: 0.5; }
+      50% { opacity: 0.8; }
+      100% { transform: translateY(-100vh) scale(0.5); opacity: 0; }
     }
   </style>
   
@@ -85,17 +153,27 @@
           },
           keyframes: {
             float: {
-              '0%, 100%': { transform: 'translateY(-10px)' },
-              '50%': { transform: 'translateY(10px)' },
+              '0%, 100%': { transform: 'translateY(-15px)' },
+              '50%': { transform: 'translateY(15px)' },
             },
             pulse: {
               '0%, 100%': { transform: 'scale(1)' },
               '50%': { transform: 'scale(1.05)' },
             },
+            slideInLeft: {
+              '0%': { transform: 'translateX(-100%)', opacity: '0' },
+              '100%': { transform: 'translateX(0)', opacity: '1' },
+            },
+            slideInRight: {
+              '0%': { transform: 'translateX(100%)', opacity: '0' },
+              '100%': { transform: 'translateX(0)', opacity: '1' },
+            },
           },
           animation: {
-            float: 'float 5s ease-in-out infinite', // Slower float for smoother effect
+            float: 'float 5s ease-in-out infinite',
             pulse: 'pulse 2s ease-in-out infinite',
+            slideInLeft: 'slideInLeft 1s ease-out',
+            slideInRight: 'slideInRight 1s ease-out',
           },
         },
       },
@@ -104,66 +182,72 @@
 </head>
 
 <body class="bg-[#3C2F2F] bg-pattern text-white">
-<header id="main-header" class="fixed top-0 left-0 w-full z-50 transition-all duration-500">
-  <div class="container mx-auto flex items-center justify-between px-4 sm:px-6 py-3">
-    <a href="index.html" class="flex items-center gap-2 sm:gap-3 transition-transform duration-300 hover:scale-105">
-      <img src="images/logo.png" alt="Chiya Ghar Logo" class="h-10 w-10 sm:h-12 sm:w-12" />
-      <div class="flex items-baseline">
-        <span class="text-xl sm:text-2xl font-bold text-red-600 font-serif">CHIYA</span>
-        <span class="text-xl sm:text-2xl font-bold text-white font-serif">GHAR</span>
+  <!-- Loader -->
+  <div class="loader">
+    <div class="spinner"></div>
+  </div>
+
+  <header id="main-header" class="fixed top-0 left-0 w-full z-50 transition-all duration-500">
+    <div class="container mx-auto flex items-center justify-between px-4 sm:px-6 py-3">
+      <a href="index.html" class="flex items-center gap-2 sm:gap-3 transition-transform duration-300 hover:scale-105">
+        <img src="images/logo.png" alt="Chiya Ghar Logo" class="h-10 w-10 sm:h-12 sm:w-12 animate-pulse" />
+        <div class="flex items-baseline">
+          <span class="text-xl sm:text-2xl font-bold text-red-600 font-serif animate-slideInLeft">CHIYA</span>
+          <span class="text-xl sm:text-2xl font-bold text-white font-serif animate-slideInLeft delay-1">GHAR</span>
+        </div>
+      </a>
+
+      <!-- Desktop Navigation -->
+      <nav class="hidden md:flex items-center space-x-6 lg:space-x-8 text-white text-sm sm:text-base font-medium font-sans">
+        <a href="index.html" class="nav-link hover:text-amber-400 relative transition-colors duration-300 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-amber-400 after:transition-all after:duration-300 hover:after:w-full animate-slideInLeft">Home</a>
+        <a href="AboutUs.html" class="nav-link active hover:text-amber-400 relative transition-colors duration-300 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-amber-400 after:transition-all after:duration-300 animate-slideInLeft delay-1">About Us</a>
+        <a href="menu.html" class="nav-link hover:text-amber-400 relative transition-colors duration-300 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-amber-400 after:transition-all after:duration-300 hover:after:w-full animate-slideInLeft delay-2">Menu</a>
+        <a href="cart.html" class="nav-link hover:text-amber-400 relative transition-colors duration-300 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-amber-400 after:transition-all after:duration-300 hover:after:w-full animate-slideInLeft delay-3">Cart</a>
+        <a href="order.html" class="nav-link hover:text-amber-400 relative transition-colors duration-300 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-amber-400 after:transition-all after:duration-300 hover:after:w-full animate-slideInLeft delay-4">Order</a>
+        <a href="gallery.html" class="nav-link hover:text-amber-400 relative transition-colors duration-300 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-amber-400 after:transition-all after:duration-300 hover:after:w-full animate-slideInLeft delay-4">Gallery</a>
+        <a href="contactus.html" class="border-2 border-amber-400 text-amber-400 rounded-full px-4 sm:px-5 py-2 font-bold hover:bg-amber-400 hover:text-[#2E1F1F] transition-all duration-300 hover:shadow-lg hover:shadow-amber-400/50 btn-hover animate-slideInLeft delay-4">Contact Us</a>
+      </nav>
+
+      <!-- Mobile Menu Button -->
+      <div class="md:hidden">
+        <button id="hamburger-button" class="text-white focus:outline-none z-50 relative transition-transform duration-300 hover:scale-110" aria-label="Toggle menu">
+          <svg id="menu-icon" class="h-6 w-6 sm:h-7 sm:w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" /></svg>
+          <svg id="close-icon" class="h-6 w-6 sm:h-7 sm:w-7 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+        </button>
       </div>
-    </a>
-
-    <!-- Desktop Navigation -->
-    <nav class="hidden md:flex items-center space-x-6 lg:space-x-8 text-white text-sm sm:text-base font-medium font-sans">
-      <a href="index.html" class="nav-link hover:text-amber-400 relative transition-colors duration-300 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-amber-400 after:transition-all after:duration-300 hover:after:w-full">Home</a>
-      <a href="AboutUs.html" class="nav-link active hover:text-amber-400 relative transition-colors duration-300 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-amber-400 after:transition-all after:duration-300">About Us</a>
-      <a href="menu.html" class="nav-link hover:text-amber-400 relative transition-colors duration-300 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-amber-400 after:transition-all after:duration-300 hover:after:w-full">Menu</a>
-      <a href="cart.html" class="nav-link hover:text-amber-400 relative transition-colors duration-300 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-amber-400 after:transition-all after:duration-300 hover:after:w-full">Cart</a>
-      <a href="order.html" class="nav-link hover:text-amber-400 relative transition-colors duration-300 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-amber-400 after:transition-all after:duration-300 hover:after:w-full">Order</a>
-      <a href="gallery.html" class="nav-link hover:text-amber-400 relative transition-colors duration-300 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-amber-400 after:transition-all after:duration-300 hover:after:w-full">Gallery</a>
-      <a href="contactus.html" class="border-2 border-amber-400 text-amber-400 rounded-full px-4 sm:px-5 py-2 font-bold hover:bg-amber-400 hover:text-[#2E1F1F] transition-all duration-300 hover:shadow-lg hover:shadow-amber-400/50">Contact Us</a>
-    </nav>
-
-    <!-- Mobile Menu Button -->
-    <div class="md:hidden">
-      <button id="hamburger-button" class="text-white focus:outline-none z-50 relative transition-transform duration-300 hover:scale-110" aria-label="Toggle menu">
-        <svg id="menu-icon" class="h-6 w-6 sm:h-7 sm:w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" /></svg>
-        <svg id="close-icon" class="h-6 w-6 sm:h-7 sm:w-7 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
-      </button>
     </div>
-  </div>
-  
-  <!-- Mobile Menu -->
-  <div id="mobile-menu" class="md:hidden fixed top-0 right-0 h-full w-3/4 sm:w-2/3 bg-[#2E1F1F]/95 backdrop-blur-lg transform translate-x-full transition-transform duration-500 ease-in-out max-h-screen overflow-y-auto p-6">
-    <nav class="flex flex-col items-start justify-start space-y-4 text-white text-lg sm:text-xl font-medium font-sans">
-      <a href="index.html" class="nav-link-mobile hover:text-amber-400 transition-colors duration-300 w-full py-2">Home</a>
-      <a href="AboutUs.html" class="nav-link-mobile active hover:text-amber-400 transition-colors duration-300 w-full py-2">About Us</a>
-      <a href="menu.html" class="nav-link-mobile hover:text-amber-400 transition-colors duration-300 w-full py-2">Menu</a>
-      <a href="cart.html" class="nav-link-mobile hover:text-amber-400 transition-colors duration-300 w-full py-2">Cart</a>
-      <a href="order.html" class="nav-link-mobile hover:text-amber-400 transition-colors duration-300 w-full py-2">Order</a>
-      <a href="gallery.html" class="nav-link-mobile hover:text-amber-400 transition-colors duration-300 w-full py-2">Gallery</a>
-      <a href="contactus.html" class="nav-link-mobile hover:text-amber-400 transition-colors duration-300 w-full py-2">Contact Us</a>
-    </nav>
-  </div>
-</header>
+    
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="md:hidden fixed top-0 right-0 h-full w-3/4 sm:w-2/3 bg-[#2E1F1F]/95 backdrop-blur-lg transform translate-x-full transition-transform duration-500 ease-in-out max-h-screen overflow-y-auto p-6">
+      <nav class="flex flex-col items-start justify-start space-y-4 text-white text-lg sm:text-xl font-medium font-sans">
+        <a href="index.html" class="nav-link-mobile hover:text-amber-400 transition-colors duration-300 w-full py-2 animate-slideInRight">Home</a>
+        <a href="AboutUs.html" class="nav-link-mobile active hover:text-amber-400 transition-colors duration-300 w-full py-2 animate-slideInRight delay-1">About Us</a>
+        <a href="menu.html" class="nav-link-mobile hover:text-amber-400 transition-colors duration-300 w-full py-2 animate-slideInRight delay-2">Menu</a>
+        <a href="cart.html" class="nav-link-mobile hover:text-amber-400 transition-colors duration-300 w-full py-2 animate-slideInRight delay-3">Cart</a>
+        <a href="order.html" class="nav-link-mobile hover:text-amber-400 transition-colors duration-300 w-full py-2 animate-slideInRight delay-4">Order</a>
+        <a href="gallery.html" class="nav-link-mobile hover:text-amber-400 transition-colors duration-300 w-full py-2 animate-slideInRight delay-4">Gallery</a>
+        <a href="contactus.html" class="nav-link-mobile hover:text-amber-400 transition-colors duration-300 w-full py-2 animate-slideInRight delay-4">Contact Us</a>
+      </nav>
+    </div>
+  </header>
 
   <main>
     <!-- Hero Section -->
     <section class="relative min-h-[70vh] flex items-center bg-gradient-to-b from-[#5C4033]/90 to-[#3C2F2F]/90 text-white pt-20 sm:pt-24 pb-12 sm:pb-16 hero-bg" style="background-image: url('images/tea-bg.jpg');">
+      <div class="particles"></div>
       <div class="absolute inset-0 bg-black/50 backdrop-blur-sm hero-overlay opacity-0"></div>
       <div class="container mx-auto grid md:grid-cols-2 gap-8 sm:gap-12 items-center px-4 sm:px-6 lg:px-8 relative z-10">
         <div class="text-center md:text-left">
-          <h1 class="animate-on-scroll text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold italic font-serif text-amber-300 leading-tight">
+          <h1 class="animate-on-scroll text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold italic font-serif text-amber-300 leading-tight animate-pulse">
             About Chiya Ghar
           </h1>
           <p class="animate-on-scroll delay-1 text-sm sm:text-base md:text-lg font-light mt-4 mb-6 sm:mb-8 text-gray-200 max-w-md mx-auto md:mx-0">
             Discover the heart of Nepali tea culture, brewed with love and tradition.
           </p>
-          <a href="menu.html" class="animate-on-scroll delay-2 inline-block bg-amber-500 text-[#3C2F2F] py-2.5 sm:py-3 px-6 sm:px-8 font-semibold rounded-full hover:bg-amber-400 hover:scale-110 transition-all duration-300 shadow-lg hover:shadow-xl hover:shadow-amber-500/60">Explore Our Menu</a>
+          <a href="menu.html" class="animate-on-scroll delay-2 inline-block bg-amber-500 text-[#3C2F2F] py-2.5 sm:py-3 px-6 sm:px-8 font-semibold rounded-full hover:bg-amber-400 btn-hover shadow-lg animate-pulse">Explore Our Menu</a>
         </div>
         <div class="animate-on-scroll delay-1 flex justify-center items-center mt-6 sm:mt-8 md:mt-0">
-          <img src="images/tea.png" alt="Traditional Nepali tea cup" class="max-w-[80%] sm:max-w-[70%] md:max-w-[60%] w-full h-auto object-cover object-center animate-float" />
+          <img src="images/tea.png" alt="Traditional Nepali tea cup" class="max-w-[80%] sm:max-w-[70%] md:max-w-[60%] w-full h-auto object-cover object-center animate-float img-hover" />
         </div>
       </div>
     </section>
@@ -173,7 +257,7 @@
       <div class="container mx-auto px-4 sm:px-6">
         <div class="grid md:grid-cols-2 gap-8 sm:gap-12 items-center">
           <div class="animate-on-scroll text-center md:text-left">
-            <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold mb-6 font-serif text-amber-400">Our Story</h2>
+            <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold mb-6 font-serif text-amber-400 animate-pulse">Our Story</h2>
             <p class="text-base sm:text-lg text-gray-300 mb-4 leading-relaxed">
               Welcome to Chiya Ghar, where every cup tells a story. Born from a deep love for authentic Nepali tea culture, we started as a small dream to bring the warmth and comfort of traditional chiya to our community.
             </p>
@@ -183,10 +267,10 @@
             <p class="text-base sm:text-lg text-gray-300 leading-relaxed">
               Join us and experience the heart of Nepal, one sip at a time.
             </p>
-            <a href="contactus.html" class="mt-6 inline-block bg-transparent border-2 border-amber-500 text-amber-500 py-2 px-6 font-semibold rounded-full hover:bg-amber-500 hover:text-[#3C2F2F] transition-all duration-300 hover:shadow-lg hover:shadow-amber-500/50">Get in Touch</a>
+            <a href="contactus.html" class="mt-6 inline-block bg-transparent border-2 border-amber-500 text-amber-500 py-2 px-6 font-semibold rounded-full hover:bg-amber-500 hover:text-[#3C2F2F] btn-hover animate-pulse">Get in Touch</a>
           </div>
           <div class="animate-on-scroll delay-1 flex justify-center">
-            <img src="images/about1.jpg" alt="Cozy interior of Chiya Ghar" class="w-full max-w-md h-auto rounded-lg shadow-2xl object-cover transform transition-all duration-500 hover:scale-105 hover:shadow-amber-500/30" />
+            <img src="images/about1.jpg" alt="Cozy interior of Chiya Ghar" class="w-full max-w-md h-auto rounded-lg shadow-2xl object-cover img-hover" />
           </div>
         </div>
       </div>
@@ -195,10 +279,10 @@
     <!-- Our Promise Section -->
     <section id="our-promise" class="bg-gradient-to-b from-[#4A3A3A] to-[#3C2F2F] py-16 sm:py-20 md:py-28">
       <div class="container mx-auto px-4 sm:px-6 text-center">
-        <h2 class="animate-on-scroll text-3xl sm:text-4xl md:text-5xl font-bold mb-12 sm:mb-16 font-serif text-amber-400">Our Promise</h2>
+        <h2 class="animate-on-scroll text-3xl sm:text-4xl md:text-5xl font-bold mb-12 sm:mb-16 font-serif text-amber-400 animate-pulse">Our Promise</h2>
         <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">
           <!-- Promise 1: Quality -->
-          <div class="animate-on-scroll flex flex-col items-center p-6 bg-[#4A3A3A]/80 rounded-xl border border-gray-700/50 hover:border-amber-500 transition-all duration-300 transform hover:-translate-y-2 hover:shadow-lg hover:shadow-amber-500/30">
+          <div class="animate-on-scroll glass-card flex flex-col items-center p-6 rounded-xl transform hover:-translate-y-2">
             <div class="bg-amber-600/20 p-4 rounded-full mb-4 border-2 border-amber-600/50 hover:bg-amber-500 hover:border-amber-500 transition-all duration-300 animate-pulse">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-amber-300 hover:text-white transition-colors duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
@@ -208,7 +292,7 @@
             <p class="text-gray-300 leading-relaxed text-sm sm:text-base">We use only the finest, hand-picked tea leaves and freshly ground spices, ensuring every sip is genuine and flavorful.</p>
           </div>
           <!-- Promise 2: Community -->
-          <div class="animate-on-scroll delay-1 flex flex-col items-center p-6 bg-[#4A3A3A]/80 rounded-xl border border-gray-700/50 hover:border-amber-500 transition-all duration-300 transform hover:-translate-y-2 hover:shadow-lg hover:shadow-amber-500/30">
+          <div class="animate-on-scroll delay-1 glass-card flex flex-col items-center p-6 rounded-xl transform hover:-translate-y-2">
             <div class="bg-amber-600/20 p-4 rounded-full mb-4 border-2 border-amber-600/50 hover:bg-amber-500 hover:border-amber-500 transition-all duration-300 animate-pulse">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-amber-300 hover:text-white transition-colors duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
@@ -218,7 +302,7 @@
             <p class="text-gray-300 leading-relaxed text-sm sm:text-base">Our doors are always open for you to find a quiet corner, catch up with friends, or simply enjoy a moment of peace.</p>
           </div>
           <!-- Promise 3: Experience -->
-          <div class="animate-on-scroll delay-2 flex flex-col items-center p-6 bg-[#4A3A3A]/80 rounded-xl border border-gray-700/50 hover:border-amber-500 transition-all duration-300 transform hover:-translate-y-2 hover:shadow-lg hover:shadow-amber-500/30">
+          <div class="animate-on-scroll delay-2 glass-card flex flex-col items-center p-6 rounded-xl transform hover:-translate-y-2">
             <div class="bg-amber-600/20 p-4 rounded-full mb-4 border-2 border-amber-600/50 hover:bg-amber-500 hover:border-amber-500 transition-all duration-300 animate-pulse">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-amber-300 hover:text-white transition-colors duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
@@ -234,10 +318,10 @@
     <!-- FAQ Section -->
     <section id="faq" class="bg-[#4A3A3A] py-16 sm:py-20 md:py-28">
       <div class="container mx-auto px-4 sm:px-6 max-w-3xl">
-        <h2 class="animate-on-scroll text-3xl sm:text-4xl md:text-5xl font-bold mb-12 sm:mb-16 text-center font-serif text-amber-400">Common Questions</h2>
+        <h2 class="animate-on-scroll text-3xl sm:text-4xl md:text-5xl font-bold mb-12 sm:mb-16 text-center font-serif text-amber-400 animate-pulse">Common Questions</h2>
         <div class="space-y-4">
           <!-- FAQ Item 1 -->
-          <div class="animate-on-scroll faq-item bg-[#5C4033]/80 rounded-lg border border-gray-700/50 hover:border-amber-500 transition-all duration-300 hover:shadow-lg hover:shadow-amber-500/30">
+          <div class="animate-on-scroll glass-card faq-item rounded-lg">
             <button class="faq-question flex justify-between items-center w-full p-5 sm:p-6 text-left">
               <span class="text-base sm:text-lg font-semibold text-amber-200 hover:text-white transition-colors duration-300">Do you offer non-dairy milk alternatives?</span>
               <svg class="faq-icon h-5 w-5 sm:h-6 sm:w-6 shrink-0 text-amber-300 hover:text-white transition-all duration-300" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor">
@@ -251,7 +335,7 @@
             </div>
           </div>
           <!-- FAQ Item 2 -->
-          <div class="animate-on-scroll delay-1 faq-item bg-[#5C4033]/80 rounded-lg border border-gray-700/50 hover:border-amber-500 transition-all duration-300 hover:shadow-lg hover:shadow-amber-500/30">
+          <div class="animate-on-scroll delay-1 glass-card faq-item rounded-lg">
             <button class="faq-question flex justify-between items-center w-full p-5 sm:p-6 text-left">
               <span class="text-base sm:text-lg font-semibold text-amber-200 hover:text-white transition-colors duration-300">Is there Wi-Fi available for customers?</span>
               <svg class="faq-icon h-5 w-5 sm:h-6 sm:w-6 shrink-0 text-amber-300 hover:text-white transition-all duration-300" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor">
@@ -265,7 +349,7 @@
             </div>
           </div>
           <!-- FAQ Item 3 -->
-          <div class="animate-on-scroll delay-2 faq-item bg-[#5C4033]/80 rounded-lg border border-gray-700/50 hover:border-amber-500 transition-all duration-300 hover:shadow-lg hover:shadow-amber-500/30">
+          <div class="animate-on-scroll delay-2 glass-card faq-item rounded-lg">
             <button class="faq-question flex justify-between items-center w-full p-5 sm:p-6 text-left">
               <span class="text-base sm:text-lg font-semibold text-amber-200 hover:text-white transition-colors duration-300">Can I buy your tea blends to make at home?</span>
               <svg class="faq-icon h-5 w-5 sm:h-6 sm:w-6 shrink-0 text-amber-300 hover:text-white transition-all duration-300" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor">
@@ -279,7 +363,7 @@
             </div>
           </div>
           <!-- FAQ Item 4 -->
-          <div class="animate-on-scroll delay-3 faq-item bg-[#5C4033]/80 rounded-lg border border-gray-700/50 hover:border-amber-500 transition-all duration-300 hover:shadow-lg hover:shadow-amber-500/30">
+          <div class="animate-on-scroll delay-3 glass-card faq-item rounded-lg">
             <button class="faq-question flex justify-between items-center w-full p-5 sm:p-6 text-left">
               <span class="text-base sm:text-lg font-semibold text-amber-200 hover:text-white transition-colors duration-300">Do you serve food or snacks?</span>
               <svg class="faq-icon h-5 w-5 sm:h-6 sm:w-6 shrink-0 text-amber-300 hover:text-white transition-all duration-300" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor">
@@ -303,23 +387,23 @@
       <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-8 text-center sm:text-left">
         <div class="animate-on-scroll">
           <h3 class="text-lg font-bold text-white mb-4">Chiya Ghar</h3>
-          <p class="text-sm text-gray-400">Your cozy corner for authentic, soul-warming chiya and delightful conversations. est. 2023.</p>
+          <p class="text-sm text-gray-400">Your cozy corner for authentic, soul-warming chiya and delightful conversations. Est. 2023.</p>
         </div>
         <div class="animate-on-scroll delay-1">
           <h3 class="text-lg font-bold text-white mb-4">Quick Links</h3>
           <nav class="flex flex-col space-y-2">
-            <a href="menu.html" class="text-sm text-gray-400 hover:text-amber-300 transition-colors duration-300">Menu</a>
-            <a href="gallery.html" class="text-sm text-gray-400 hover:text-amber-300 transition-colors duration-300">Gallery</a>
-            <a href="contactus.html" class="text-sm text-gray-400 hover:text-amber-300 transition-colors duration-300">Contact Us</a>
-            <a href="order.html" class="text-sm text-gray-400 hover:text-amber-300 transition-colors duration-300">Order Online</a>
+            <a href="menu.html" class="text-sm text-gray-400 hover:text-amber-300 transition-colors duration-300 animate-pulse">Menu</a>
+            <a href="gallery.html" class="text-sm text-gray-400 hover:text-amber-300 transition-colors duration-300 animate-pulse">Gallery</a>
+            <a href="contactus.html" class="text-sm text-gray-400 hover:text-amber-300 transition-colors duration-300 animate-pulse">Contact Us</a>
+            <a href="order.html" class="text-sm text-gray-400 hover:text-amber-300 transition-colors duration-300 animate-pulse">Order Online</a>
           </nav>
         </div>
         <div class="animate-on-scroll delay-2">
           <h3 class="text-lg font-bold text-white mb-4">Follow Us</h3>
           <div class="flex space-x-4 justify-center sm:justify-start">
-            <a href="#" target="_blank" class="text-sm text-gray-400 hover:text-amber-300 transition-colors duration-300">Facebook</a>
-            <a href="#" target="_blank" class="text-sm text-gray-400 hover:text-amber-300 transition-colors duration-300">Instagram</a>
-            <a href="#" target="_blank" class="text-sm text-gray-400 hover:text-amber-300 transition-colors duration-300">TikTok</a>
+            <a href="#" target="_blank" class="text-sm text-gray-400 hover:text-amber-300 transition-colors duration-300 animate-pulse">Facebook</a>
+            <a href="#" target="_blank" class="text-sm text-gray-400 hover:text-amber-300 transition-colors duration-300 animate-pulse">Instagram</a>
+            <a href="#" target="_blank" class="text-sm text-gray-400 hover:text-amber-300 transition-colors duration-300 animate-pulse">TikTok</a>
           </div>
         </div>
       </div>
@@ -337,8 +421,13 @@
       const closeIcon = document.getElementById("close-icon");
       const mainHeader = document.getElementById("main-header");
       const heroOverlay = document.querySelector('.hero-overlay');
-      const heroImage = document.querySelector('.hero-bg img');
       const heroSection = document.querySelector('.hero-bg');
+      const loader = document.querySelector('.loader');
+
+      // --- Hide Loader ---
+      setTimeout(() => {
+        loader.classList.add('hidden');
+      }, 1000);
 
       // --- Mobile Menu Toggle ---
       hamburgerButton.addEventListener("click", () => {
@@ -347,7 +436,7 @@
         closeIcon.classList.toggle("hidden");
       });
 
-      // Close mobile menu when a link is clicked with a slight delay
+      // --- Close Mobile Menu on Link Click ---
       const mobileLinks = document.querySelectorAll('.nav-link-mobile');
       mobileLinks.forEach(link => {
         link.addEventListener('click', () => {
@@ -355,16 +444,16 @@
             mobileMenu.classList.add("translate-x-full");
             menuIcon.classList.remove("hidden");
             closeIcon.classList.add("hidden");
-          }, 200); // 200ms delay for smoother UX
+          }, 200);
         });
       });
 
       // --- Header Style on Scroll ---
       window.addEventListener('scroll', () => {
         if (window.scrollY > 50) {
-          mainHeader.classList.add('bg-[#5C4033]/90', 'shadow-xl', 'backdrop-blur-lg');
+          mainHeader.classList.add('bg-[#5C4033]/90', 'shadow-xl', 'backdrop-blur-lg', 'glass-card');
         } else {
-          mainHeader.classList.remove('bg-[#5C4033]/90', 'shadow-xl', 'backdrop-blur-lg');
+          mainHeader.classList.remove('bg-[#5C4033]/90', 'shadow-xl', 'backdrop-blur-lg', 'glass-card');
         }
       });
 
@@ -383,12 +472,12 @@
         entries.forEach(entry => {
           if (entry.isIntersecting) {
             entry.target.classList.add('is-visible');
-            observer.unobserve(entry.target); // Animate only once
+            observer.unobserve(entry.target);
           }
         });
       }, {
-        threshold: 0.3, // Trigger when 30% of the element is visible
-        rootMargin: '0px 0px -50px 0px' // Adjust for better timing
+        threshold: 0.3,
+        rootMargin: '0px 0px -50px 0px'
       });
 
       animatedElements.forEach(el => {
@@ -398,52 +487,49 @@
       // --- Hero Overlay Animation ---
       setTimeout(() => {
         heroOverlay.classList.add('is-visible');
-      }, 500); // 500ms delay for smoother load
-
-      // --- Hero Image Hover Effect ---
-      if (heroImage) {
-        heroImage.addEventListener('mouseover', () => {
-          heroImage.style.transform = 'scale(1.05)';
-          heroImage.style.transition = 'transform 0.3s ease-in-out';
-        });
-        heroImage.addEventListener('mouseout', () => {
-          heroImage.style.transform = 'scale(1)';
-        });
-      }
+      }, 500);
 
       // --- Parallax Effect for Hero Section ---
       window.addEventListener('scroll', () => {
         const scrollPosition = window.scrollY;
         if (heroSection) {
-          heroSection.style.backgroundPositionY = `${scrollPosition * 0.3}px`;
+          heroSection.style.backgroundPositionY = `${scrollPosition * 0.4}px`;
         }
       });
 
+      // --- Particle Effect for Hero Section ---
+      const particlesContainer = document.querySelector('.particles');
+      function createParticle() {
+        const particle = document.createElement('div');
+        particle.classList.add('particle');
+        const size = Math.random() * 10 + 5;
+        particle.style.width = `${size}px`;
+        particle.style.height = `${size}px`;
+        particle.style.left = `${Math.random() * 100}%`;
+        particle.style.animationDuration = `${Math.random() * 5 + 5}s`;
+        particle.style.animationDelay = `${Math.random() * 2}s`;
+        particlesContainer.appendChild(particle);
+        setTimeout(() => particle.remove(), 10000);
+      }
+      setInterval(createParticle, 300);
+
       // --- FAQ Accordion Toggle ---
       const faqQuestions = document.querySelectorAll('.faq-question');
-      faqQuestions.forEach(button => {
-        button.addEventListener('click', () => {
-          const faqItem = button.closest('.faq-item');
-          const isOpen = faqItem.classList.contains('open');
-          
-          // Close all FAQ items
-          document.querySelectorAll('.faq-item').forEach(item => {
-            item.classList.remove('open');
-          });
-          
-          // Open the clicked FAQ item if it wasn't already open
-          if (!isOpen) {
-            faqItem.classList.add('open');
-          }
+      faqQuestions.forEach(question => {
+        question.addEventListener('click', function() {
+          const faqItem = this.closest('.faq-item');
+          faqItem.classList.toggle('open');
         });
+      });
 
-        // Add hover effect for FAQ buttons
-        button.addEventListener('mouseover', () => {
-          button.style.transform = 'scale(1.02)';
-          button.style.transition = 'transform 0.2s ease-in-out';
+      // --- Image Hover Effect ---
+      document.querySelectorAll('.img-hover').forEach(img => {
+        img.addEventListener('mouseover', () => {
+          img.style.transform = 'scale(1.05)';
+          img.style.transition = 'transform 0.3s ease-in-out';
         });
-        button.addEventListener('mouseout', () => {
-          button.style.transform = 'scale(1)';
+        img.addEventListener('mouseout', () => {
+          img.style.transform = 'scale(1)';
         });
       });
 
