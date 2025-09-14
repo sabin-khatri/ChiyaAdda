@@ -5,118 +5,305 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Chiya-Ghar - Gallery</title>
   <link rel="icon" href="images/logo.png" />
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Playfair+Display:ital,wght@0,700;1,600&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
+  
   <style>
-    .cart-count::after {
-        content: attr(data-count);
-        position: absolute;
-        top: -5px;
-        right: -10px;
-        background-color: red;
-        color: white;
-        font-size: 0.7rem;
-        font-weight: bold;
-        border-radius: 50%;
-        padding: 2px 5px;
-        line-height: 1;
-        min-width: 16px;
-        text-align: center;
+    /* Custom Fonts */
+    body {
+      font-family: 'Lato', sans-serif;
+      background-color: #2E1F1F;
+      overflow-x: hidden;
     }
-    .cart-link {
-        position: relative;
-        display: inline-block;
+    .font-serif {
+      font-family: 'Playfair Display', serif;
     }
+
+    /* Active Nav Link */
+    .nav-link.active {
+      color: #F59E0B; /* Amber-400 */
+      font-weight: 600;
+    }
+
+    /* Scroll-triggered Animations */
+    .animate-on-scroll {
+      opacity: 0;
+      transform: translateY(3rem) scale(0.95);
+      transition: all 1s ease-out;
+    }
+    .animate-on-scroll.is-visible {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+
+    /* Hero Overlay Animation */
+    .hero-overlay {
+      transition: opacity 1.2s ease-in-out;
+    }
+    .hero-overlay.is-visible {
+      opacity: 1;
+    }
+
+    /* Subtle Background Animation */
+    .bg-pattern {
+      background-image: radial-gradient(circle, rgba(245, 158, 11, 0.15) 2px, transparent 2px);
+      background-size: 20px 20px;
+      animation: bg-move 20s linear infinite;
+    }
+    @keyframes bg-move {
+      0% { background-position: 0 0; }
+      100% { background-position: 40px 40px; }
+    }
+
+    /* Enhanced Button Hover Effects */
+    .btn-hover {
+      position: relative;
+      overflow: hidden;
+      transition: all 0.4s ease-in-out;
+    }
+    .btn-hover::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transition: 0.6s;
+    }
+    .btn-hover:hover::before {
+      left: 100%;
+    }
+    .btn-hover:hover {
+      transform: translateY(-0.25rem) scale(1.05);
+      box-shadow: 0 4px 20px rgba(245, 158, 11, 0.5);
+    }
+
+    /* Glassmorphism Effect for Cards */
+    .glass-card {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      transition: all 0.3s ease;
+    }
+    .glass-card:hover {
+      background: rgba(255, 255, 255, 0.15);
+      transform: translateY(-0.5rem);
+      box-shadow: 0 6px 24px rgba(245, 158, 11, 0.3);
+    }
+
+    /* Image Hover Effect */
+    .img-hover {
+      transition: transform 0.6s ease-in-out;
+    }
+    .img-hover:hover {
+      transform: scale(1.05);
+      box-shadow: 0 8px 32px rgba(245, 158, 11, 0.3);
+    }
+
+    /* Modal Styles */
     #image-modal {
-        transition: opacity 0.3s ease-in-out;
+      transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+      transform: scale(0.95);
+    }
+    #image-modal.is-visible {
+      opacity: 1;
+      transform: scale(1);
     }
     #image-modal.hidden {
-        opacity: 0;
-        pointer-events: none;
+      opacity: 0;
+      pointer-events: none;
+      transform: scale(0.95);
     }
-    /* Note: @apply doesn't work in a <style> tag with CDN Tailwind. We apply classes directly. */
+
+    /* Loading Animation */
+    .loader {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #2E1F1F;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      opacity: 1;
+      transition: opacity 0.5s ease-out;
+    }
+    .loader.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+    .spinner {
+      width: 4rem;
+      height: 4rem;
+      border: 4px solid #F59E0B;
+      border-top: transparent;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* Particle Effect for Hero Section */
+    .particles {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+    }
+    .particle {
+      position: absolute;
+      background: rgba(245, 158, 11, 0.5);
+      border-radius: 50%;
+      animation: float-particle 5s linear infinite;
+    }
+    @keyframes float-particle {
+      0% { transform: translateY(0) scale(1); opacity: 0.5; }
+      50% { opacity: 0.8; }
+      100% { transform: translateY(-100vh) scale(0.5); opacity: 0; }
+    }
   </style>
+  
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Lato', 'sans-serif'],
+            serif: ['Playfair Display', 'serif'],
+          },
+          keyframes: {
+            float: {
+              '0%, 100%': { transform: 'translateY(-15px)' },
+              '50%': { transform: 'translateY(15px)' },
+            },
+            pulse: {
+              '0%, 100%': { transform: 'scale(1)' },
+              '50%': { transform: 'scale(1.05)' },
+            },
+            slideInLeft: {
+              '0%': { transform: 'translateX(-100%)', opacity: '0' },
+              '100%': { transform: 'translateX(0)', opacity: '1' },
+            },
+            slideInRight: {
+              '0%': { transform: 'translateX(100%)', opacity: '0' },
+              '100%': { transform: 'translateX(0)', opacity: '1' },
+            },
+          },
+          animation: {
+            float: 'float 5s ease-in-out infinite',
+            pulse: 'pulse 2s ease-in-out infinite',
+            slideInLeft: 'slideInLeft 1s ease-out',
+            slideInRight: 'slideInRight 1s ease-out',
+          },
+        },
+      },
+    };
+  </script>
 </head>
 
-<body class="bg-[#3C2F2F] text-white">
+<body class="bg-[#3C2F2F] bg-pattern text-white">
+  <!-- Loader -->
+  <div class="loader">
+    <div class="spinner"></div>
+  </div>
 
-<header id="main-header" class="fixed top-0 left-0 w-full z-50 transition-all duration-500">
-  <div class="container mx-auto flex items-center justify-between px-4 sm:px-6 py-3">
-    <a href="index.html" class="flex items-center gap-2 sm:gap-3 transition-transform duration-300 hover:scale-105">
-      <img src="images/logo.png" alt="Chiya Ghar Logo" class="h-10 w-10 sm:h-12 sm:w-12" />
-      <div class="flex items-baseline">
-        <span class="text-xl sm:text-2xl font-bold text-red-600 font-serif">CHIYA</span>
-        <span class="text-xl sm:text-2xl font-bold text-white font-serif">GHAR</span>
+  <header id="main-header" class="fixed top-0 left-0 w-full z-50 transition-all duration-500">
+    <div class="container mx-auto flex items-center justify-between px-4 sm:px-6 py-3">
+      <a href="index.html" class="flex items-center gap-2 sm:gap-3 transition-transform duration-300 hover:scale-105">
+        <img src="images/logo.png" alt="Chiya Ghar Logo" class="h-10 w-10 sm:h-12 sm:w-12 animate-pulse" />
+        <div class="flex items-baseline">
+          <span class="text-xl sm:text-2xl font-bold text-red-600 font-serif animate-slideInLeft">CHIYA</span>
+          <span class="text-xl sm:text-2xl font-bold text-white font-serif animate-slideInLeft delay-1">GHAR</span>
+        </div>
+      </a>
+
+      <!-- Desktop Navigation -->
+      <nav class="hidden md:flex items-center space-x-6 lg:space-x-8 text-white text-sm sm:text-base font-medium font-sans">
+        <a href="index.html" class="nav-link hover:text-amber-400 relative transition-colors duration-300 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-amber-400 after:transition-all after:duration-300 hover:after:w-full animate-slideInLeft">Home</a>
+        <a href="AboutUs.html" class="nav-link hover:text-amber-400 relative transition-colors duration-300 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-amber-400 after:transition-all after:duration-300 animate-slideInLeft delay-1">About Us</a>
+        <a href="menu.html" class="nav-link hover:text-amber-400 relative transition-colors duration-300 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-amber-400 after:transition-all after:duration-300 animate-slideInLeft delay-2">Menu</a>
+        <a href="cart.html" class="nav-link cart-link hover:text-amber-400 relative transition-colors duration-300 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-amber-400 after:transition-all after:duration-300 hover:after:w-full animate-slideInLeft delay-3" data-count="0">Cart</a>
+        <a href="order.html" class="nav-link hover:text-amber-400 relative transition-colors duration-300 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-amber-400 after:transition-all after:duration-300 hover:after:w-full animate-slideInLeft delay-4">Order</a>
+        <a href="gallery.html" class="nav-link active hover:text-amber-400 relative transition-colors duration-300 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-amber-400 after:transition-all after:duration-300 animate-slideInLeft delay-4">Gallery</a>
+        <a href="contactus.html" class="border-2 border-amber-400 text-amber-400 rounded-full px-4 sm:px-5 py-2 font-bold hover:bg-amber-400 hover:text-[#2E1F1F] transition-all duration-300 hover:shadow-lg hover:shadow-amber-400/50 btn-hover animate-slideInLeft delay-4">Contact Us</a>
+      </nav>
+
+      <!-- Mobile Menu Button -->
+      <div class="md:hidden">
+        <button id="hamburger-button" class="text-white focus:outline-none z-50 relative transition-transform duration-300 hover:scale-110" aria-label="Toggle menu">
+          <svg id="menu-icon" class="h-6 w-6 sm:h-7 sm:w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" /></svg>
+          <svg id="close-icon" class="h-6 w-6 sm:h-7 sm:w-7 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+        </button>
       </div>
-    </a>
-
-    <!-- Desktop Navigation -->
-    <nav class="hidden md:flex items-center space-x-6 lg:space-x-8 text-white text-sm sm:text-base font-medium font-sans">
-      <a href="index.html" class="nav-link hover:text-amber-400 relative transition-colors duration-300 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-amber-400 after:transition-all after:duration-300 hover:after:w-full">Home</a>
-      <a href="AboutUs.html" class="nav-link hover:text-amber-400 relative transition-colors duration-300 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-amber-400 after:transition-all after:duration-300 hover:after:w-full">About Us</a>
-      <a href="menu.html" class="nav-link hover:text-amber-400 relative transition-colors duration-300 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-amber-400 after:transition-all after:duration-300 hover:after:w-full">Menu</a>
-      <a href="cart.html" class="nav-link hover:text-amber-400 relative transition-colors duration-300 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-amber-400 after:transition-all after:duration-300 hover:after:w-full">Cart</a>
-      <a href="order.html" class="nav-link hover:text-amber-400 relative transition-colors duration-300 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-amber-400 after:transition-all after:duration-300 hover:after:w-full">Order</a>
-      <a href="gallery.html" class="nav-link active hover:text-amber-400 relative transition-colors duration-300 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-amber-400 after:transition-all after:duration-300">Gallery</a>
-      <a href="contactus.html" class="border-2 border-amber-400 text-amber-400 rounded-full px-4 sm:px-5 py-2 font-bold hover:bg-amber-400 hover:text-[#2E1F1F] transition-all duration-300 hover:shadow-lg hover:shadow-amber-400/50">Contact Us</a>
-    </nav>
-
-    <!-- Mobile Menu Button -->
-    <div class="md:hidden">
-      <button id="hamburger-button" class="text-white focus:outline-none z-50 relative transition-transform duration-300 hover:scale-110" aria-label="Toggle menu">
-        <svg id="menu-icon" class="h-6 w-6 sm:h-7 sm:w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" /></svg>
-        <svg id="close-icon" class="h-6 w-6 sm:h-7 sm:w-7 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
-      </button>
     </div>
-  </div>
-  
-  <!-- Mobile Menu -->
-  <div id="mobile-menu" class="md:hidden fixed top-0 right-0 h-full w-3/4 sm:w-2/3 bg-[#2E1F1F]/95 backdrop-blur-lg transform translate-x-full transition-transform duration-500 ease-in-out max-h-screen overflow-y-auto p-6">
-    <nav class="flex flex-col items-start justify-start space-y-4 text-white text-lg sm:text-xl font-medium font-sans">
-      <a href="index.html" class="nav-link-mobile hover:text-amber-400 transition-colors duration-300 w-full py-2">Home</a>
-      <a href="AboutUs.html" class="nav-link-mobile hover:text-amber-400 transition-colors duration-300 w-full py-2">About Us</a>
-      <a href="menu.html" class="nav-link-mobile hover:text-amber-400 transition-colors duration-300 w-full py-2">Menu</a>
-      <a href="cart.html" class="nav-link-mobile hover:text-amber-400 transition-colors duration-300 w-full py-2">Cart</a>
-      <a href="order.html" class="nav-link-mobile hover:text-amber-400 transition-colors duration-300 w-full py-2">Order</a>
-      <a href="gallery.html" class="nav-link-mobile active hover:text-amber-400 transition-colors duration-300 w-full py-2">Gallery</a>
-      <a href="contactus.html" class="nav-link-mobile hover:text-amber-400 transition-colors duration-300 w-full py-2">Contact Us</a>
-    </nav>
-  </div>
-</header>
+    
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="md:hidden fixed top-0 right-0 h-full w-3/4 sm:w-2/3 bg-[#2E1F1F]/95 backdrop-blur-lg transform translate-x-full transition-transform duration-500 ease-in-out max-h-screen overflow-y-auto p-6">
+      <nav class="flex flex-col items-start justify-start space-y-4 text-white text-lg sm:text-xl font-medium font-sans">
+        <a href="index.html" class="nav-link-mobile hover:text-amber-400 transition-colors duration-300 w-full py-2 animate-slideInRight">Home</a>
+        <a href="AboutUs.html" class="nav-link-mobile hover:text-amber-400 transition-colors duration-300 w-full py-2 animate-slideInRight delay-1">About Us</a>
+        <a href="menu.html" class="nav-link-mobile hover:text-amber-400 transition-colors duration-300 w-full py-2 animate-slideInRight delay-2">Menu</a>
+        <a href="cart.html" class="nav-link-mobile hover:text-amber-400 transition-colors duration-300 w-full py-2 animate-slideInRight delay-3">Cart</a>
+        <a href="order.html" class="nav-link-mobile hover:text-amber-400 transition-colors duration-300 w-full py-2 animate-slideInRight delay-4">Order</a>
+        <a href="gallery.html" class="nav-link-mobile active hover:text-amber-400 transition-colors duration-300 w-full py-2 animate-slideInRight delay-4">Gallery</a>
+        <a href="contactus.html" class="nav-link-mobile hover:text-amber-400 transition-colors duration-300 w-full py-2 animate-slideInRight delay-4">Contact Us</a>
+      </nav>
+    </div>
+  </header>
 
-  <main class="bg-[#4A3A3A] py-16 md:py-24 scroll-mt-20 min-h-screen">
+  <main class="bg-[#4A3A3A] py-16 md:py-24 scroll-mt-20 min-h-screen relative">
+    <div class="particles"></div>
     <div class="container mx-auto px-4 sm:px-6">
-      <h2 class="text-3xl md:text-4xl font-bold mb-4 text-center font-serif text-amber-500">Our Gallery</h2>
-
-      <!-- ADDED: Descriptive text -->
-      <p class="text-center max-w-2xl mx-auto text-gray-300 mb-12">
-        Step inside Chiya Ghar and feel the warmth. Here's a glimpse of our cozy corners, happy moments, and of course, our lovingly prepared chiya and snacks.
+      <h2 class="animate-on-scroll text-3xl md:text-4xl font-bold mb-4 text-center font-serif text-amber-500 animate-pulse">Our Gallery</h2>
+      <p class="animate-on-scroll delay-1 text-center max-w-2xl mx-auto text-gray-300 mb-12 text-sm sm:text-base">
+        Step inside Chiya Ghar and feel the warmth. Here's a glimpse of our cozy corners, happy moments, and lovingly prepared chiya and snacks.
       </p>
 
       <div id="gallery-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
-        <!-- Gallery items remain the same -->
-        <div class="gallery-item group overflow-hidden rounded-lg shadow-md">
-          <img src="images/gallery/photo-1.jpg" alt="Chiya Ghar Ambiance 1" class="w-full h-64 object-cover cursor-pointer transition-transform duration-300 group-hover:scale-105">
+        <div class="gallery-item group overflow-hidden rounded-lg shadow-md glass-card animate-on-scroll">
+          <img src="images/gallery/photo-1.jpg" alt="" class="w-full h-64 object-cover cursor-pointer transition-transform duration-300 group-hover:scale-105 img-hover" />
+          
         </div>
-        <div class="gallery-item group overflow-hidden rounded-lg shadow-md">
-          <img src="images/gallery/photo-2.jpg" alt="Close up of a tea cup" class="w-full h-64 object-cover cursor-pointer transition-transform duration-300 group-hover:scale-105">
+        <div class="gallery-item group overflow-hidden rounded-lg shadow-md glass-card animate-on-scroll delay-1">
+          <img src="images/gallery/photo-2.jpg" alt="" class="w-full h-64 object-cover cursor-pointer transition-transform duration-300 group-hover:scale-105 img-hover" />
+         
         </div>
-        <div class="gallery-item group overflow-hidden rounded-lg shadow-md">
-          <img src="images/gallery/photo-3.jpg" alt="Assortment of snacks" class="w-full h-64 object-cover cursor-pointer transition-transform duration-300 group-hover:scale-105">
+        <div class="gallery-item group overflow-hidden rounded-lg shadow-md glass-card animate-on-scroll delay-2">
+          <img src="images/gallery/photo-3.jpg" alt="" class="w-full h-64 object-cover cursor-pointer transition-transform duration-300 group-hover:scale-105 img-hover" />
+         
         </div>
-        <div class="gallery-item group overflow-hidden rounded-lg shadow-md">
-          <img src="images/gallery/photo-4.jpg" alt="Chiya Ghar Exterior" class="w-full h-64 object-cover cursor-pointer transition-transform duration-300 group-hover:scale-105">
+        <div class="gallery-item group overflow-hidden rounded-lg shadow-md glass-card animate-on-scroll delay-3">
+          <img src="images/gallery/photo-4.jpg" alt="" class="w-full h-64 object-cover cursor-pointer transition-transform duration-300 group-hover:scale-105 img-hover" />
+          
         </div>
-        <div class="gallery-item group overflow-hidden rounded-lg shadow-md">
-          <img src="images/gallery/photo-5.jpg" alt="Customers enjoying tea" class="w-full h-64 object-cover cursor-pointer transition-transform duration-300 group-hover:scale-105">
+        <div class="gallery-item group overflow-hidden rounded-lg shadow-md glass-card animate-on-scroll">
+          <img src="images/gallery/photo-5.jpg" alt="" class="w-full h-64 object-cover cursor-pointer transition-transform duration-300 group-hover:scale-105 img-hover" />
+         
         </div>
-        <div class="gallery-item group overflow-hidden rounded-lg shadow-md">
-          <img src="images/gallery/photo-6.jpg" alt="Interior Decoration" class="w-full h-64 object-cover cursor-pointer transition-transform duration-300 group-hover:scale-105">
+        <div class="gallery-item group overflow-hidden rounded-lg shadow-md glass-card animate-on-scroll delay-1">
+          <img src="images/gallery/photo-6.jpg" alt="" class="w-full h-64 object-cover cursor-pointer transition-transform duration-300 group-hover:scale-105 img-hover" />
+         
         </div>
-        <div class="gallery-item group overflow-hidden rounded-lg shadow-md">
-          <img src="images/gallery/photo-7.jpg" alt="Special Milk Tea" class="w-full h-64 object-cover cursor-pointer transition-transform duration-300 group-hover:scale-105 ">
+        <div class="gallery-item group overflow-hidden rounded-lg shadow-md glass-card animate-on-scroll delay-2">
+          <img src="images/gallery/photo-7.jpg" alt="" class="w-full h-64 object-cover cursor-pointer transition-transform duration-300 group-hover:scale-105 img-hover" />
+         
         </div>
-        <div class="gallery-item group overflow-hidden rounded-lg shadow-md">
-          <img src="images/gallery/photo-8.jpg" alt="View from the window" class="w-full h-64 object-cover cursor-pointer transition-transform duration-300 group-hover:scale-105">
+        <div class="gallery-item group overflow-hidden rounded-lg shadow-md glass-card animate-on-scroll delay-3">
+          <img src="images/gallery/photo-8.jpg" alt="" class="w-full h-64 object-cover cursor-pointer transition-transform duration-300 group-hover:scale-105 img-hover" />
+         
         </div>
       </div>
     </div>
@@ -125,23 +312,24 @@
   <!-- Image Modal -->
   <div id="image-modal" class="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-[60] hidden p-4">
     <div class="relative max-w-5xl max-h-[90vh] w-full flex items-center justify-center">
-      <button id="close-modal-button" class="absolute -top-2 -right-2 sm:top-0 sm:-right-10 text-white bg-red-600 rounded-full p-1.5 hover:bg-red-700 z-20" aria-label="Close image viewer">
+      <button id="close-modal-button" class="absolute -top-2 -right-2 sm:top-0 sm:-right-10 text-white bg-red-600 rounded-full p-1.5 hover:bg-red-700 z-20 btn-hover" aria-label="Close image viewer">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
           <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
         </svg>
       </button>
 
-      <button id="prev-button" class="absolute top-1/2 -translate-y-1/2 left-2 bg-black bg-opacity-40 text-white p-2 rounded-full hover:bg-opacity-70 transition-opacity duration-300 z-20" aria-label="Previous image">
+      <button id="prev-button" class="absolute top-1/2 -translate-y-1/2 left-2 bg-black bg-opacity-40 text-white p-2 rounded-full hover:bg-opacity-70 transition-opacity duration-300 z-20 btn-hover" aria-label="Previous image">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
           <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
         </svg>
       </button>
 
-      <div class="relative bg-white p-2 rounded-lg w-auto">
-        <img id="modal-image" src="" alt="Enlarged gallery image" class="max-w-full max-h-[85vh] object-contain block mx-auto">
+      <div class="relative bg-white p-2 rounded-lg w-auto glass-card">
+        <img id="modal-image" src="" alt="Enlarged gallery image" class="max-w-full max-h-[85vh] object-contain block mx-auto img-hover" />
+        <p id="modal-caption" class="text-center text-gray-300 mt-2 text-sm"></p>
       </div>
       
-      <button id="next-button" class="absolute top-1/2 -translate-y-1/2 right-2 bg-black bg-opacity-40 text-white p-2 rounded-full hover:bg-opacity-70 transition-opacity duration-300 z-20" aria-label="Next image">
+      <button id="next-button" class="absolute top-1/2 -translate-y-1/2 right-2 bg-black bg-opacity-40 text-white p-2 rounded-full hover:bg-opacity-70 transition-opacity duration-300 z-20 btn-hover" aria-label="Next image">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
           <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
         </svg>
@@ -149,30 +337,201 @@
     </div>
   </div>
 
-   <footer class="bg-[#2a2121] text-gray-300 py-12">
-      <div class="container mx-auto px-6">
-        <div class="grid md:grid-cols-3 gap-8 text-center md:text-left">
-          <div class="animate-on-scroll">
-            <h3 class="text-lg font-bold text-white mb-4">Chiya Ghar</h3>
-            <p class="text-sm text-gray-400">Your cozy corner for authentic, soul-warming chiya and delightful conversations. est. 2023.</p>
-          </div>
-          <div class="animate-on-scroll delay-1">
-            <h3 class="text-lg font-bold text-white mb-4">Quick Links</h3>
-            <nav class="flex flex-col space-y-2"><a href="menu.html" class="text-sm text-gray-400 hover:text-amber-300 transition-colors">Menu</a><a href="gallery.html" class="text-sm text-gray-400 hover:text-amber-300 transition-colors">Gallery</a><a href="contactus.html" class="text-sm text-gray-400 hover:text-amber-300 transition-colors">Contact Us</a><a href="order.html" class="text-sm text-gray-400 hover:text-amber-300 transition-colors">Order Online</a></nav>
-          </div>
-          <div class="animate-on-scroll delay-2">
-            <h3 class="text-lg font-bold text-white mb-4">Follow Us</h3>
-            <div class="flex space-x-4 justify-center md:justify-start"><a href="index.html" target="_blank" class="hover:text-amber-300 transition-colors">Facebook</a><a href="index.html" target="_blank" class="hover:text-amber-300 transition-colors">Instagram</a><a href="index.html" target="_blank" class="hover:text-amber-300 transition-colors">TikTok</a></div>
-          </div>
+  <footer class="bg-[#2a2121] text-gray-300 py-10 sm:py-12">
+    <div class="container mx-auto px-4 sm:px-6">
+      <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-8 text-center sm:text-left">
+        <div class="animate-on-scroll">
+          <h3 class="text-lg font-bold text-white mb-4">Chiya Ghar</h3>
+          <p class="text-sm text-gray-400">Your cozy corner for authentic, soul-warming chiya and delightful conversations. Est. 2023.</p>
         </div>
-        <div class="mt-8 pt-8 border-t border-gray-700 text-center text-sm text-gray-500">
-          <p>© <span id="current-year"></span> Chiya Ghar. All Rights Reserved.</p>
+        <div class="animate-on-scroll delay-1">
+          <h3 class="text-lg font-bold text-white mb-4">Quick Links</h3>
+          <nav class="flex flex-col space-y-2">
+            <a href="menu.html" class="text-sm text-gray-400 hover:text-amber-300 transition-colors duration-300 animate-pulse">Menu</a>
+            <a href="gallery.html" class="text-sm text-gray-400 hover:text-amber-300 transition-colors duration-300 animate-pulse">Gallery</a>
+            <a href="contactus.html" class="text-sm text-gray-400 hover:text-amber-300 transition-colors duration-300 animate-pulse">Contact Us</a>
+            <a href="order.html" class="text-sm text-gray-400 hover:text-amber-300 transition-colors duration-300 animate-pulse">Order Online</a>
+          </nav>
+        </div>
+        <div class="animate-on-scroll delay-2">
+          <h3 class="text-lg font-bold text-white mb-4">Follow Us</h3>
+          <div class="flex space-x-4 justify-center sm:justify-start">
+            <a href="#" target="_blank" class="text-sm text-gray-400 hover:text-amber-300 transition-colors duration-300 animate-pulse">Facebook</a>
+            <a href="#" target="_blank" class="text-sm text-gray-400 hover:text-amber-300 transition-colors duration-300 animate-pulse">Instagram</a>
+            <a href="#" target="_blank" class="text-sm text-gray-400 hover:text-amber-300 transition-colors duration-300 animate-pulse">TikTok</a>
+          </div>
         </div>
       </div>
-    </footer>
+      <div class="mt-8 pt-8 border-t border-gray-700 text-center text-sm text-gray-500">
+        <p>© <span id="current-year"></span> Chiya Ghar. All Rights Reserved.</p>
+      </div>
+    </div>
+  </footer>
 
-<script src="gallery.js"></script>
-<!-- Your existing header script will go here if you merge files -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // --- Hide Loader ---
+      const loader = document.querySelector('.loader');
+      setTimeout(() => {
+        loader.classList.add('hidden');
+      }, 1000);
 
+      // --- Mobile Menu Navigation ---
+      const hamburgerButton = document.getElementById('hamburger-button');
+      const mobileMenu = document.getElementById('mobile-menu');
+      const menuIcon = document.getElementById('menu-icon');
+      const closeIcon = document.getElementById('close-icon');
+
+      if (hamburgerButton && mobileMenu && menuIcon && closeIcon) {
+        hamburgerButton.addEventListener('click', () => {
+          mobileMenu.classList.toggle('translate-x-full');
+          menuIcon.classList.toggle('hidden');
+          closeIcon.classList.toggle('hidden');
+        });
+
+        const mobileLinks = document.querySelectorAll('.nav-link-mobile');
+        mobileLinks.forEach(link => {
+          link.addEventListener('click', () => {
+            setTimeout(() => {
+              mobileMenu.classList.add('translate-x-full');
+              menuIcon.classList.remove('hidden');
+              closeIcon.classList.add('hidden');
+            }, 200);
+          });
+        });
+      }
+
+      // --- Header Scroll Effect ---
+      const header = document.getElementById('main-header');
+      if (header) {
+        window.addEventListener('scroll', () => {
+          if (window.scrollY > 50) {
+            header.classList.add('bg-[#5C4033]', 'shadow-xl', 'backdrop-blur-lg', 'glass-card');
+          } else {
+            header.classList.remove('bg-[#5C4033]', 'shadow-xl', 'backdrop-blur-lg', 'glass-card');
+          }
+        });
+      }
+
+      // --- Highlight Active Navigation Link ---
+      const navLinks = document.querySelectorAll('.nav-link');
+      const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+      navLinks.forEach(link => {
+        if (link.getAttribute('href').split('/').pop() === currentPage) {
+          link.classList.add('active');
+        }
+      });
+
+      // --- Animate on Scroll ---
+      const animatedElements = document.querySelectorAll('.animate-on-scroll');
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, {
+        threshold: 0.3,
+        rootMargin: '0px 0px -50px 0px'
+      });
+
+      animatedElements.forEach(el => {
+        observer.observe(el);
+      });
+
+      // --- Particle Effect for Main Section ---
+      const particlesContainer = document.querySelector('.particles');
+      function createParticle() {
+        const particle = document.createElement('div');
+        particle.classList.add('particle');
+        const size = Math.random() * 10 + 5;
+        particle.style.width = `${size}px`;
+        particle.style.height = `${size}px`;
+        particle.style.left = `${Math.random() * 100}%`;
+        particle.style.animationDuration = `${Math.random() * 5 + 5}s`;
+        particle.style.animationDelay = `${Math.random() * 2}s`;
+        particlesContainer.appendChild(particle);
+        setTimeout(() => particle.remove(), 10000);
+      }
+      setInterval(createParticle, 300);
+
+      // --- Gallery Modal Functionality ---
+      const galleryImages = document.querySelectorAll('.gallery-item img');
+      const modal = document.getElementById('image-modal');
+      const modalImage = document.getElementById('modal-image');
+      const modalCaption = document.getElementById('modal-caption');
+      const closeModalButton = document.getElementById('close-modal-button');
+      const prevButton = document.getElementById('prev-button');
+      const nextButton = document.getElementById('next-button');
+
+      if (galleryImages.length > 0 && modal && modalImage) {
+        const imageData = Array.from(galleryImages).map(img => ({
+          src: img.src,
+          alt: img.alt
+        }));
+        let currentImageIndex = 0;
+
+        function showImage(index) {
+          modalImage.src = imageData[index].src;
+          modalCaption.textContent = imageData[index].alt;
+          modal.classList.remove('hidden');
+          modal.classList.add('is-visible');
+        }
+
+        function hideModal() {
+          modal.classList.remove('is-visible');
+          modal.classList.add('hidden');
+        }
+
+        function showNextImage() {
+          currentImageIndex = (currentImageIndex + 1) % imageData.length;
+          showImage(currentImageIndex);
+        }
+
+        function showPrevImage() {
+          currentImageIndex = (currentImageIndex - 1 + imageData.length) % imageData.length;
+          showImage(currentImageIndex);
+        }
+
+        galleryImages.forEach((img, index) => {
+          img.addEventListener('click', () => {
+            currentImageIndex = index;
+            showImage(currentImageIndex);
+          });
+        });
+
+        closeModalButton.addEventListener('click', hideModal);
+        
+        modal.addEventListener('click', (event) => {
+          if (event.target === modal) {
+            hideModal();
+          }
+        });
+
+        nextButton.addEventListener('click', showNextImage);
+        prevButton.addEventListener('click', showPrevImage);
+
+        document.addEventListener('keydown', (event) => {
+          if (modal.classList.contains('hidden')) {
+            return;
+          }
+          if (event.key === 'ArrowRight') {
+            showNextImage();
+          } else if (event.key === 'ArrowLeft') {
+            showPrevImage();
+          } else if (event.key === 'Escape') {
+            hideModal();
+          }
+        });
+      }
+
+      // --- Footer Year Update ---
+      const yearSpan = document.getElementById('current-year');
+      if (yearSpan) {
+        yearSpan.textContent = new Date().getFullYear();
+      }
+    });
+  </script>
 </body>
 </html>
