@@ -5,6 +5,12 @@ document.addEventListener('DOMContentLoaded', () => {
   const menuIcon = document.getElementById('menu-icon');
   const closeIcon = document.getElementById('close-icon');
   const mainHeader = document.getElementById('main-header');
+  const loader = document.querySelector('.loader');
+
+  // Hide loader after page load
+  setTimeout(() => {
+    loader.classList.add('hidden');
+  }, 1000);
 
   // Toggle mobile menu
   hamburgerButton.addEventListener('click', () => {
@@ -38,7 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Scroll animations
+  // Enhanced Scroll animations
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
@@ -47,7 +53,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   }, {
-    threshold: 0.2,
+    threshold: 0.3,
     rootMargin: '0px 0px -50px 0px',
   });
 
@@ -59,9 +65,36 @@ document.addEventListener('DOMContentLoaded', () => {
   const heroSection = document.querySelector('.hero-bg');
   window.addEventListener('scroll', () => {
     const scrollPosition = window.scrollY;
-    heroSection.style.backgroundPositionY = `${scrollPosition * 0.4}px`;
+    heroSection.style.backgroundPositionY = `${scrollPosition * 0.5}px`;
   });
+
+  // Particle effect for hero section
+  const particlesContainer = document.querySelector('.particles');
+  function createParticle() {
+    const particle = document.createElement('div');
+    particle.classList.add('particle');
+    const size = Math.random() * 10 + 5;
+    particle.style.width = `${size}px`;
+    particle.style.height = `${size}px`;
+    particle.style.left = `${Math.random() * 100}%`;
+    particle.style.animationDuration = `${Math.random() * 5 + 5}s`;
+    particle.style.animationDelay = `${Math.random() * 2}s`;
+    particlesContainer.appendChild(particle);
+    setTimeout(() => particle.remove(), 10000);
+  }
+  setInterval(createParticle, 300);
 
   // Set current year in footer
   document.getElementById('current-year').textContent = new Date().getFullYear();
+
+  // Hover effect for cards
+  document.querySelectorAll('.glass-card').forEach(card => {
+    card.addEventListener('mousemove', (e) => {
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      card.style.setProperty('--mouse-x', `${x}px`);
+      card.style.setProperty('--mouse-y', `${y}px`);
+    });
+  });
 });
