@@ -10,84 +10,171 @@
   <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Playfair+Display:ital,wght@0,700;1,600&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    body { font-family: 'Lato', sans-serif; }
+    body { font-family: 'Lato', sans-serif; background: linear-gradient(135deg, #3C2F2F, #4A3A3A); }
     .font-serif { font-family: 'Playfair Display', serif; }
-    .cart-count::after{content:attr(data-count);position:absolute;top:-8px;right:-8px;background-color:#ef4444;color:white;font-size:.7rem;font-weight:700;border-radius:9999px;padding:2px 6px;line-height:1;min-width:18px;text-align:center;border:2px solid #5C4033}.cart-link{position:relative;display:inline-block}
-    .accordion-content { max-height: 0; overflow: hidden; transition: max-height 0.5s ease-in-out; }
+    .cart-count::after {
+      content: attr(data-count);
+      position: absolute;
+      top: -10px;
+      right: -10px;
+      background-color: #ef4444;
+      color: white;
+      font-size: .8rem;
+      font-weight: 700;
+      border-radius: 9999px;
+      padding: 4px 8px;
+      line-height: 1;
+      min-width: 20px;
+      text-align: center;
+      border: 2px solid #5C4033;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+      transition: transform 0.2s ease;
+    }
+    .cart-link { position: relative; display: inline-block; }
+    .order-card {
+      background: rgba(92, 64, 51, 0.8);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      overflow: hidden;
+      opacity: 0;
+      transform: translateX(-30px);
+      animation: slideIn 0.6s ease-out forwards;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .order-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+    }
+    @keyframes slideIn {
+      to { opacity: 1; transform: translateX(0); }
+    }
+    .accordion-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.5s ease-in-out, opacity 0.4s ease-in-out, padding 0.4s ease-in-out;
+      opacity: 0;
+      padding: 0 16px;
+    }
+    .accordion-content.open {
+      opacity: 1;
+      padding: 16px;
+    }
+    .delete-btn {
+      transition: transform 0.2s ease, color 0.2s ease;
+    }
+    .delete-btn:hover {
+      transform: scale(1.2) rotate(90deg);
+      color: #ff3333;
+    }
+    .confirm-dialog {
+      background: rgba(92, 64, 51, 0.9);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 16px;
+      transform: scale(0.7);
+      opacity: 0;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+    .confirm-dialog.show {
+      transform: scale(1);
+      opacity: 1;
+    }
+    .confirm-dialog button {
+      transition: transform 0.2s ease, background-color 0.2s ease;
+    }
+    .confirm-dialog button:hover {
+      transform: translateY(-2px);
+    }
+    .bounce {
+      animation: bounce 0.3s ease;
+    }
+    @keyframes bounce {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+    }
   </style>
 </head>
 
-<body class="bg-[#3C2F2F] text-white">
-
+<body class="text-white">
   <!-- Authentication Gate -->
   <div id="auth-gate" class="fixed inset-0 bg-[#3C2F2F] bg-opacity-95 z-[100] flex items-center justify-center p-4">
-    <div class="text-center">
-      <h2 class="text-3xl font-serif text-amber-400 mb-4">Access Denied</h2>
+    <div class="text-center animate-pulse">
+      <h2 class="text-4xl font-serif text-amber-400 mb-4">Access Denied</h2>
       <p class="text-gray-300 mb-6">You must be logged in to view your order history.</p>
-      <a href="menu.html" class="bg-amber-600 hover:bg-amber-700 text-white font-bold py-2 px-6 rounded-md transition duration-300">Login or Sign Up</a>
+      <a href="menu.html" class="bg-amber-600 hover:bg-amber-700 text-white font-bold py-3 px-8 rounded-full transition duration-300 shadow-lg hover:shadow-amber-400/50">Login or Sign Up</a>
     </div>
   </div>
   
-<header id="main-header" class="fixed top-0 left-0 w-full z-50 transition-all duration-500">
-  <div class="container mx-auto flex items-center justify-between px-4 sm:px-6 py-3">
-    <a href="index.html" class="flex items-center gap-2 sm:gap-3 transition-transform duration-300 hover:scale-105">
-      <img src="images/logo.png" alt="Chiya Ghar Logo" class="h-10 w-10 sm:h-12 sm:w-12" />
-      <div class="flex items-baseline">
-        <span class="text-xl sm:text-2xl font-bold text-red-600 font-serif">CHIYA</span>
-        <span class="text-xl sm:text-2xl font-bold text-white font-serif">GHAR</span>
+  <header id="main-header" class="fixed top-0 left-0 w-full z-50 transition-all duration-500 bg-[#2E1F1F]/80 backdrop-blur-md">
+    <div class="container mx-auto flex items-center justify-between px-4 sm:px-6 py-3">
+      <a href="index.html" class="flex items-center gap-2 sm:gap-3 transition-transform duration-300 hover:scale-105">
+        <img src="images/logo.png" alt="Chiya Ghar Logo" class="h-10 w-10 sm:h-12 sm:w-12" />
+        <div class="flex items-baseline">
+          <span class="text-xl sm:text-2xl font-bold text-red-600 font-serif">CHIYA</span>
+          <span class="text-xl sm:text-2xl font-bold text-white font-serif">GHAR</span>
+        </div>
+      </a>
+
+      <!-- Desktop Navigation -->
+      <nav class="hidden md:flex items-center space-x-6 lg:space-x-8 text-white text-sm sm:text-base font-medium font-sans">
+        <a href="index.html" class="nav-link hover:text-amber-400 relative transition-colors duration-300 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-amber-400 after:transition-all after:duration-300 hover:after:w-full">Home</a>
+        <a href="AboutUs.html" class="nav-link hover:text-amber-400 relative transition-colors duration-300 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-amber-400 after:transition-all after:duration-300 hover:after:w-full">About Us</a>
+        <a href="menu.html" class="nav-link hover:text-amber-400 relative transition-colors duration-300 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-amber-400 after:transition-all after:duration-300 hover:after:w-full">Menu</a>
+        <a href="cart.html" class="nav-link cart-link hover:text-amber-400 relative transition-colors duration-300 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-amber-400 after:transition-all after:duration-300 hover:after:w-full">Cart</a>
+        <a href="order.html" class="nav-link active hover:text-amber-400 relative transition-colors duration-300 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-amber-400 after:transition-all after:duration-300">Order</a>
+        <a href="gallery.html" class="nav-link hover:text-amber-400 relative transition-colors duration-300 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-amber-400 after:transition-all after:duration-300 hover:after:w-full">Gallery</a>
+        <a href="contactus.html" class="border-2 border-amber-400 text-amber-400 rounded-full px-4 sm:px-5 py-2 font-bold hover:bg-amber-400 hover:text-[#2E1F1F] transition-all duration-300 hover:shadow-lg hover:shadow-amber-400/50">Contact Us</a>
+      </nav>
+
+      <!-- Mobile Menu Button -->
+      <div class="md:hidden">
+        <button id="hamburger-button" class="text-white focus:outline-none z-50 relative transition-transform duration-300 hover:scale-110" aria-label="Toggle menu">
+          <svg id="menu-icon" class="h-6 w-6 sm:h-7 sm:w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" /></svg>
+          <svg id="close-icon" class="h-6 w-6 sm:h-7 sm:w-7 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+        </button>
       </div>
-    </a>
-
-    <!-- Desktop Navigation -->
-    <nav class="hidden md:flex items-center space-x-6 lg:space-x-8 text-white text-sm sm:text-base font-medium font-sans">
-      <a href="index.html" class="nav-link hover:text-amber-400 relative transition-colors duration-300 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-amber-400 after:transition-all after:duration-300 hover:after:w-full">Home</a>
-      <a href="AboutUs.html" class="nav-link hover:text-amber-400 relative transition-colors duration-300 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-amber-400 after:transition-all after:duration-300 hover:after:w-full">About Us</a>
-      <a href="menu.html" class="nav-link hover:text-amber-400 relative transition-colors duration-300 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-amber-400 after:transition-all after:duration-300 hover:after:w-full">Menu</a>
-      <a href="cart.html" class="nav-link hover:text-amber-400 relative transition-colors duration-300 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-amber-400 after:transition-all after:duration-300 hover:after:w-full">Cart</a>
-      <a href="order.html" class="nav-link active hover:text-amber-400 relative transition-colors duration-300 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-amber-400 after:transition-all after:duration-300">Order</a>
-      <a href="gallery.html" class="nav-link hover:text-amber-400 relative transition-colors duration-300 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-amber-400 after:transition-all after:duration-300 hover:after:w-full">Gallery</a>
-      <a href="contactus.html" class="border-2 border-amber-400 text-amber-400 rounded-full px-4 sm:px-5 py-2 font-bold hover:bg-amber-400 hover:text-[#2E1F1F] transition-all duration-300 hover:shadow-lg hover:shadow-amber-400/50">Contact Us</a>
-    </nav>
-
-    <!-- Mobile Menu Button -->
-    <div class="md:hidden">
-      <button id="hamburger-button" class="text-white focus:outline-none z-50 relative transition-transform duration-300 hover:scale-110" aria-label="Toggle menu">
-        <svg id="menu-icon" class="h-6 w-6 sm:h-7 sm:w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" /></svg>
-        <svg id="close-icon" class="h-6 w-6 sm:h-7 sm:w-7 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
-      </button>
     </div>
-  </div>
-  
-  <!-- Mobile Menu -->
-  <div id="mobile-menu" class="md:hidden fixed top-0 right-0 h-full w-3/4 sm:w-2/3 bg-[#2E1F1F]/95 backdrop-blur-lg transform translate-x-full transition-transform duration-500 ease-in-out max-h-screen overflow-y-auto p-6">
-    <nav class="flex flex-col items-start justify-start space-y-4 text-white text-lg sm:text-xl font-medium font-sans">
-      <a href="index.html" class="nav-link-mobile hover:text-amber-400 transition-colors duration-300 w-full py-2">Home</a>
-      <a href="AboutUs.html" class="nav-link-mobile hover:text-amber-400 transition-colors duration-300 w-full py-2">About Us</a>
-      <a href="menu.html" class="nav-link-mobile hover:text-amber-400 transition-colors duration-300 w-full py-2">Menu</a>
-      <a href="cart.html" class="nav-link-mobile hover:text-amber-400 transition-colors duration-300 w-full py-2">Cart</a>
-      <a href="order.html" class="nav-link-mobile active hover:text-amber-400 transition-colors duration-300 w-full py-2">Order</a>
-      <a href="gallery.html" class="nav-link-mobile hover:text-amber-400 transition-colors duration-300 w-full py-2">Gallery</a>
-      <a href="contactus.html" class="nav-link-mobile hover:text-amber-400 transition-colors duration-300 w-full py-2">Contact Us</a>
-    </nav>
-  </div>
-</header>
+    
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="md:hidden fixed top-0 right-0 h-full w-3/4 sm:w-2/3 bg-[#2E1F1F]/95 backdrop-blur-lg transform translate-x-full transition-transform duration-500 ease-in-out max-h-screen overflow-y-auto p-6">
+      <nav class="flex flex-col items-start justify-start space-y-4 text-white text-lg sm:text-xl font-medium font-sans">
+        <a href="index.html" class="nav-link-mobile hover:text-amber-400 transition-colors duration-300 w-full py-2">Home</a>
+        <a href="AboutUs.html" class="nav-link-mobile hover:text-amber-400 transition-colors duration-300 w-full py-2">About Us</a>
+        <a href="menu.html" class="nav-link-mobile hover:text-amber-400 transition-colors duration-300 w-full py-2">Menu</a>
+        <a href="cart.html" class="nav-link-mobile hover:text-amber-400 transition-colors duration-300 w-full py-2">Cart</a>
+        <a href="order.html" class="nav-link-mobile active hover:text-amber-400 transition-colors duration-300 w-full py-2">Order</a>
+        <a href="gallery.html" class="nav-link-mobile hover:text-amber-400 transition-colors duration-300 w-full py-2">Gallery</a>
+        <a href="contactus.html" class="nav-link-mobile hover:text-amber-400 transition-colors duration-300 w-full py-2">Contact Us</a>
+      </nav>
+    </div>
+  </header>
 
-  <main id="main-content" class="invisible bg-[#4A3A3A] py-16 md:py-24 min-h-screen">
+  <main id="main-content" class="invisible bg-transparent py-16 md:py-24 min-h-screen">
     <div class="container mx-auto px-6">
-      <h2 class="text-3xl md:text-4xl font-bold mb-12 text-center font-serif text-amber-500">Your Order History</h2>
+      <h2 class="text-4xl md:text-5xl font-bold mb-12 text-center font-serif text-amber-400 drop-shadow-lg animate-pulse">Your Order History</h2>
 
-      <div id="orders-container" class="max-w-3xl mx-auto space-y-4">
-        <!-- Orders will be injected here by JS -->
-      </div>
+      <div id="orders-container" class="max-w-3xl mx-auto space-y-6"></div>
       
-      <div id="no-orders-message" class="text-center text-gray-400 py-8 hidden">
-        <p>You haven't placed any orders yet.</p>
-        <a href="menu.html" class="text-amber-400 hover:underline mt-2 inline-block">Start Shopping</a>
+      <div id="no-orders-message" class="text-center text-gray-300 py-8 hidden animate-pulse">
+        <p class="text-lg">You haven't placed any orders yet.</p>
+        <a href="menu.html" class="text-amber-400 hover:text-amber-500 mt-2 inline-block font-bold transition-colors duration-300">Start Shopping</a>
+      </div>
+
+      <!-- Confirmation Dialog -->
+      <div id="confirm-dialog" class="fixed inset-0 bg-black bg-opacity-60 z-[100] hidden items-center justify-center p-4">
+        <div class="confirm-dialog p-6 max-w-sm w-full">
+          <p class="text-white text-lg mb-6 font-semibold">Are you sure you want to delete this order?</p>
+          <div class="flex justify-end gap-4">
+            <button id="cancel-delete" class="bg-gray-700 hover:bg-gray-800 text-white py-2 px-6 rounded-full font-medium shadow-md">Cancel</button>
+            <button id="confirm-delete" class="bg-red-600 hover:bg-red-700 text-white py-2 px-6 rounded-full font-medium shadow-md">Delete</button>
+          </div>
+        </div>
       </div>
     </div>
   </main>
-<!-- In order.html, replace the entire <script> tag with this -->
-<script>
+
+  <script>
     document.addEventListener('DOMContentLoaded', () => {
       const authGate = document.getElementById('auth-gate');
       const mainHeader = document.getElementById('main-header');
@@ -100,98 +187,149 @@
           mainContent.classList.remove('invisible');
           initializeOrderPage();
         } else {
-            authGate.classList.remove('hidden');
-            authGate.classList.add('flex');
-            mainHeader.classList.add('invisible');
-            mainContent.classList.add('invisible');
+          authGate.classList.remove('hidden');
+          authGate.classList.add('flex');
+          mainHeader.classList.add('invisible');
+          mainContent.classList.add('invisible');
         }
       };
 
       const initializeOrderPage = () => {
-        // --- START: NEW MOBILE NAVIGATION CODE ---
         const hamburgerButton = document.getElementById('hamburger-button');
         const mobileMenu = document.getElementById('mobile-menu');
         const menuIcon = document.getElementById('menu-icon');
         const closeIcon = document.getElementById('close-icon');
-
-        if (hamburgerButton) {
-            hamburgerButton.addEventListener('click', () => {
-                mobileMenu.classList.toggle('translate-x-full');
-                menuIcon.classList.toggle('hidden');
-                closeIcon.classList.toggle('hidden');
-            });
-        }
-        // --- END: NEW MOBILE NAVIGATION CODE ---
-        
-        // Existing order page logic
         const ordersContainer = document.getElementById('orders-container');
         const noOrdersMessage = document.getElementById('no-orders-message');
         const cartLinkIcons = document.querySelectorAll('.cart-link');
+        const confirmDialog = document.getElementById('confirm-dialog');
+        const confirmDelete = document.getElementById('confirm-delete');
+        const cancelDelete = document.getElementById('cancel-delete');
+        let orderToDelete = null;
+
+        if (hamburgerButton) {
+          hamburgerButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('translate-x-full');
+            menuIcon.classList.toggle('hidden');
+            closeIcon.classList.toggle('hidden');
+            hamburgerButton.classList.add('bounce');
+            setTimeout(() => hamburgerButton.classList.remove('bounce'), 300);
+          });
+        }
 
         const updateCartIcon = () => {
-            const cart = JSON.parse(localStorage.getItem('chiyaGharCart')) || [];
-            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-            cartLinkIcons.forEach(icon => {
-                if (totalItems > 0) {
-                    icon.setAttribute('data-count', totalItems);
-                    icon.classList.add('cart-count');
-                } else {
-                    icon.removeAttribute('data-count');
-                    icon.classList.remove('cart-count');
-                }
-            });
+          const cart = JSON.parse(localStorage.getItem('chiyaGharCart')) || [];
+          const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+          cartLinkIcons.forEach(icon => {
+            if (totalItems > 0) {
+              icon.setAttribute('data-count', totalItems);
+              icon.classList.add('cart-count');
+            } else {
+              icon.removeAttribute('data-count');
+              icon.classList.remove('cart-count');
+            }
+          });
         };
+
+        const deleteOrder = (orderId) => {
+          let allOrders = JSON.parse(localStorage.getItem('chiyaGharOrders')) || [];
+          allOrders = allOrders.filter(order => order.orderId !== orderId);
+          localStorage.setItem('chiyaGharOrders', JSON.stringify(allOrders));
+          ordersContainer.innerHTML = '';
+          renderOrders();
+          updateCartIcon();
+        };
+
+        const showConfirmDialog = (orderId, orderElement) => {
+          orderToDelete = { orderId, orderElement };
+          confirmDialog.classList.remove('hidden');
+          confirmDialog.classList.add('flex');
+          setTimeout(() => {
+            confirmDialog.querySelector('.confirm-dialog').classList.add('show');
+          }, 10);
+        };
+
+        const hideConfirmDialog = () => {
+          confirmDialog.querySelector('.confirm-dialog').classList.remove('show');
+          setTimeout(() => {
+            confirmDialog.classList.add('hidden');
+            confirmDialog.classList.remove('flex');
+            orderToDelete = null;
+          }, 300);
+        };
+
+        confirmDelete.addEventListener('click', () => {
+          if (orderToDelete) {
+            orderToDelete.orderElement.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+            orderToDelete.orderElement.style.opacity = '0';
+            orderToDelete.orderElement.style.transform = 'translateX(50px)';
+            setTimeout(() => {
+              deleteOrder(orderToDelete.orderId);
+              hideConfirmDialog();
+            }, 400);
+          }
+        });
+
+        cancelDelete.addEventListener('click', hideConfirmDialog);
 
         const renderOrders = () => {
           const allOrders = JSON.parse(localStorage.getItem('chiyaGharOrders')) || [];
           const currentUser = sessionStorage.getItem('chiyaGharUser');
           const userOrders = allOrders
             .filter(order => order.user === currentUser)
-            .sort((a, b) => new Date(b.orderDate) - new Date(a.orderDate)); 
+            .sort((a, b) => new Date(b.orderDate) - new Date(a.orderDate));
 
           if (userOrders.length === 0) {
             noOrdersMessage.classList.remove('hidden');
             return;
+          } else {
+            noOrdersMessage.classList.add('hidden');
           }
 
-          userOrders.forEach(order => {
+          userOrders.forEach((order, index) => {
             const orderDate = new Date(order.orderDate);
             const formattedDate = orderDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
             
             let itemsHtml = '';
             order.items.forEach(item => {
               itemsHtml += `
-                <div class="flex items-center justify-between py-2">
-                    <div class="flex items-center gap-3">
-                        <img src="${item.image}" alt="${item.name}" class="w-10 h-10 object-cover rounded">
-                        <span>${item.name} <span class="text-gray-400 text-sm">x ${item.quantity}</span></span>
-                    </div>
-                    <span>Rs. ${(item.price * item.quantity).toFixed(2)}</span>
+                <div class="flex items-center justify-between py-3 hover:bg-[#6B4E3D]/50 rounded-lg transition-colors duration-200">
+                  <div class="flex items-center gap-4">
+                    <img src="${item.image}" alt="${item.name}" class="w-12 h-12 object-cover rounded-lg shadow-sm">
+                    <span class="text-base">${item.name} <span class="text-gray-400 text-sm">x ${item.quantity}</span></span>
+                  </div>
+                  <span class="font-semibold">Rs. ${(item.price * item.quantity).toFixed(2)}</span>
                 </div>
               `;
             });
 
             const orderElement = document.createElement('div');
-            orderElement.className = 'bg-[#5C4033] rounded-lg shadow-md';
+            orderElement.className = 'order-card';
+            orderElement.style.animationDelay = `${index * 0.15}s`;
             orderElement.innerHTML = `
-              <div class="accordion-header flex justify-between items-center p-4 cursor-pointer">
+              <div class="accordion-header flex justify-between items-center p-5 cursor-pointer border-b border-gray-600/50">
                 <div>
-                  <p class="font-bold text-amber-300">Order ID: ${order.orderId || 'N/A'}</p>
-                  <p class="text-sm text-gray-400">${formattedDate}</p>
+                  <p class="font-bold text-amber-300 text-lg">Order ID: ${order.orderId || 'N/A'}</p>
+                  <p class="text-sm text-gray-300">${formattedDate}</p>
                 </div>
-                <div class="text-right">
-                  <p class="font-semibold">${order.totals.grandTotal}</p>
-                  <span class="text-xs text-gray-400">Click to view details</span>
+                <div class="text-right flex items-center gap-6">
+                  <div>
+                    <p class="font-semibold text-amber-400">${order.totals.grandTotal}</p>
+                    <span class="text-xs text-gray-400">Click to view details</span>
+                  </div>
+                  <button class="delete-btn text-red-400 p-2" data-order-id="${order.orderId}">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5-4h4"></path></svg>
+                  </button>
                 </div>
               </div>
-              <div class="accordion-content border-t border-gray-600">
-                  <div class="p-4 space-y-2">
-                      ${itemsHtml}
-                      <div class="border-t border-gray-500 pt-2 mt-2 flex justify-between font-semibold">
-                        <span>Total</span>
-                        <span>${order.totals.grandTotal}</span>
-                      </div>
+              <div class="accordion-content border-t border-gray-600/50">
+                <div class="p-5 space-y-3">
+                  ${itemsHtml}
+                  <div class="border-t border-gray-500/50 pt-3 mt-3 flex justify-between font-semibold text-amber-300">
+                    <span>Total</span>
+                    <span>${order.totals.grandTotal}</span>
                   </div>
+                </div>
               </div>
             `;
             ordersContainer.appendChild(orderElement);
@@ -200,12 +338,22 @@
 
         ordersContainer.addEventListener('click', (e) => {
           const header = e.target.closest('.accordion-header');
-          if (header) {
+          const deleteBtn = e.target.closest('.delete-btn');
+          
+          if (deleteBtn) {
+            const orderId = deleteBtn.getAttribute('data-order-id');
+            const orderElement = deleteBtn.closest('.order-card');
+            deleteBtn.classList.add('bounce');
+            setTimeout(() => deleteBtn.classList.remove('bounce'), 300);
+            showConfirmDialog(orderId, orderElement);
+          } else if (header) {
             const content = header.nextElementSibling;
             if (content.style.maxHeight) {
               content.style.maxHeight = null;
+              content.classList.remove('open');
             } else {
               content.style.maxHeight = content.scrollHeight + "px";
+              content.classList.add('open');
             }
           }
         });
@@ -217,6 +365,5 @@
       checkAuth();
     });
   </script>
-
 </body>
 </html>
