@@ -27,28 +27,46 @@
 
     /* Active nav link */
     .nav-link.active {
-      @apply text-amber-400 font-semibold;
+      color: #FBBF24;
+      font-weight: 700;
+      position: relative;
+    }
+    .nav-link.active::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background-color: #FBBF24;
+      transition: width 0.3s ease;
     }
 
     /* Enhanced Scroll-triggered animations */
     .animate-on-scroll {
-      @apply opacity-0 translate-y-12 scale-95 transition-all duration-1000 ease-out;
+      opacity: 0;
+      transform: translateY(50px) scale(0.95);
+      transition: all 1s cubic-bezier(0.4, 0, 0.2, 1);
     }
     .animate-on-scroll.is-visible {
-      @apply opacity-100 translate-y-0 scale-100;
+      opacity: 1;
+      transform: translateY(0) scale(1);
     }
 
     /* Hero overlay animation */
     .hero-overlay {
-      @apply transition-opacity duration-1200 ease-in-out;
+      transition: opacity 1.2s ease-in-out;
     }
     .hero-overlay.is-visible {
-      @apply opacity-100;
+      opacity: 1;
     }
 
     /* Parallax effect for hero section */
     .hero-bg {
-      @apply bg-fixed bg-cover bg-center relative;
+      background-attachment: fixed;
+      background-size: cover;
+      background-position: center;
+      position: relative;
     }
 
     /* Subtle background animation */
@@ -64,65 +82,97 @@
 
     /* Enhanced Button hover effects */
     .btn-hover {
-      @apply transition-all duration-400 ease-in-out relative overflow-hidden;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
     }
     .btn-hover::before {
       content: '';
-      @apply absolute top-0 left-[-100%] w-full h-full bg-gradient-to-r from-transparent via-white/20 to-transparent;
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
       transition: 0.6s;
     }
     .btn-hover:hover::before {
-      @apply left-[100%];
+      left: 100%;
     }
     .btn-hover:hover {
-      @apply transform -translate-y-1 scale-105 shadow-lg shadow-amber-400/50;
+      transform: translateY(-4px) scale(1.05);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
     }
 
     /* Enhanced Glassmorphism effect for cards */
     .glass-card {
-      @apply bg-white/10 backdrop-blur-lg border border-white/15 transition-all duration-300;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      transition: all 0.3s ease;
     }
     .glass-card:hover {
-      @apply bg-white/15 transform -translate-y-2 shadow-lg shadow-amber-400/30;
+      background: rgba(255, 255, 255, 0.15);
+      transform: translateY(-5px);
     }
 
     /* Enhanced Image hover */
     .img-hover {
-      @apply transition-transform duration-600 ease-in-out;
+      transition: transform 0.6s ease, box-shadow 0.6s ease;
     }
     .img-hover:hover {
-      @apply transform scale-105 shadow-2xl shadow-amber-400/30;
+      transform: scale(1.05);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
     }
 
     /* FAQ accordion styles */
     .faq-answer {
-      @apply max-h-0 overflow-hidden transition-all duration-500 ease-in-out;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.5s ease-in-out;
     }
     .faq-item.open .faq-answer {
-      @apply max-h-[400px]; /* Adjusted for longer answers */
+      max-height: 400px;
     }
     .faq-item.open .faq-icon {
-      @apply rotate-180;
+      transform: rotate(180deg);
     }
     .faq-icon {
-      @apply transition-transform duration-300;
+      transition: transform 0.3s ease;
     }
     .faq-question {
-      @apply transition-transform duration-200 ease-in-out;
+      transition: transform 0.2s ease-in-out;
     }
     .faq-question:active {
-      @apply scale-98; /* Subtle feedback for mobile tap */
+      transform: scale(0.98);
     }
 
     /* Loading animation */
     .loader {
-      @apply fixed top-0 left-0 w-full h-full bg-[#2E1F1F] flex justify-center items-center z-[9999] opacity-100 transition-opacity duration-500 ease-out;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #2E1F1F;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      opacity: 1;
+      transition: opacity 0.5s ease-out;
     }
     .loader.hidden {
-      @apply opacity-0 pointer-events-none;
+      opacity: 0;
+      pointer-events: none;
     }
     .spinner {
-      @apply w-16 h-16 border-4 border-amber-400 border-t-transparent rounded-full animate-spin;
+      width: 60px;
+      height: 60px;
+      border: 5px solid #FBBF24;
+      border-top: 5px solid transparent;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
     }
     @keyframes spin {
       0% { transform: rotate(0deg); }
@@ -131,15 +181,64 @@
 
     /* Particle effect for hero section */
     .particles {
-      @apply absolute top-0 left-0 w-full h-full z-0;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
     }
     .particle {
-      @apply absolute bg-amber-400/50 rounded-full animate-float-particle;
+      position: absolute;
+      background: rgba(245, 158, 11, 0.5);
+      border-radius: 50%;
+      animation: float-particle 10s linear infinite;
     }
     @keyframes float-particle {
       0% { transform: translateY(0) scale(1); opacity: 0.5; }
       50% { opacity: 0.8; }
       100% { transform: translateY(-100vh) scale(0.5); opacity: 0; }
+    }
+
+    /* Mobile Menu Enhancements */
+    #mobile-menu {
+      z-index: 60;
+      height: 100vh;
+      transform: translateX(100%);
+      transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    }
+    #mobile-menu.show {
+      transform: translateX(0);
+    }
+    .nav-link-mobile {
+      opacity: 0;
+      transform: translateX(20px);
+      transition: opacity 0.4s ease, transform 0.4s ease, color 0.3s ease, padding-left 0.3s ease;
+    }
+    #mobile-menu.show .nav-link-mobile {
+      opacity: 1;
+      transform: translateX(0);
+    }
+    .nav-link-mobile:nth-child(1) { transition-delay: 0.1s; }
+    .nav-link-mobile:nth-child(2) { transition-delay: 0.2s; }
+    .nav-link-mobile:nth-child(3) { transition-delay: 0.3s; }
+    .nav-link-mobile:nth-child(4) { transition-delay: 0.4s; }
+    .nav-link-mobile:nth-child(5) { transition-delay: 0.5s; }
+    .nav-link-mobile:nth-child(6) { transition-delay: 0.6s; }
+    .nav-link-mobile:nth-child(7) { transition-delay: 0.7s; }
+    .nav-link-mobile:hover {
+      transform: translateX(12px);
+      color: #FBBF24;
+      padding-left: 1.5rem;
+      background: rgba(255, 193, 7, 0.1);
+      border-radius: 8px;
+    }
+
+    /* Header scroll effect */
+    #main-header.scrolled {
+      background: rgba(46, 31, 31, 0.95);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
     }
   </style>
   
@@ -202,7 +301,7 @@
         <a href="index.html" class="nav-link hover:text-amber-400 relative transition-colors duration-300 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-amber-400 after:transition-all after:duration-300 hover:after:w-full animate-slideInLeft">Home</a>
         <a href="AboutUs.html" class="nav-link active hover:text-amber-400 relative transition-colors duration-300 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-amber-400 after:transition-all after:duration-300 animate-slideInLeft delay-1">About Us</a>
         <a href="menu.html" class="nav-link hover:text-amber-400 relative transition-colors duration-300 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-amber-400 after:transition-all after:duration-300 hover:after:w-full animate-slideInLeft delay-2">Menu</a>
-        <a href="cart.html" class="nav-link hover:text-amber-400 relative transition-colors duration-300 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-amber-400 after:transition-all after:duration-300 hover:after:w-full animate-slideInLeft delay-3">Cart</a>
+        <a href="cart.html" class="nav-link cart-link hover:text-amber-400 relative transition-colors duration-300 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-amber-400 after:transition-all after:duration-300 hover:after:w-full animate-slideInLeft delay-3">Cart</a>
         <a href="order.html" class="nav-link hover:text-amber-400 relative transition-colors duration-300 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-amber-400 after:transition-all after:duration-300 hover:after:w-full animate-slideInLeft delay-4">Order</a>
         <a href="gallery.html" class="nav-link hover:text-amber-400 relative transition-colors duration-300 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-amber-400 after:transition-all after:duration-300 hover:after:w-full animate-slideInLeft delay-4">Gallery</a>
         <a href="contactus.html" class="border-2 border-amber-400 text-amber-400 rounded-full px-4 sm:px-5 py-2 font-bold hover:bg-amber-400 hover:text-[#2E1F1F] transition-all duration-300 hover:shadow-lg hover:shadow-amber-400/50 btn-hover animate-slideInLeft delay-4">Contact Us</a>
@@ -210,7 +309,7 @@
 
       <!-- Mobile Menu Button -->
       <div class="md:hidden">
-        <button id="hamburger-button" class="text-white focus:outline-none z-50 relative transition-transform duration-300 hover:scale-110" aria-label="Toggle menu">
+        <button id="hamburger-button" class="text-white focus:outline-none z-[70] relative transition-transform duration-300 hover:scale-110" aria-label="Toggle menu">
           <svg id="menu-icon" class="h-6 w-6 sm:h-7 sm:w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" /></svg>
           <svg id="close-icon" class="h-6 w-6 sm:h-7 sm:w-7 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
         </button>
@@ -218,15 +317,15 @@
     </div>
     
     <!-- Mobile Menu -->
-    <div id="mobile-menu" class="md:hidden fixed top-0 right-0 h-full w-3/4 sm:w-2/3 bg-[#2E1F1F]/95 backdrop-blur-lg transform translate-x-full transition-transform duration-500 ease-in-out max-h-screen overflow-y-auto p-6">
-      <nav class="flex flex-col items-start justify-start space-y-4 text-white text-lg sm:text-xl font-medium font-sans">
-        <a href="index.html" class="nav-link-mobile hover:text-amber-400 transition-colors duration-300 w-full py-2 animate-slideInRight">Home</a>
-        <a href="AboutUs.html" class="nav-link-mobile active hover:text-amber-400 transition-colors duration-300 w-full py-2 animate-slideInRight delay-1">About Us</a>
-        <a href="menu.html" class="nav-link-mobile hover:text-amber-400 transition-colors duration-300 w-full py-2 animate-slideInRight delay-2">Menu</a>
-        <a href="cart.html" class="nav-link-mobile hover:text-amber-400 transition-colors duration-300 w-full py-2 animate-slideInRight delay-3">Cart</a>
-        <a href="order.html" class="nav-link-mobile hover:text-amber-400 transition-colors duration-300 w-full py-2 animate-slideInRight delay-4">Order</a>
-        <a href="gallery.html" class="nav-link-mobile hover:text-amber-400 transition-colors duration-300 w-full py-2 animate-slideInRight delay-4">Gallery</a>
-        <a href="contactus.html" class="nav-link-mobile hover:text-amber-400 transition-colors duration-300 w-full py-2 animate-slideInRight delay-4">Contact Us</a>
+    <div id="mobile-menu" class="md:hidden fixed top-0 right-0 h-screen w-3/4 sm:w-2/3 bg-[#2E1F1F]/95 backdrop-blur-lg transform translate-x-full transition-transform duration-500 ease-in-out z-[60] p-6">
+      <nav class="flex flex-col items-start space-y-4 text-white text-lg sm:text-xl font-medium font-sans">
+        <a href="index.html" class="nav-link-mobile hover:text-amber-400 transition-all duration-300 w-full py-3">Home</a>
+        <a href="AboutUs.html" class="nav-link-mobile active hover:text-amber-400 transition-all duration-300 w-full py-3">About Us</a>
+        <a href="menu.html" class="nav-link-mobile hover:text-amber-400 transition-all duration-300 w-full py-3">Menu</a>
+        <a href="cart.html" class="nav-link-mobile cart-link hover:text-amber-400 transition-all duration-300 w-full py-3">Cart</a>
+        <a href="order.html" class="nav-link-mobile hover:text-amber-400 transition-all duration-300 w-full py-3">Order</a>
+        <a href="gallery.html" class="nav-link-mobile hover:text-amber-400 transition-all duration-300 w-full py-3">Gallery</a>
+        <a href="contactus.html" class="nav-link-mobile hover:text-amber-400 transition-all duration-300 w-full py-3">Contact Us</a>
       </nav>
     </div>
   </header>
@@ -423,51 +522,111 @@
       const heroOverlay = document.querySelector('.hero-overlay');
       const heroSection = document.querySelector('.hero-bg');
       const loader = document.querySelector('.loader');
+      const navLinksMobile = document.querySelectorAll('.nav-link-mobile');
+      const cartLinkIcons = document.querySelectorAll('.cart-link');
 
-      // --- Hide Loader ---
+      // Hide Loader
       setTimeout(() => {
         loader.classList.add('hidden');
       }, 1000);
 
-      // --- Mobile Menu Toggle ---
-      hamburgerButton.addEventListener("click", () => {
-        mobileMenu.classList.toggle("translate-x-full");
-        menuIcon.classList.toggle("hidden");
-        closeIcon.classList.toggle("hidden");
+      // Toggle Mobile Menu
+      const toggleMobileMenu = () => {
+        mobileMenu.classList.toggle('show');
+        menuIcon.classList.toggle('hidden');
+        closeIcon.classList.toggle('hidden');
+        hamburgerButton.classList.toggle('active');
+        document.body.style.overflow = mobileMenu.classList.contains('show') ? 'hidden' : 'auto';
+        mobileMenu.scrollTop = 0;
+      };
+
+      hamburgerButton.addEventListener('click', toggleMobileMenu);
+      hamburgerButton.addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        toggleMobileMenu();
       });
 
-      // --- Close Mobile Menu on Link Click ---
-      const mobileLinks = document.querySelectorAll('.nav-link-mobile');
-      mobileLinks.forEach(link => {
+      // Close Mobile Menu on Link Click
+      navLinksMobile.forEach(link => {
         link.addEventListener('click', () => {
-          setTimeout(() => {
-            mobileMenu.classList.add("translate-x-full");
-            menuIcon.classList.remove("hidden");
-            closeIcon.classList.add("hidden");
-          }, 200);
+          mobileMenu.classList.remove('show');
+          menuIcon.classList.remove('hidden');
+          closeIcon.classList.add('hidden');
+          hamburgerButton.classList.remove('active');
+          document.body.style.overflow = 'auto';
         });
       });
 
-      // --- Header Style on Scroll ---
-      window.addEventListener('scroll', () => {
-        if (window.scrollY > 50) {
-          mainHeader.classList.add('bg-[#5C4033]/90', 'shadow-xl', 'backdrop-blur-lg', 'glass-card');
-        } else {
-          mainHeader.classList.remove('bg-[#5C4033]/90', 'shadow-xl', 'backdrop-blur-lg', 'glass-card');
+      // Close Menu When Clicking Outside
+      document.addEventListener('click', (e) => {
+        if (!mobileMenu.contains(e.target) && !hamburgerButton.contains(e.target) && mobileMenu.classList.contains('show')) {
+          toggleMobileMenu();
         }
       });
 
-      // --- Highlight Active Navigation Link ---
-      const navLinks = document.querySelectorAll('.nav-link');
+      // Header Style on Scroll
+      window.addEventListener('scroll', () => {
+        mainHeader.classList.toggle('scrolled', window.scrollY > 50);
+      });
+
+      // Highlight Active Navigation Link
       const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+      const navLinks = document.querySelectorAll('.nav-link, .nav-link-mobile');
       navLinks.forEach(link => {
-        if (link.getAttribute('href').split('/').pop() === currentPage) {
+        const linkPage = link.getAttribute('href').split('/').pop() || 'index.html';
+        if (linkPage === currentPage) {
           link.classList.add('active');
         }
       });
 
-      // --- Animate on Scroll ---
-      const animatedElements = document.querySelectorAll('.animate-on-scroll');
+      // Update Cart Icon
+      const updateCartIcon = () => {
+        const cart = JSON.parse(localStorage.getItem('chiyaGharCart')) || [];
+        const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+        cartLinkIcons.forEach(icon => {
+          if (totalItems > 0) {
+            icon.setAttribute('data-count', totalItems);
+            icon.classList.add('cart-count');
+          } else {
+            icon.removeAttribute('data-count');
+            icon.classList.remove('cart-count');
+          }
+        });
+      };
+
+      // Cart Count Styling
+      const style = document.createElement('style');
+      style.textContent = `
+        .cart-count::after {
+          content: attr(data-count);
+          position: absolute;
+          top: -12px;
+          right: -12px;
+          background-color: #EF4444;
+          color: white;
+          font-size: 0.75rem;
+          font-weight: bold;
+          border-radius: 50%;
+          padding: 4px 8px;
+          line-height: 1;
+          min-width: 22px;
+          text-align: center;
+          border: 2px solid #5C4033;
+          box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+          transition: transform 0.3s ease;
+          animation: bounce 0.5s ease-in-out;
+        }
+        .cart-count:hover::after {
+          transform: scale(1.2);
+        }
+        @keyframes bounce {
+          0%, 100% { transform: translateY(0); }
+          50% { transform: translateY(-5px); }
+        }
+      `;
+      document.head.appendChild(style);
+
+      // Animate on Scroll
       const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
@@ -480,16 +639,16 @@
         rootMargin: '0px 0px -50px 0px'
       });
 
-      animatedElements.forEach(el => {
+      document.querySelectorAll('.animate-on-scroll').forEach(el => {
         observer.observe(el);
       });
 
-      // --- Hero Overlay Animation ---
+      // Hero Overlay Animation
       setTimeout(() => {
         heroOverlay.classList.add('is-visible');
       }, 500);
 
-      // --- Parallax Effect for Hero Section ---
+      // Parallax Effect for Hero Section
       window.addEventListener('scroll', () => {
         const scrollPosition = window.scrollY;
         if (heroSection) {
@@ -497,7 +656,7 @@
         }
       });
 
-      // --- Particle Effect for Hero Section ---
+      // Particle Effect for Hero Section
       const particlesContainer = document.querySelector('.particles');
       function createParticle() {
         const particle = document.createElement('div');
@@ -513,7 +672,7 @@
       }
       setInterval(createParticle, 300);
 
-      // --- FAQ Accordion Toggle ---
+      // FAQ Accordion Toggle
       const faqQuestions = document.querySelectorAll('.faq-question');
       faqQuestions.forEach(question => {
         question.addEventListener('click', function() {
@@ -522,7 +681,7 @@
         });
       });
 
-      // --- Image Hover Effect ---
+      // Image Hover Effect
       document.querySelectorAll('.img-hover').forEach(img => {
         img.addEventListener('mouseover', () => {
           img.style.transform = 'scale(1.05)';
@@ -533,8 +692,10 @@
         });
       });
 
-      // --- Set Current Year in Footer ---
+      // Set Current Year in Footer
       document.getElementById("current-year").textContent = new Date().getFullYear();
+
+      updateCartIcon();
     });
   </script>
 </body>
