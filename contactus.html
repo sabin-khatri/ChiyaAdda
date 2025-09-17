@@ -5,239 +5,544 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Contact Us - Chiya Ghar</title>
   <link rel="icon" href="images/logo.png" />
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Playfair+Display:ital,wght@0,700;1,600&display=swap" rel="stylesheet">
+  <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      /* The animated background is a great touch! */
-      background: linear-gradient(270deg, #5C4033, #3C2F2F, #DC2626);
-      background-size: 200% 200%;
-      animation: bgGradient 15s ease infinite;
+      font-family: 'Lato', sans-serif;
+      background-color: #2E1F1F;
+      overflow-x: hidden;
     }
-
-    @keyframes bgGradient {
-      0%, 100% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
+    .font-serif {
+      font-family: 'Playfair Display', serif;
     }
-
-    /* Customize scrollbar for a better look */
-    ::-webkit-scrollbar { width: 8px; }
-    ::-webkit-scrollbar-thumb { background-color: #5C4033; border-radius: 10px; }
-
-    /* Smooth transitions for form status */
-    #form-status { transition: all 0.3s ease; }
-    .nav-link.active { color: #f59e0b; font-weight: 700; }
+    /* Active navigation link */
+    .nav-link.active {
+      color: #FBBF24;
+      font-weight: 700;
+      position: relative;
+    }
+    .nav-link.active::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(90deg, #FBBF24, #EF4444);
+      transition: width 0.3s ease;
+    }
+    /* Scroll animations */
+    .animate-on-scroll {
+      opacity: 0;
+      transform: translateY(50px) scale(0.95);
+      transition: all 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    }
+    .animate-on-scroll.is-visible {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+    .delay-1 { transition-delay: 100ms; }
+    .delay-2 { transition-delay: 200ms; }
+    .delay-3 { transition-delay: 300ms; }
+    .delay-4 { transition-delay: 400ms; }
+    /* Subtle background pattern */
+    .bg-pattern {
+      background-image: radial-gradient(circle, rgba(245, 158, 11, 0.3) 2px, transparent 2px);
+      background-size: 25px 25px;
+      animation: bg-move 15s linear infinite;
+    }
+    @keyframes bg-move {
+      0% { background-position: 0 0; }
+      100% { background-position: 50px 50px; }
+    }
+    /* Button hover effects */
+    .btn-hover {
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+    }
+    .btn-hover::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+      transition: left 0.5s ease;
+    }
+    .btn-hover:hover::before {
+      left: 100%;
+    }
+    .btn-hover:hover {
+      transform: translateY(-5px) scale(1.05);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+    }
+    /* Glassmorphism effect */
+    .glass-card {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(14px);
+      border: 1px solid rgba(255, 193, 7, 0.3);
+      transition: all 0.4s ease;
+    }
+    .glass-card:hover {
+      background: rgba(255, 255, 255, 0.15);
+      transform: translateY(-8px) rotate(1deg);
+      box-shadow: 0 16px 32px rgba(0, 0, 0, 0.5);
+    }
+    /* Input focus effects */
+    input:focus, textarea:focus {
+      transform: scale(1.02);
+      box-shadow: 0 0 10px rgba(245, 158, 11, 0.5);
+    }
+    /* Loading animation */
+    .loader {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #2E1F1F;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      opacity: 1;
+      transition: opacity 0.6s ease-out;
+    }
+    .loader.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+    .spinner {
+      width: 70px;
+      height: 70px;
+      border: 6px solid #FBBF24;
+      border-top: 6px solid transparent;
+      border-radius: 50%;
+      animation: spin 0.8s ease-in-out infinite;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    /* Mobile Menu Enhancements */
+    #mobile-menu {
+      z-index: 60;
+      height: 100vh;
+      transform: translateX(100%);
+      transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    }
+    #mobile-menu.show {
+      transform: translateX(0);
+    }
+    .nav-link-mobile {
+      opacity: 0;
+      transform: translateX(20px);
+      transition: opacity 0.4s ease, transform 0.4s ease, color 0.3s ease, padding-left 0.3s ease;
+    }
+    #mobile-menu.show .nav-link-mobile {
+      opacity: 1;
+      transform: translateX(0);
+    }
+    .nav-link-mobile:nth-child(1) { transition-delay: 0.1s; }
+    .nav-link-mobile:nth-child(2) { transition-delay: 0.2s; }
+    .nav-link-mobile:nth-child(3) { transition-delay: 0.3s; }
+    .nav-link-mobile:nth-child(4) { transition-delay: 0.4s; }
+    .nav-link-mobile:nth-child(5) { transition-delay: 0.5s; }
+    .nav-link-mobile:nth-child(6) { transition-delay: 0.6s; }
+    .nav-link-mobile:nth-child(7) { transition-delay: 0.7s; }
+    .nav-link-mobile:hover {
+      transform: translateX(12px);
+      color: #FBBF24;
+      padding-left: 1.5rem;
+      background: rgba(255, 193, 7, 0.1);
+      border-radius: 8px;
+    }
+    /* Header scroll effect */
+    #main-header.scrolled {
+      background: rgba(46, 31, 31, 0.95);
+      backdrop-filter: blur(14px);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+      transform: translateY(0);
+      animation: slideDown 0.5s ease-out;
+    }
+    @keyframes slideDown {
+      from { transform: translateY(-100%); }
+      to { transform: translateY(0); }
+    }
+    /* Section Title Animation */
+    .section-title {
+      position: relative;
+      display: inline-block;
+    }
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: -8px;
+      left: 50%;
+      width: 0;
+      height: 4px;
+      background: linear-gradient(90deg, #FBBF24, #EF4444);
+      transition: width 0.6s ease, left 0.6s ease;
+      transform: translateX(-50%);
+    }
+    .section-title.is-visible::after {
+      width: 100%;
+      left: 0;
+    }
+    /* Hamburger button animation */
+    #hamburger-button.active #menu-icon {
+      transform: rotate(90deg);
+      opacity: 0;
+    }
+    #hamburger-button.active #close-icon {
+      transform: rotate(0deg);
+      opacity: 1;
+    }
+    #menu-icon, #close-icon {
+      transition: transform 0.4s ease, opacity 0.4s ease;
+    }
+    #close-icon {
+      transform: rotate(-90deg);
+      opacity: 0;
+    }
+    #hamburger-button:hover {
+      transform: scale(1.2);
+    }
   </style>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Lato', 'sans-serif'],
+            serif: ['Playfair Display', 'serif'],
+          },
+          keyframes: {
+            float: {
+              '0%, 100%': { transform: 'translateY(-15px)' },
+              '50%': { transform: 'translateY(15px)' },
+            },
+            pulse: {
+              '0%, 100%': { transform: 'scale(1)' },
+              '50%': { transform: 'scale(1.05)' },
+            },
+            fadeIn: {
+              '0%': { opacity: '0' },
+              '100%': { opacity: '1' },
+            },
+            slideInLeft: {
+              '0%': { transform: 'translateX(-100%)', opacity: '0' },
+              '100%': { transform: 'translateX(0)', opacity: '1' },
+            },
+            slideInRight: {
+              '0%': { transform: 'translateX(100%)', opacity: '0' },
+              '100%': { transform: 'translateX(0)', opacity: '1' },
+            },
+          },
+          animation: {
+            float: 'float 4s ease-in-out infinite',
+            pulse: 'pulse 2s ease-in-out infinite',
+            fadeIn: 'fadeIn 1.2s ease-out',
+            slideInLeft: 'slideInLeft 1s ease-out',
+            slideInRight: 'slideInRight 1s ease-out',
+          },
+        },
+      },
+    };
+  </script>
 </head>
 
-<body class="text-gray-800">
+<body class="bg-pattern text-gray-800">
+  <!-- Loader -->
+  <div class="loader">
+    <div class="spinner"></div>
+  </div>
 
- <header id="main-header" class="fixed top-0 left-0 w-full z-50 transition-all duration-500">
-  <div class="container mx-auto flex items-center justify-between px-4 sm:px-6 py-3">
-    <a href="index.html" class="flex items-center gap-2 sm:gap-3 transition-transform duration-300 hover:scale-105">
-      <img src="images/logo.png" alt="Chiya Ghar Logo" class="h-10 w-10 sm:h-12 sm:w-12" />
-      <div class="flex items-baseline">
-        <span class="text-xl sm:text-2xl font-bold text-red-600 font-serif">CHIYA</span>
-        <span class="text-xl sm:text-2xl font-bold text-white font-serif">GHAR</span>
+  <header id="main-header" class="fixed top-0 left-0 w-full z-50 transition-all duration-500">
+    <div class="container mx-auto flex items-center justify-between px-4 sm:px-6 py-3">
+      <a href="index.html" class="flex items-center gap-2 sm:gap-3 transition-transform duration-300 hover:scale-105">
+        <img src="images/logo.png" alt="Chiya Ghar Logo" class="h-10 w-10 sm:h-12 sm:w-12 transition-transform duration-300 hover:rotate-180" />
+        <div class="flex items-baseline">
+          <span class="text-xl sm:text-2xl font-bold text-red-600 font-serif animate-slideInLeft">CHIYA</span>
+          <span class="text-xl sm:text-2xl font-bold text-white font-serif animate-slideInLeft delay-1">GHAR</span>
+        </div>
+      </a>
+      <!-- Desktop Navigation -->
+      <nav class="hidden md:flex items-center space-x-6 lg:space-x-8 text-white text-sm sm:text-base font-medium font-sans">
+        <a href="index.html" class="nav-link hover:text-amber-400 relative transition-colors duration-300 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-amber-400 after:transition-all after:duration-300 hover:after:w-full animate-slideInLeft">Home</a>
+        <a href="AboutUs.html" class="nav-link hover:text-amber-400 relative transition-colors duration-300 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-amber-400 after:transition-all after:duration-300 hover:after:w-full animate-slideInLeft delay-1">About Us</a>
+        <a href="menu.html" class="nav-link hover:text-amber-400 relative transition-colors duration-300 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-amber-400 after:transition-all after:duration-300 hover:after:w-full animate-slideInLeft delay-2">Menu</a>
+        <a href="cart.html" class="nav-link cart-link hover:text-amber-400 relative transition-colors duration-300 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-amber-400 after:transition-all after:duration-300 hover:after:w-full animate-slideInLeft delay-3">Cart</a>
+        <a href="order.html" class="nav-link hover:text-amber-400 relative transition-colors duration-300 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-amber-400 after:transition-all after:duration-300 hover:after:w-full animate-slideInLeft delay-4">Order</a>
+        <a href="gallery.html" class="nav-link hover:text-amber-400 relative transition-colors duration-300 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-amber-400 after:transition-all after:duration-300 hover:after:w-full animate-slideInLeft delay-4">Gallery</a>
+        <a href="contactus.html" class="nav-link active border-2 border-amber-400 text-amber-400 rounded-full px-4 sm:px-5 py-2 font-bold hover:bg-amber-400 hover:text-[#2E1F1F] transition-all duration-300 hover:shadow-lg hover:shadow-amber-400/50 btn-hover animate-slideInLeft delay-4">Contact Us</a>
+      </nav>
+      <!-- Mobile Menu Button -->
+      <div class="md:hidden">
+        <button id="hamburger-button" class="text-white focus:outline-none z-[70] relative transition-transform duration-300 hover:scale-110" aria-label="Toggle menu">
+          <svg id="menu-icon" class="h-6 w-6 sm:h-7 sm:w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" /></svg>
+          <svg id="close-icon" class="h-6 w-6 sm:h-7 sm:w-7 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+        </button>
       </div>
-    </a>
-
-    <!-- Desktop Navigation -->
-    <nav class="hidden md:flex items-center space-x-6 lg:space-x-8 text-white text-sm sm:text-base font-medium font-sans">
-      <a href="index.html" class="nav-link hover:text-amber-400 relative transition-colors duration-300 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-amber-400 after:transition-all after:duration-300 hover:after:w-full">Home</a>
-      <a href="AboutUs.html" class="nav-link hover:text-amber-400 relative transition-colors duration-300 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-amber-400 after:transition-all after:duration-300 hover:after:w-full">About Us</a>
-      <a href="menu.html" class="nav-link hover:text-amber-400 relative transition-colors duration-300 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-amber-400 after:transition-all after:duration-300 hover:after:w-full">Menu</a>
-      <a href="cart.html" class="nav-link hover:text-amber-400 relative transition-colors duration-300 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-amber-400 after:transition-all after:duration-300 hover:after:w-full">Cart</a>
-      <a href="order.html" class="nav-link hover:text-amber-400 relative transition-colors duration-300 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-amber-400 after:transition-all after:duration-300 hover:after:w-full">Order</a>
-      <a href="gallery.html" class="nav-link hover:text-amber-400 relative transition-colors duration-300 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-amber-400 after:transition-all after:duration-300 hover:after:w-full">Gallery</a>
-      <a href="contactus.html" class="nav-link active border-2 border-amber-400 text-amber-400 rounded-full px-4 sm:px-5 py-2 font-bold hover:bg-amber-400 hover:text-[#2E1F1F] transition-all duration-300 hover:shadow-lg hover:shadow-amber-400/50">Contact Us</a>
-    </nav>
-
-    <!-- Mobile Menu Button -->
-    <div class="md:hidden">
-      <button id="hamburger-button" class="text-white focus:outline-none z-50 relative transition-transform duration-300 hover:scale-110" aria-label="Toggle menu">
-        <svg id="menu-icon" class="h-6 w-6 sm:h-7 sm:w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" /></svg>
-        <svg id="close-icon" class="h-6 w-6 sm:h-7 sm:w-7 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
-      </button>
     </div>
-  </div>
-  
-  <!-- Mobile Menu -->
-  <div id="mobile-menu" class="md:hidden fixed top-0 right-0 h-full w-3/4 sm:w-2/3 bg-[#2E1F1F]/95 backdrop-blur-lg transform translate-x-full transition-transform duration-500 ease-in-out max-h-screen overflow-y-auto p-6">
-    <nav class="flex flex-col items-start justify-start space-y-4 text-white text-lg sm:text-xl font-medium font-sans">
-      <a href="index.html" class="nav-link-mobile hover:text-amber-400 transition-colors duration-300 w-full py-2">Home</a>
-      <a href="AboutUs.html" class="nav-link-mobile hover:text-amber-400 transition-colors duration-300 w-full py-2">About Us</a>
-      <a href="menu.html" class="nav-link-mobile hover:text-amber-400 transition-colors duration-300 w-full py-2">Menu</a>
-      <a href="cart.html" class="nav-link-mobile hover:text-amber-400 transition-colors duration-300 w-full py-2">Cart</a>
-      <a href="order.html" class="nav-link-mobile hover:text-amber-400 transition-colors duration-300 w-full py-2">Order</a>
-      <a href="gallery.html" class="nav-link-mobile hover:text-amber-400 transition-colors duration-300 w-full py-2">Gallery</a>
-      <a href="contactus.html" class="nav-link-mobile active hover:text-amber-400 transition-colors duration-300 w-full py-2">Contact Us</a>
-    </nav>
-  </div>
-</header>
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="md:hidden fixed top-0 right-0 h-screen w-3/4 sm:w-2/3 bg-[#2E1F1F]/95 backdrop-blur-lg transform translate-x-full transition-transform duration-500 ease-in-out z-[60] p-6">
+      <nav class="flex flex-col items-start space-y-4 text-white text-lg sm:text-xl font-medium font-sans">
+        <a href="index.html" class="nav-link-mobile hover:text-amber-400 transition-all duration-300 w-full py-3">Home</a>
+        <a href="AboutUs.html" class="nav-link-mobile hover:text-amber-400 transition-all duration-300 w-full py-3">About Us</a>
+        <a href="menu.html" class="nav-link-mobile hover:text-amber-400 transition-all duration-300 w-full py-3">Menu</a>
+        <a href="cart.html" class="nav-link-mobile cart-link hover:text-amber-400 transition-all duration-300 w-full py-3">Cart</a>
+        <a href="order.html" class="nav-link-mobile hover:text-amber-400 transition-all duration-300 w-full py-3">Order</a>
+        <a href="gallery.html" class="nav-link-mobile hover:text-amber-400 transition-all duration-300 w-full py-3">Gallery</a>
+        <a href="contactus.html" class="nav-link-mobile active hover:text-amber-400 transition-all duration-300 w-full py-3">Contact Us</a>
+      </nav>
+    </div>
+  </header>
 
   <!-- Main Content -->
   <main class="container mx-auto px-6 py-28">
-    <h2 class="text-4xl font-bold text-center text-white mb-12 drop-shadow-lg">Contact Us</h2>
+    <h2 class="animate-on-scroll section-title text-4xl md:text-5xl font-bold text-center text-white mb-12 drop-shadow-lg font-serif">Contact Us</h2>
     <div class="grid md:grid-cols-3 gap-12 items-start">
       <!-- Contact Information -->
-      <div class="bg-white/90 backdrop-blur-sm p-8 rounded-lg shadow-xl md:col-span-1">
-        <h3 class="text-2xl font-semibold text-[#5C4033] mb-6">Get in Touch</h3>
-        <p class="text-gray-600 mb-6">We'd love to hear from you! Whether it's a question, feedback, or a catering inquiry, feel free to reach out.</p>
+      <div class="animate-on-scroll glass-card p-8 rounded-lg shadow-xl md:col-span-1">
+        <h3 class="text-2xl font-semibold text-amber-400 mb-6 font-serif">Get in Touch</h3>
+        <p class="text-gray-300 mb-6">We'd love to hear from you! Whether it's a question, feedback, or a catering inquiry, feel free to reach out.</p>
         <div class="space-y-4">
-          <div class="flex items-start space-x-3">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-[#5C4033] mt-1 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
-            <div><h4 class="font-semibold text-gray-800">Address</h4><p class="text-gray-600">Chiya Ghar, Itahari</p></div>
+          <div class="flex items-start space-x-3 animate-on-scroll delay-1">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-amber-400 mt-1 flex-shrink-0 animate-pulse" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+            <div><h4 class="font-semibold text-gray-200">Address</h4><p class="text-gray-400">Chiya Ghar, Itahari</p></div>
           </div>
-          <div class="flex items-start space-x-3">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-[#5C4033] mt-1 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" /></svg>
-            <div><h4 class="font-semibold text-gray-800">Phone</h4><p class="text-gray-600">9829753986</p></div>
+          <div class="flex items-start space-x-3 animate-on-scroll delay-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-amber-400 mt-1 flex-shrink-0 animate-pulse" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" /></svg>
+            <div><h4 class="font-semibold text-gray-200">Phone</h4><p class="text-gray-400">9829753986</p></div>
           </div>
-          <div class="flex items-start space-x-3">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-[#5C4033] mt-1 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
-            <div><h4 class="font-semibold text-gray-800">Email</h4><p class="text-gray-600">info@chiyaghar.com</p></div>
+          <div class="flex items-start space-x-3 animate-on-scroll delay-3">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-amber-400 mt-1 flex-shrink-0 animate-pulse" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+            <div><h4 class="font-semibold text-gray-200">Email</h4><p class="text-gray-400">info@chiyaghar.com</p></div>
           </div>
         </div>
-        <div class="mt-8 rounded-lg overflow-hidden shadow-lg"><iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3532.739631409918!2d87.27312931508343!3d26.664292983180443!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39ef78002bdb0d01%3A0x73f0a4b4b87d9d31!2sItahari%2C%20Sunsari%20District%2C%20Province%201%2C%20Nepal!5e0!3m2!1sen!2sus!4v1688044000000!5m2!1sen!2sus" width="100%" height="200" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe></div>
+        <div class="mt-8 rounded-lg overflow-hidden shadow-lg animate-on-scroll delay-4"><iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3532.739631409918!2d87.27312931508343!3d26.664292983180443!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39ef78002bdb0d01%3A0x73f0a4b4b87d9d31!2sItahari%2C%20Sunsari%20District%2C%20Province%201%2C%20Nepal!5e0!3m2!1sen!2sus!4v1688044000000!5m2!1sen!2sus" width="100%" height="200" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe></div>
       </div>
       <!-- Contact Form -->
-      <div class="bg-white/90 backdrop-blur-sm p-8 rounded-lg shadow-xl md:col-span-2">
-        <h3 class="text-2xl font-semibold text-[#5C4033] mb-6">Send Us a Message</h3>
+      <div class="animate-on-scroll glass-card p-8 rounded-lg shadow-xl md:col-span-2">
+        <h3 class="text-2xl font-semibold text-amber-400 mb-6 font-serif">Send Us a Message</h3>
         <form id="contact-form" class="space-y-5" novalidate>
-          <div><label for="name" class="block text-sm font-medium text-gray-700 mb-1">Full Name</label><input type="text" id="name" name="name" required class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#5C4033] focus:border-transparent outline-none transition duration-150" /></div>
-          <div><label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email Address</label><input type="email" id="email" name="email" required class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#5C4033] focus:border-transparent outline-none transition duration-150" /></div>
-          <div><label for="subject" class="block text-sm font-medium text-gray-700 mb-1">Subject</label><input type="text" id="subject" name="subject" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#5C4033] focus:border-transparent outline-none transition duration-150" /></div>
-          <div><label for="message" class="block text-sm font-medium text-gray-700 mb-1">Message</label><textarea id="message" name="message" rows="5" required class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#5C4033] focus:border-transparent outline-none transition duration-150 resize-none"></textarea></div>
-          <div><button type="submit" class="w-full bg-[#5C4033] text-white font-semibold py-3 px-6 rounded-md hover:bg-opacity-90 transition duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#5C4033] disabled:bg-gray-400">Send Message</button></div>
-          <div id="form-status" class="mt-4 text-center h-6"></div>
+          <div class="animate-on-scroll delay-1"><label for="name" class="block text-sm font-medium text-gray-200 mb-1">Full Name</label><input type="text" id="name" name="name" required class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-amber-400 focus:border-transparent outline-none transition duration-150 bg-white/90" /></div>
+          <div class="animate-on-scroll delay-2"><label for="email" class="block text-sm font-medium text-gray-200 mb-1">Email Address</label><input type="email" id="email" name="email" required class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-amber-400 focus:border-transparent outline-none transition duration-150 bg-white/90" /></div>
+          <div class="animate-on-scroll delay-3"><label for="subject" class="block text-sm font-medium text-gray-200 mb-1">Subject</label><input type="text" id="subject" name="subject" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-amber-400 focus:border-transparent outline-none transition duration-150 bg-white/90" /></div>
+          <div class="animate-on-scroll delay-4"><label for="message" class="block text-sm font-medium text-gray-200 mb-1">Message</label><textarea id="message" name="message" rows="5" required class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-amber-400 focus:border-transparent outline-none transition duration-150 bg-white/90 resize-none"></textarea></div>
+          <div><button type="submit" class="w-full bg-amber-400 text-[#2E1F1F] font-semibold py-3 px-6 rounded-md hover:bg-amber-300 btn-hover transition duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-400 disabled:bg-gray-400 animate-on-scroll delay-4">Send Message</button></div>
         </form>
       </div>
     </div>
   </main>
-  
-  <footer class="bg-[#2a2121] text-gray-300 py-12">
-      <div class="container mx-auto px-6">
-        <div class="grid md:grid-cols-3 gap-8 text-center md:text-left">
-          <div class="animate-on-scroll">
-            <h3 class="text-lg font-bold text-white mb-4">Chiya Ghar</h3>
-            <p class="text-sm text-gray-400">Your cozy corner for authentic, soul-warming chiya and delightful conversations. est. 2023.</p>
-          </div>
-          <div class="animate-on-scroll delay-1">
-            <h3 class="text-lg font-bold text-white mb-4">Quick Links</h3>
-            <nav class="flex flex-col space-y-2"><a href="menu.html" class="text-sm text-gray-400 hover:text-amber-300 transition-colors">Menu</a><a href="gallery.html" class="text-sm text-gray-400 hover:text-amber-300 transition-colors">Gallery</a><a href="contactus.html" class="text-sm text-gray-400 hover:text-amber-300 transition-colors">Contact Us</a><a href="order.html" class="text-sm text-gray-400 hover:text-amber-300 transition-colors">Order Online</a></nav>
-          </div>
-          <div class="animate-on-scroll delay-2">
-            <h3 class="text-lg font-bold text-white mb-4">Follow Us</h3>
-            <div class="flex space-x-4 justify-center md:justify-start"><a href="index.html" target="_blank" class="hover:text-amber-300 transition-colors">Facebook</a><a href="index.html" target="_blank" class="hover:text-amber-300 transition-colors">Instagram</a><a href="index.html" target="_blank" class="hover:text-amber-300 transition-colors">TikTok</a></div>
-          </div>
+
+  <!-- Footer -->
+  <footer class="bg-[#2A2121] text-gray-300 py-12">
+    <div class="container mx-auto px-6">
+      <div class="grid md:grid-cols-3 gap-8 text-center md:text-left">
+        <div class="animate-on-scroll">
+          <h3 class="text-lg font-bold text-white mb-4 font-serif">Chiya Ghar</h3>
+          <p class="text-sm text-gray-400">Your cozy corner for authentic, soul-warming chiya and delightful conversations. Est. 2023.</p>
         </div>
-        <div class="mt-8 pt-8 border-t border-gray-700 text-center text-sm text-gray-500">
-          <p>© <span id="current-year"></span> Chiya Ghar. All Rights Reserved.</p>
+        <div class="animate-on-scroll delay-1">
+          <h3 class="text-lg font-bold text-white mb-4 font-serif">Quick Links</h3>
+          <nav class="flex flex-col space-y-2">
+            <a href="menu.html" class="text-sm text-gray-400 hover:text-amber-300 transition-all hover:scale-105">Menu</a>
+            <a href="gallery.html" class="text-sm text-gray-400 hover:text-amber-300 transition-all hover:scale-105">Gallery</a>
+            <a href="contactus.html" class="text-sm text-gray-400 hover:text-amber-300 transition-all hover:scale-105">Contact Us</a>
+            <a href="order.html" class="text-sm text-gray-400 hover:text-amber-300 transition-all hover:scale-105">Order Online</a>
+          </nav>
+        </div>
+        <div class="animate-on-scroll delay-2">
+          <h3 class="text-lg font-bold text-white mb-4 font-serif">Follow Us</h3>
+          <div class="flex space-x-4 justify-center md:justify-start">
+            <a href="index.html" target="_blank" class="hover:text-amber-300 transition-all hover:scale-110 animate-pulse">Facebook</a>
+            <a href="index.html" target="_blank" class="hover:text-amber-300 transition-all hover:scale-110 animate-pulse">Instagram</a>
+            <a href="index.html" target="_blank" class="hover:text-amber-300 transition-all hover:scale-110 animate-pulse">TikTok</a>
+          </div>
         </div>
       </div>
-    </footer>
+      <div class="mt-8 pt-8 border-t border-gray-700 text-center text-sm text-gray-500 animate-on-scroll delay-3">
+        <p>© <span id="current-year"></span> Chiya Ghar. All Rights Reserved.</p>
+      </div>
+    </div>
+  </footer>
 
-  <!-- Complete JavaScript for this page -->
+  <!-- JavaScript -->
   <script>
     document.addEventListener('DOMContentLoaded', () => {
+      // Elements
+      const hamburgerButton = document.getElementById('hamburger-button');
+      const mobileMenu = document.getElementById('mobile-menu');
+      const menuIcon = document.getElementById('menu-icon');
+      const closeIcon = document.getElementById('close-icon');
+      const mainHeader = document.getElementById('main-header');
+      const loader = document.querySelector('.loader');
+      const navLinksMobile = document.querySelectorAll('.nav-link-mobile');
+      const cartLinkIcons = document.querySelectorAll('.cart-link');
+      const form = document.getElementById('contact-form');
 
-        // --- Mobile Menu Navigation Script ---
-        const hamburgerButton = document.getElementById('hamburger-button');
-        const mobileMenu = document.getElementById('mobile-menu');
-        const menuIcon = document.getElementById('menu-icon');
-        const closeIcon = document.getElementById('close-icon');
+      // Hide loader
+      setTimeout(() => {
+        loader.classList.add('hidden');
+      }, 800);
 
-        if (hamburgerButton && mobileMenu && menuIcon && closeIcon) {
-            hamburgerButton.addEventListener('click', () => {
-                mobileMenu.classList.toggle('translate-x-full');
-                menuIcon.classList.toggle('hidden');
-                closeIcon.classList.toggle('hidden');
-            });
-        }
+      // Toggle mobile menu
+      const toggleMobileMenu = () => {
+        mobileMenu.classList.toggle('show');
+        menuIcon.classList.toggle('hidden');
+        closeIcon.classList.toggle('hidden');
+        hamburgerButton.classList.toggle('active');
+        document.body.style.overflow = mobileMenu.classList.contains('show') ? 'hidden' : 'auto';
+        mobileMenu.scrollTop = 0; // Reset scroll
+      };
 
-        // --- Header Scroll Effect ---
-        const header = document.getElementById('main-header');
-        if (header) {
-            window.addEventListener('scroll', () => {
-                if (window.scrollY > 50) {
-                    header.classList.add('bg-[#3C2F2F]', 'shadow-lg');
-                } else {
-                    header.classList.remove('bg-[#3C2F2F]', 'shadow-lg');
-                }
-            });
-        }
-        
-        // --- Active Nav Link Highlighter ---
-        const currentPage = window.location.pathname.split('/').pop() || 'index.html';
-        const desktopLinks = document.querySelectorAll('nav.hidden a.nav-link');
-        const mobileLinks = document.querySelectorAll('#mobile-menu a.nav-link-mobile');
-        
-        desktopLinks.forEach(link => {
-            if (link.getAttribute('href') === currentPage) {
-                link.classList.add('active');
-            }
+      if (hamburgerButton) {
+        hamburgerButton.addEventListener('click', toggleMobileMenu);
+        hamburgerButton.addEventListener('touchstart', (e) => {
+          e.preventDefault();
+          toggleMobileMenu();
         });
-        mobileLinks.forEach(link => {
-            if (link.getAttribute('href') === currentPage) {
-                link.classList.add('active');
-            }
+      }
+
+      // Close menu on link click
+      navLinksMobile.forEach(link => {
+        link.addEventListener('click', () => {
+          mobileMenu.classList.remove('show');
+          menuIcon.classList.remove('hidden');
+          closeIcon.classList.add('hidden');
+          hamburgerButton.classList.remove('active');
+          document.body.style.overflow = 'auto';
         });
+      });
 
-        // --- Contact Form Handling ---
-        const form = document.getElementById('contact-form');
-        const formStatus = document.getElementById('form-status');
-        const submitButton = form.querySelector('button[type="submit"]');
-
-        if (form) {
-            form.addEventListener('submit', (e) => {
-                e.preventDefault();
-
-                const name = form.querySelector('#name').value.trim();
-                const email = form.querySelector('#email').value.trim();
-                const message = form.querySelector('#message').value.trim();
-                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-                formStatus.textContent = '';
-                formStatus.classList.remove('text-red-500', 'text-green-500', 'text-blue-500');
-
-                if (!name || !email || !message) {
-                    formStatus.textContent = 'Please fill out all required fields.';
-                    formStatus.classList.add('text-red-500');
-                    return;
-                }
-
-                if (!emailRegex.test(email)) {
-                    formStatus.textContent = 'Please enter a valid email address.';
-                    formStatus.classList.add('text-red-500');
-                    return;
-                }
-
-                formStatus.textContent = 'Sending...';
-                formStatus.classList.add('text-blue-500');
-                submitButton.disabled = true;
-
-                // Simulate a network request
-                setTimeout(() => {
-                    formStatus.textContent = 'Message sent successfully! We will get back to you soon.';
-                    formStatus.classList.remove('text-blue-500');
-                    formStatus.classList.add('text-green-500');
-                    submitButton.disabled = false;
-                    form.reset();
-
-                    // Clear the message after a few seconds
-                    setTimeout(() => {
-                        formStatus.textContent = '';
-                    }, 5000);
-
-                }, 1500);
-            });
+      // Close menu on outside click
+      document.addEventListener('click', (e) => {
+        if (!mobileMenu.contains(e.target) && !hamburgerButton.contains(e.target) && mobileMenu.classList.contains('show')) {
+          toggleMobileMenu();
         }
-        
-        // --- Footer Year Update ---
-        const yearSpan = document.getElementById("current-year");
-        if (yearSpan) {
-            yearSpan.textContent = new Date().getFullYear();
+      });
+
+      // Header scroll effect
+      if (mainHeader) {
+        window.addEventListener('scroll', () => {
+          mainHeader.classList.toggle('scrolled', window.scrollY > 50);
+        });
+      }
+
+      // Active nav link
+      const currentPage = window.location.pathname.split('/').pop() || 'contactus.html';
+      const navLinks = document.querySelectorAll('.nav-link, .nav-link-mobile');
+      navLinks.forEach(link => {
+        const linkPage = link.getAttribute('href').split('/').pop() || 'contactus.html';
+        if (linkPage === currentPage) {
+          link.classList.add('active');
         }
+      });
+
+      // Scroll animations
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, {
+        threshold: 0.2,
+        rootMargin: '0px 0px -50px 0px',
+      });
+      document.querySelectorAll('.animate-on-scroll, .section-title').forEach(el => {
+        observer.observe(el);
+      });
+
+      // Contact form handling
+      if (form) {
+        form.addEventListener('submit', (e) => {
+          e.preventDefault();
+          const name = form.querySelector('#name').value.trim();
+          const email = form.querySelector('#email').value.trim();
+          const message = form.querySelector('#message').value.trim();
+          const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+          const submitButton = form.querySelector('button[type="submit"]');
+          
+          if (!name || !email || !message) {
+            alert('Please fill out all required fields.');
+            return;
+          }
+          if (!emailRegex.test(email)) {
+            alert('Please enter a valid email address.');
+            return;
+          }
+
+          submitButton.disabled = true;
+          setTimeout(() => {
+            alert('Message sent successfully! Redirecting to homepage...');
+            form.reset();
+            submitButton.disabled = false;
+            window.location.href = 'index.html';
+          }, 1500);
+        });
+      }
+
+      // Update cart icon
+      const updateCartIcon = () => {
+        const cart = JSON.parse(localStorage.getItem('chiyaGharCart')) || [];
+        const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+        cartLinkIcons.forEach(icon => {
+          if (totalItems > 0) {
+            icon.setAttribute('data-count', totalItems);
+            icon.classList.add('cart-count');
+          } else {
+            icon.removeAttribute('data-count');
+            icon.classList.remove('cart-count');
+          }
+        });
+      };
+
+      // Cart count styling
+      const style = document.createElement('style');
+      style.textContent = `
+        .cart-count::after {
+          content: attr(data-count);
+          position: absolute;
+          top: -12px;
+          right: -12px;
+          background-color: #EF4444;
+          color: white;
+          font-size: 0.75rem;
+          font-weight: bold;
+          border-radius: 50%;
+          padding: 4px 8px;
+          line-height: 1;
+          min-width: 22px;
+          text-align: center;
+          border: 2px solid #5C4033;
+          box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+          transition: transform 0.3s ease;
+          animation: bounce 0.5s ease-in-out;
+        }
+        .cart-count:hover::after {
+          transform: scale(1.2);
+        }
+        @keyframes bounce {
+          0%, 100% { transform: translateY(0); }
+          50% { transform: translateY(-5px); }
+        }
+      `;
+      document.head.appendChild(style);
+      updateCartIcon();
+
+      // Footer year
+      document.getElementById('current-year').textContent = new Date().getFullYear();
     });
   </script>
 </body>

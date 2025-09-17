@@ -6,6 +6,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const closeIcon = document.getElementById('close-icon');
   const mainHeader = document.getElementById('main-header');
   const loader = document.querySelector('.loader');
+  const navLinksMobile = document.querySelectorAll('.nav-link-mobile');
+  const cartLinkIcons = document.querySelectorAll('.cart-link');
 
   // Hide loader after page load
   setTimeout(() => {
@@ -13,36 +15,68 @@ document.addEventListener('DOMContentLoaded', () => {
   }, 1000);
 
   // Toggle mobile menu
-  hamburgerButton.addEventListener('click', () => {
-    mobileMenu.classList.toggle('translate-x-full');
+  const toggleMobileMenu = () => {
+    mobileMenu.classList.toggle('show');
     menuIcon.classList.toggle('hidden');
     closeIcon.classList.toggle('hidden');
+    hamburgerButton.classList.toggle('active');
+    document.body.style.overflow = mobileMenu.classList.contains('show') ? 'hidden' : 'auto';
+    mobileMenu.scrollTop = 0; // Reset scroll to top
+  };
+
+  hamburgerButton.addEventListener('click', toggleMobileMenu);
+  hamburgerButton.addEventListener('touchstart', (e) => {
+    e.preventDefault(); // Prevent double-tap zoom on mobile
+    toggleMobileMenu();
   });
 
   // Close mobile menu on link click
-  document.querySelectorAll('.nav-link-mobile').forEach(link => {
+  navLinksMobile.forEach(link => {
     link.addEventListener('click', () => {
-      mobileMenu.classList.add('translate-x-full');
+      mobileMenu.classList.remove('show');
       menuIcon.classList.remove('hidden');
       closeIcon.classList.add('hidden');
+      hamburgerButton.classList.remove('active');
+      document.body.style.overflow = 'auto';
     });
+  });
+
+  // Close menu when clicking outside
+  document.addEventListener('click', (e) => {
+    if (!mobileMenu.contains(e.target) && !hamburgerButton.contains(e.target) && mobileMenu.classList.contains('show')) {
+      toggleMobileMenu();
+    }
   });
 
   // Header scroll effect
   window.addEventListener('scroll', () => {
-    mainHeader.classList.toggle('bg-[#3C2F2F]/95', window.scrollY > 50);
-    mainHeader.classList.toggle('glass-card', window.scrollY > 50);
-    mainHeader.classList.toggle('shadow-2xl', window.scrollY > 50);
+    mainHeader.classList.toggle('scrolled', window.scrollY > 50);
   });
 
   // Highlight active nav link
-  const navLinks = document.querySelectorAll('.nav-link');
   const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+  const navLinks = document.querySelectorAll('.nav-link, .nav-link-mobile');
   navLinks.forEach(link => {
-    if (link.getAttribute('href').split('/').pop() === currentPage) {
+    const linkPage = link.getAttribute('href').split('/').pop() || 'index.html';
+    if (linkPage === currentPage) {
       link.classList.add('active');
     }
   });
+
+  // Update cart icon
+  const updateCartIcon = () => {
+    const cart = JSON.parse(localStorage.getItem('chiyaGharCart')) || [];
+    const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+    cartLinkIcons.forEach(icon => {
+      if (totalItems > 0) {
+        icon.setAttribute('data-count', totalItems);
+        icon.classList.add('cart-count');
+      } else {
+        icon.removeAttribute('data-count');
+        icon.classList.remove('cart-count');
+      }
+    });
+  };
 
   // Enhanced Scroll animations
   const observer = new IntersectionObserver((entries) => {
@@ -97,4 +131,38 @@ document.addEventListener('DOMContentLoaded', () => {
       card.style.setProperty('--mouse-y', `${y}px`);
     });
   });
+
+  // Cart count styling
+  const style = document.createElement('style');
+  style.textContent = `
+    .cart-count::after {
+      content: attr(data-count);
+      position: absolute;
+      top: -12px;
+      right: -12px;
+      background-color: #EF4444;
+      color: white;
+      font-size: 0.75rem;
+      font-weight: bold;
+      border-radius: 50%;
+      padding: 4px 8px;
+      line-height: 1;
+      min-width: 22px;
+      text-align: center;
+      border: 2px solid #5C4033;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+      transition: transform 0.3s ease;
+      animation: bounce 0.5s ease-in-out;
+    }
+    .cart-count:hover::after {
+      transform: scale(1.2);
+    }
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-5px); }
+    }
+  `;
+  document.head.appendChild(style);
+
+  updateCartIcon();
 });

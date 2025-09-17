@@ -10,74 +10,272 @@
   <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Playfair+Display:ital,wght@0,700;1,600&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    body { font-family: 'Lato', sans-serif; }
-    .font-serif { font-family: 'Playfair Display', serif; }
-    .cart-count::after{content:attr(data-count);position:absolute;top:-8px;right:-8px;background-color:#ef4444;color:white;font-size:.7rem;font-weight:700;border-radius:9999px;padding:2px 6px;line-height:1;min-width:18px;text-align:center;border:2px solid #5C4033}.cart-link{position:relative;display:inline-block}
-    .qty-btn { background-color: #7a5c50; border: none; color: white; padding: 2px 8px; border-radius: 4px; cursor: pointer; font-weight: bold; transition: background-color 0.2s; }
-    .qty-btn:hover { background-color: #5C4033; }
-    .remove-btn { background-color: #dc2626; border: none; color: white; padding: 4px 10px; border-radius: 4px; cursor: pointer; font-size: 0.9rem; transition: background-color 0.2s; }
-    .remove-btn:hover { background-color: #b91c1c; }
+    body {
+      font-family: 'Lato', sans-serif;
+      background-color: #3C2F2F;
+      overflow-x: hidden;
+    }
+    .font-serif {
+      font-family: 'Playfair Display', serif;
+    }
+    /* Active navigation link */
+    .nav-link.active {
+      color: #FBBF24;
+      font-weight: 700;
+      position: relative;
+    }
+    .nav-link.active::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(90deg, #FBBF24);
+      transition: width 0.3s ease;
+    }
+    /* Scroll animations */
+    .animate-on-scroll {
+      opacity: 0;
+      transform: translateY(50px) scale(0.95);
+      transition: all 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    }
+    .animate-on-scroll.is-visible {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+    .delay-1 { transition-delay: 100ms; }
+    .delay-2 { transition-delay: 200ms; }
+    .delay-3 { transition-delay: 300ms; }
+    .delay-4 { transition-delay: 400ms; }
+    /* Button hover effects */
+    .btn-hover {
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+    }
+    .btn-hover::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+      transition: left 0.5s ease;
+    }
+    .btn-hover:hover::before {
+      left: 100%;
+    }
+    .btn-hover:hover {
+      transform: translateY(-5px) scale(1.05);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+    }
+    /* Mobile Menu Enhancements */
+    #mobile-menu {
+      z-index: 60;
+      height: 100vh;
+      transform: translateX(100%);
+      transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    }
+    #mobile-menu.show {
+      transform: translateX(0);
+    }
+    .nav-link-mobile {
+      opacity: 0;
+      transform: translateX(20px);
+      transition: opacity 0.4s ease, transform 0.4s ease, color 0.3s ease, padding-left 0.3s ease;
+    }
+    #mobile-menu.show .nav-link-mobile {
+      opacity: 1;
+      transform: translateX(0);
+    }
+    .nav-link-mobile:nth-child(1) { transition-delay: 0.1s; }
+    .nav-link-mobile:nth-child(2) { transition-delay: 0.2s; }
+    .nav-link-mobile:nth-child(3) { transition-delay: 0.3s; }
+    .nav-link-mobile:nth-child(4) { transition-delay: 0.4s; }
+    .nav-link-mobile:nth-child(5) { transition-delay: 0.5s; }
+    .nav-link-mobile:nth-child(6) { transition-delay: 0.6s; }
+    .nav-link-mobile:nth-child(7) { transition-delay: 0.7s; }
+    .nav-link-mobile:hover {
+      transform: translateX(12px);
+      color: #FBBF24;
+      padding-left: 1.5rem;
+      background: rgba(255, 193, 7, 0.1);
+      border-radius: 8px;
+    }
+    /* Header scroll effect */
+    #main-header.scrolled {
+      background: rgba(46, 31, 31, 0.95);
+      backdrop-filter: blur(14px);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+      transform: translateY(0);
+      animation: slideDown 0.5s ease-out;
+    }
+    @keyframes slideDown {
+      from { transform: translateY(-100%); }
+      to { transform: translateY(0); }
+    }
+    /* Hamburger button animation */
+    #hamburger-button.active #menu-icon {
+      transform: rotate(90deg);
+      opacity: 0;
+    }
+    #hamburger-button.active #close-icon {
+      transform: rotate(0deg);
+      opacity: 1;
+    }
+    #menu-icon, #close-icon {
+      transition: transform 0.4s ease, opacity 0.4s ease;
+    }
+    #close-icon {
+      transform: rotate(-90deg);
+      opacity: 0;
+    }
+    #hamburger-button:hover {
+      transform: scale(1.2);
+    }
+    /* Cart count styling */
+    .cart-count::after {
+      content: attr(data-count);
+      position: absolute;
+      top: -8px;
+      right: -8px;
+      background-color: #EF4444;
+      color: white;
+      font-size: .7rem;
+      font-weight: 700;
+      border-radius: 9999px;
+      padding: 2px 6px;
+      line-height: 1;
+      min-width: 18px;
+      text-align: center;
+      border: 2px solid #5C4033;
+      transition: transform 0.3s ease;
+      animation: bounce 0.5s ease-in-out;
+    }
+    .cart-link {
+      position: relative;
+      display: inline-block;
+    }
+    .cart-count:hover::after {
+      transform: scale(1.2);
+    }
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-5px); }
+    }
+    /* Cart buttons */
+    .qty-btn {
+      background-color: #7A5C50;
+      border: none;
+      color: white;
+      padding: 2px 8px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background-color 0.2s;
+    }
+    .qty-btn:hover {
+      background-color: #5C4033;
+    }
+    .remove-btn {
+      background-color: #DC2626;
+      border: none;
+      color: white;
+      padding: 4px 10px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: background-color 0.2s;
+    }
+    .remove-btn:hover {
+      background-color: #B91C1C;
+    }
   </style>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Lato', 'sans-serif'],
+            serif: ['Playfair Display', 'serif'],
+          },
+          keyframes: {
+            slideInLeft: {
+              '0%': { transform: 'translateX(-100%)', opacity: '0' },
+              '100%': { transform: 'translateX(0)', opacity: '1' },
+            },
+            slideInRight: {
+              '0%': { transform: 'translateX(100%)', opacity: '0' },
+              '100%': { transform: 'translateX(0)', opacity: '1' },
+            },
+          },
+          animation: {
+            slideInLeft: 'slideInLeft 1s ease-out',
+            slideInRight: 'slideInRight 1s ease-out',
+          },
+        },
+      },
+    };
+  </script>
 </head>
 
 <body class="bg-[#3C2F2F] text-white">
-
   <!-- Authentication Gate - HIDDEN BY DEFAULT -->
   <div id="auth-gate" class="fixed inset-0 bg-[#3C2F2F] bg-opacity-95 z-[100] hidden items-center justify-center p-4">
-      <div class="text-center">
-        <h2 class="text-3xl font-serif text-amber-400 mb-4">Access Denied</h2>
-        <p class="text-gray-300 mb-6">You must be logged in to view your cart.</p>
-        <a href="menu.html" class="bg-amber-600 hover:bg-amber-700 text-white font-bold py-2 px-6 rounded-md transition duration-300">Login or Sign Up</a>
+    <div class="text-center">
+      <h2 class="text-3xl font-serif text-amber-400 mb-4">Access Denied</h2>
+      <p class="text-gray-300 mb-6">You must be logged in to view your cart.</p>
+      <a href="menu.html" class="bg-amber-600 hover:bg-amber-700 text-white font-bold py-2 px-6 rounded-md transition duration-300">Login or Sign Up</a>
     </div>
   </div>
-<header id="main-header" class="fixed top-0 left-0 w-full z-50 transition-all duration-500">
-  <div class="container mx-auto flex items-center justify-between px-4 sm:px-6 py-3">
-    <a href="index.html" class="flex items-center gap-2 sm:gap-3 transition-transform duration-300 hover:scale-105">
-      <img src="images/logo.png" alt="Chiya Ghar Logo" class="h-10 w-10 sm:h-12 sm:w-12" />
-      <div class="flex items-baseline">
-        <span class="text-xl sm:text-2xl font-bold text-red-600 font-serif">CHIYA</span>
-        <span class="text-xl sm:text-2xl font-bold text-white font-serif">GHAR</span>
+
+  <header id="main-header" class="fixed top-0 left-0 w-full z-50 transition-all duration-500">
+    <div class="container mx-auto flex items-center justify-between px-4 sm:px-6 py-3">
+      <a href="index.html" class="flex items-center gap-2 sm:gap-3 transition-transform duration-300 hover:scale-105">
+        <img src="images/logo.png" alt="Chiya Ghar Logo" class="h-10 w-10 sm:h-12 sm:w-12 transition-transform duration-300 hover:rotate-180" />
+        <div class="flex items-baseline">
+          <span class="text-xl sm:text-2xl font-bold text-red-600 font-serif animate-slideInLeft">CHIYA</span>
+          <span class="text-xl sm:text-2xl font-bold text-white font-serif animate-slideInLeft delay-1">GHAR</span>
+        </div>
+      </a>
+      <!-- Desktop Navigation -->
+      <nav class="hidden md:flex items-center space-x-6 lg:space-x-8 text-white text-sm sm:text-base font-medium font-sans">
+        <a href="index.html" class="nav-link hover:text-amber-400 relative transition-colors duration-300 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-amber-400 after:transition-all after:duration-300 hover:after:w-full animate-slideInLeft">Home</a>
+        <a href="AboutUs.html" class="nav-link hover:text-amber-400 relative transition-colors duration-300 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-amber-400 after:transition-all after:duration-300 hover:after:w-full animate-slideInLeft delay-1">About Us</a>
+        <a href="menu.html" class="nav-link hover:text-amber-400 relative transition-colors duration-300 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-amber-400 after:transition-all after:duration-300 hover:after:w-full animate-slideInLeft delay-2">Menu</a>
+        <a href="cart.html" class="nav-link cart-link active hover:text-amber-400 relative transition-colors duration-300 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-amber-400 after:transition-all after:duration-300 hover:after:w-full animate-slideInLeft delay-3">Cart</a>
+        <a href="order.html" class="nav-link hover:text-amber-400 relative transition-colors duration-300 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-amber-400 after:transition-all after:duration-300 hover:after:w-full animate-slideInLeft delay-4">Order</a>
+        <a href="gallery.html" class="nav-link hover:text-amber-400 relative transition-colors duration-300 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-amber-400 after:transition-all after:duration-300 hover:after:w-full animate-slideInLeft delay-4">Gallery</a>
+        <a href="contactus.html" class="nav-link border-2 border-amber-400 text-amber-400 rounded-full px-4 sm:px-5 py-2 font-bold hover:bg-amber-400 hover:text-[#2E1F1F] transition-all duration-300 hover:shadow-lg hover:shadow-amber-400/50 btn-hover animate-slideInLeft delay-4">Contact Us</a>
+      </nav>
+      <!-- Mobile Menu Button -->
+      <div class="md:hidden">
+        <button id="hamburger-button" class="text-white focus:outline-none z-[70] relative transition-transform duration-300 hover:scale-110" aria-label="Toggle menu">
+          <svg id="menu-icon" class="h-6 w-6 sm:h-7 sm:w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" /></svg>
+          <svg id="close-icon" class="h-6 w-6 sm:h-7 sm:w-7 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+        </button>
       </div>
-    </a>
-
-    <!-- Desktop Navigation -->
-    <nav class="hidden md:flex items-center space-x-6 lg:space-x-8 text-white text-sm sm:text-base font-medium font-sans">
-      <a href="index.html" class="nav-link hover:text-amber-400 relative transition-colors duration-300 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-amber-400 after:transition-all after:duration-300 hover:after:w-full">Home</a>
-      <a href="AboutUs.html" class="nav-link hover:text-amber-400 relative transition-colors duration-300 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-amber-400 after:transition-all after:duration-300 hover:after:w-full">About Us</a>
-      <a href="menu.html" class="nav-link hover:text-amber-400 relative transition-colors duration-300 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-amber-400 after:transition-all after:duration-300 hover:after:w-full">Menu</a>
-      <a href="cart.html" class="nav-link active hover:text-amber-400 relative transition-colors duration-300 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-amber-400 after:transition-all after:duration-300">Cart</a>
-      <a href="order.html" class="nav-link hover:text-amber-400 relative transition-colors duration-300 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-amber-400 after:transition-all after:duration-300 hover:after:w-full">Order</a>
-      <a href="gallery.html" class="nav-link hover:text-amber-400 relative transition-colors duration-300 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-amber-400 after:transition-all after:duration-300 hover:after:w-full">Gallery</a>
-      <a href="contactus.html" class="border-2 border-amber-400 text-amber-400 rounded-full px-4 sm:px-5 py-2 font-bold hover:bg-amber-400 hover:text-[#2E1F1F] transition-all duration-300 hover:shadow-lg hover:shadow-amber-400/50">Contact Us</a>
-    </nav>
-
-    <!-- Mobile Menu Button -->
-    <div class="md:hidden">
-      <button id="hamburger-button" class="text-white focus:outline-none z-50 relative transition-transform duration-300 hover:scale-110" aria-label="Toggle menu">
-        <svg id="menu-icon" class="h-6 w-6 sm:h-7 sm:w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" /></svg>
-        <svg id="close-icon" class="h-6 w-6 sm:h-7 sm:w-7 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
-      </button>
     </div>
-  </div>
-  
-  <!-- Mobile Menu -->
-  <div id="mobile-menu" class="md:hidden fixed top-0 right-0 h-full w-3/4 sm:w-2/3 bg-[#2E1F1F]/95 backdrop-blur-lg transform translate-x-full transition-transform duration-500 ease-in-out max-h-screen overflow-y-auto p-6">
-    <nav class="flex flex-col items-start justify-start space-y-4 text-white text-lg sm:text-xl font-medium font-sans">
-      <a href="index.html" class="nav-link-mobile hover:text-amber-400 transition-colors duration-300 w-full py-2">Home</a>
-      <a href="AboutUs.html" class="nav-link-mobile hover:text-amber-400 transition-colors duration-300 w-full py-2">About Us</a>
-      <a href="menu.html" class="nav-link-mobile hover:text-amber-400 transition-colors duration-300 w-full py-2">Menu</a>
-      <a href="cart.html" class="nav-link-mobile active hover:text-amber-400 transition-colors duration-300 w-full py-2">Cart</a>
-      <a href="order.html" class="nav-link-mobile hover:text-amber-400 transition-colors duration-300 w-full py-2">Order</a>
-      <a href="gallery.html" class="nav-link-mobile hover:text-amber-400 transition-colors duration-300 w-full py-2">Gallery</a>
-      <a href="contactus.html" class="nav-link-mobile hover:text-amber-400 transition-colors duration-300 w-full py-2">Contact Us</a>
-    </nav>
-  </div>
-</header>
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="md:hidden fixed top-0 right-0 h-screen w-3/4 sm:w-2/3 bg-[#2E1F1F]/95 backdrop-blur-lg transform translate-x-full transition-transform duration-500 ease-in-out z-[60] p-6">
+      <nav class="flex flex-col items-start space-y-4 text-white text-lg sm:text-xl font-medium font-sans">
+        <a href="index.html" class="nav-link-mobile hover:text-amber-400 transition-all duration-300 w-full py-3">Home</a>
+        <a href="AboutUs.html" class="nav-link-mobile hover:text-amber-400 transition-all duration-300 w-full py-3">About Us</a>
+        <a href="menu.html" class="nav-link-mobile hover:text-amber-400 transition-all duration-300 w-full py-3">Menu</a>
+        <a href="cart.html" class="nav-link-mobile cart-link active hover:text-amber-400 transition-all duration-300 w-full py-3">Cart</a>
+        <a href="order.html" class="nav-link-mobile hover:text-amber-400 transition-all duration-300 w-full py-3">Order</a>
+        <a href="gallery.html" class="nav-link-mobile hover:text-amber-400 transition-all duration-300 w-full py-3">Gallery</a>
+        <a href="contactus.html" class="nav-link-mobile hover:text-amber-400 transition-all duration-300 w-full py-3">Contact Us</a>
+      </nav>
+    </div>
+  </header>
 
   <!-- Main Content - VISIBLE BY DEFAULT -->
   <main id="main-content" class="bg-[#4A3A3A] pt-28 pb-16 md:pb-24 min-h-screen">
     <div class="container mx-auto px-6">
-      <h2 class="text-3xl md:text-4xl font-bold mb-12 text-center font-serif text-amber-500">Your Shopping Cart</h2>
+      <h2 class="text-3xl md:text-4xl font-bold mb-12 text-center font-serif text-amber-500 animate-on-scroll">Your Shopping Cart</h2>
 
       <div class="bg-[#5C4033] p-4 md:p-6 rounded-lg shadow-lg max-w-4xl mx-auto">
         <div id="cart-items-container" class="space-y-4">
@@ -90,149 +288,246 @@
 
         <!-- Summary Section -->
         <div id="cart-summary" class="mt-8 pt-4 border-t border-gray-500 hidden">
-           <div class="text-right text-lg md:text-xl font-semibold mb-6">
-             Cart Total: <span id="cart-total" class="text-yellow-200">Rs. 0.00</span>
-           </div>
-           <div class="flex flex-col sm:flex-row justify-end items-center gap-4">
-              <button id="clear-cart-btn" class="bg-red-600 hover:bg-red-700 text-white px-5 py-2.5 rounded transition w-full sm:w-auto">Clear Cart</button>
-              <button id="checkout-btn" class="bg-green-600 hover:bg-green-700 text-white font-bold px-5 py-2.5 rounded transition w-full sm:w-auto">Proceed to Checkout</button>
-            </div>
+          <div class="text-right text-lg md:text-xl font-semibold mb-6">
+            Cart Total: <span id="cart-total" class="text-yellow-200">Rs. 0.00</span>
+          </div>
+          <div class="flex flex-col sm:flex-row justify-end items-center gap-4">
+            <button id="clear-cart-btn" class="bg-red-600 hover:bg-red-700 text-white px-5 py-2.5 rounded transition w-full sm:w-auto">Clear Cart</button>
+            <button id="checkout-btn" class="bg-green-600 hover:bg-green-700 text-white font-bold px-5 py-2.5 rounded transition w-full sm:w-auto">Proceed to Checkout</button>
+          </div>
         </div>
       </div>
     </div>
   </main>
 
-  <!-- In cart.html, replace the entire <script> tag with this -->
-<script>
+  <!-- Footer -->
+  <footer class="bg-[#2A2121] text-gray-300 py-12">
+    <div class="container mx-auto px-6">
+      <div class="grid md:grid-cols-3 gap-8 text-center md:text-left">
+        <div class="animate-on-scroll">
+          <h3 class="text-lg font-bold text-white mb-4 font-serif">Chiya Ghar</h3>
+          <p class="text-sm text-gray-400">Your cozy corner for authentic, soul-warming chiya and delightful conversations. Est. 2023.</p>
+        </div>
+        <div class="animate-on-scroll delay-1">
+          <h3 class="text-lg font-bold text-white mb-4 font-serif">Quick Links</h3>
+          <nav class="flex flex-col space-y-2">
+            <a href="menu.html" class="text-sm text-gray-400 hover:text-amber-300 transition-all hover:scale-105">Menu</a>
+            <a href="gallery.html" class="text-sm text-gray-400 hover:text-amber-300 transition-all hover:scale-105">Gallery</a>
+            <a href="contactus.html" class="text-sm text-gray-400 hover:text-amber-300 transition-all hover:scale-105">Contact Us</a>
+            <a href="order.html" class="text-sm text-gray-400 hover:text-amber-300 transition-all hover:scale-105">Order Online</a>
+          </nav>
+        </div>
+        <div class="animate-on-scroll delay-2">
+          <h3 class="text-lg font-bold text-white mb-4 font-serif">Follow Us</h3>
+          <div class="flex space-x-4 justify-center md:justify-start">
+            <a href="index.html" target="_blank" class="hover:text-amber-300 transition-all hover:scale-110 animate-pulse">Facebook</a>
+            <a href="index.html" target="_blank" class="hover:text-amber-300 transition-all hover:scale-110 animate-pulse">Instagram</a>
+            <a href="index.html" target="_blank" class="hover:text-amber-300 transition-all hover:scale-110 animate-pulse">TikTok</a>
+          </div>
+        </div>
+      </div>
+      <div class="mt-8 pt-8 border-t border-gray-700 text-center text-sm text-gray-500 animate-on-scroll delay-3">
+        <p>© <span id="current-year"></span> Chiya Ghar. All Rights Reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- JavaScript -->
+  <script>
     document.addEventListener('DOMContentLoaded', () => {
-        const authGate = document.getElementById('auth-gate');
-        const mainHeader = document.getElementById('main-header');
-        const mainContent = document.getElementById('main-content');
+      // Elements
+      const authGate = document.getElementById('auth-gate');
+      const mainHeader = document.getElementById('main-header');
+      const mainContent = document.getElementById('main-content');
+      const hamburgerButton = document.getElementById('hamburger-button');
+      const mobileMenu = document.getElementById('mobile-menu');
+      const menuIcon = document.getElementById('menu-icon');
+      const closeIcon = document.getElementById('close-icon');
+      const navLinksMobile = document.querySelectorAll('.nav-link-mobile');
+      const cartLinkIcons = document.querySelectorAll('.cart-link');
+      const cartItemsContainer = document.getElementById('cart-items-container');
+      const emptyCartMessage = document.getElementById('empty-cart-message');
+      const cartSummary = document.getElementById('cart-summary');
+      const cartTotalEl = document.getElementById('cart-total');
+      const clearCartBtn = document.getElementById('clear-cart-btn');
+      const checkoutBtn = document.getElementById('checkout-btn');
 
-        const checkAuth = () => {
-            if (sessionStorage.getItem('chiyaGharUser')) {
-                authGate.style.display = 'none';
-                mainHeader.classList.remove('invisible');
-                mainContent.classList.remove('invisible');
-                initializeCartPage();
+      // Hide auth gate and show content if logged in
+      const checkAuth = () => {
+        if (sessionStorage.getItem('chiyaGharUser')) {
+          authGate.classList.add('hidden');
+          authGate.classList.remove('flex');
+          mainHeader.classList.remove('invisible');
+          mainContent.classList.remove('invisible');
+          initializeCartPage();
+        } else {
+          authGate.classList.remove('hidden');
+          authGate.classList.add('flex');
+          mainHeader.classList.add('invisible');
+          mainContent.classList.add('invisible');
+        }
+      };
+
+      // Initialize cart page
+      const initializeCartPage = () => {
+        // Mobile menu toggle
+        const toggleMobileMenu = () => {
+          mobileMenu.classList.toggle('show');
+          menuIcon.classList.toggle('hidden');
+          closeIcon.classList.toggle('hidden');
+          hamburgerButton.classList.toggle('active');
+          document.body.style.overflow = mobileMenu.classList.contains('show') ? 'hidden' : 'auto';
+          mobileMenu.scrollTop = 0; // Reset scroll
+        };
+
+        if (hamburgerButton) {
+          hamburgerButton.addEventListener('click', toggleMobileMenu);
+          hamburgerButton.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            toggleMobileMenu();
+          });
+        }
+
+        // Close menu on link click
+        navLinksMobile.forEach(link => {
+          link.addEventListener('click', () => {
+            mobileMenu.classList.remove('show');
+            menuIcon.classList.remove('hidden');
+            closeIcon.classList.add('hidden');
+            hamburgerButton.classList.remove('active');
+            document.body.style.overflow = 'auto';
+          });
+        });
+
+        // Close menu on outside click
+        document.addEventListener('click', (e) => {
+          if (!mobileMenu.contains(e.target) && !hamburgerButton.contains(e.target) && mobileMenu.classList.contains('show')) {
+            toggleMobileMenu();
+          }
+        });
+
+        // Header scroll effect
+        if (mainHeader) {
+          window.addEventListener('scroll', () => {
+            mainHeader.classList.toggle('scrolled', window.scrollY > 50);
+          });
+        }
+
+        // Active nav link
+        const currentPage = window.location.pathname.split('/').pop() || 'cart.html';
+        const navLinks = document.querySelectorAll('.nav-link, .nav-link-mobile');
+        navLinks.forEach(link => {
+          const linkPage = link.getAttribute('href').split('/').pop() || 'cart.html';
+          if (linkPage === currentPage) {
+            link.classList.add('active');
+          }
+        });
+
+        // Scroll animations
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('is-visible');
+              observer.unobserve(entry.target);
+            }
+          });
+        }, {
+          threshold: 0.2,
+          rootMargin: '0px 0px -50px 0px',
+        });
+        document.querySelectorAll('.animate-on-scroll').forEach(el => {
+          observer.observe(el);
+        });
+
+        // Cart functionality
+        const getCart = () => JSON.parse(localStorage.getItem('chiyaGharCart')) || [];
+        const saveCart = (cart) => {
+          localStorage.setItem('chiyaGharCart', JSON.stringify(cart));
+          renderCart();
+        };
+
+        const updateCartIcon = () => {
+          const totalItems = getCart().reduce((sum, item) => sum + item.quantity, 0);
+          cartLinkIcons.forEach(icon => {
+            if (totalItems > 0) {
+              icon.setAttribute('data-count', totalItems);
+              icon.classList.add('cart-count');
             } else {
-                authGate.classList.remove('hidden');
-                authGate.classList.add('flex');
-                mainHeader.classList.add('invisible');
-                mainContent.classList.add('invisible');
+              icon.removeAttribute('data-count');
+              icon.classList.remove('cart-count');
             }
+          });
         };
 
-        const initializeCartPage = () => {
-            // --- START: NEW MOBILE NAVIGATION CODE ---
-            const hamburgerButton = document.getElementById('hamburger-button');
-            const mobileMenu = document.getElementById('mobile-menu');
-            const menuIcon = document.getElementById('menu-icon');
-            const closeIcon = document.getElementById('close-icon');
-
-            if (hamburgerButton) {
-                hamburgerButton.addEventListener('click', () => {
-                    mobileMenu.classList.toggle('translate-x-full');
-                    menuIcon.classList.toggle('hidden');
-                    closeIcon.classList.toggle('hidden');
-                });
-            }
-            // --- END: NEW MOBILE NAVIGATION CODE ---
-
-            // Existing cart page logic
-            const cartItemsContainer = document.getElementById('cart-items-container');
-            const emptyCartMessage = document.getElementById('empty-cart-message');
-            const cartSummary = document.getElementById('cart-summary');
-            const cartTotalEl = document.getElementById('cart-total');
-            const clearCartBtn = document.getElementById('clear-cart-btn');
-            const checkoutBtn = document.getElementById('checkout-btn');
-            const cartLinkIcons = document.querySelectorAll('.cart-link');
-
-            const getCart = () => JSON.parse(localStorage.getItem('chiyaGharCart')) || [];
-            const saveCart = (cart) => {
-                localStorage.setItem('chiyaGharCart', JSON.stringify(cart));
-                renderCart();
-            };
-
-            const updateCartIcon = () => {
-                const totalItems = getCart().reduce((sum, item) => sum + item.quantity, 0);
-                cartLinkIcons.forEach(icon => {
-                    if (totalItems > 0) {
-                        icon.setAttribute('data-count', totalItems);
-                        icon.classList.add('cart-count');
-                    } else {
-                        icon.removeAttribute('data-count');
-                        icon.classList.remove('cart-count');
-                    }
-                });
-            };
-
-            const renderCart = () => {
-                const cart = getCart();
-                cartItemsContainer.innerHTML = '';
-                if (cart.length === 0) {
-                    emptyCartMessage.classList.remove('hidden');
-                    cartSummary.classList.add('hidden');
-                } else {
-                    emptyCartMessage.classList.add('hidden');
-                    cartSummary.classList.remove('hidden');
-                    let total = 0;
-                    cart.forEach(item => {
-                        total += item.price * item.quantity;
-                        const itemElement = document.createElement('div');
-                        itemElement.className = 'cart-item flex flex-col sm:flex-row items-center justify-between gap-4 p-4 border-b border-gray-600';
-                        itemElement.innerHTML = `
-                            <div class="flex items-center gap-4 w-full sm:w-auto">
-                                <img src="${item.image}" alt="${item.name}" class="w-16 h-16 object-cover rounded-md">
-                                <div><p class="font-bold text-lg">${item.name}</p><p class="text-sm text-gray-300">Price: Rs. ${item.price.toFixed(2)}</p></div>
-                            </div>
-                            <div class="flex items-center gap-6">
-                                <div class="flex items-center">
-                                    <button class="qty-btn qty-decrease" data-id="${item.id}">-</button>
-                                    <span class="px-3 font-semibold">${item.quantity}</span>
-                                    <button class="qty-btn qty-increase" data-id="${item.id}">+</button>
-                                </div>
-                                <p class="font-semibold w-24 text-right">Rs. ${(item.price * item.quantity).toFixed(2)}</p>
-                                <button class="remove-btn" data-id="${item.id}">Remove</button>
-                            </div>
-                        `;
-                        cartItemsContainer.appendChild(itemElement);
-                    });
-                    cartTotalEl.textContent = `Rs. ${total.toFixed(2)}`;
-                }
-                updateCartIcon();
-            };
-
-            cartItemsContainer.addEventListener('click', (e) => {
-                const id = e.target.dataset.id;
-                if (!id) return;
-                let cart = getCart();
-                const itemIndex = cart.findIndex(item => item.id === id);
-                if (itemIndex === -1) return;
-                if (e.target.classList.contains('qty-increase')) cart[itemIndex].quantity++;
-                else if (e.target.classList.contains('qty-decrease')) {
-                    if (cart[itemIndex].quantity > 1) cart[itemIndex].quantity--;
-                    else cart.splice(itemIndex, 1);
-                } else if (e.target.classList.contains('remove-btn')) cart.splice(itemIndex, 1);
-                saveCart(cart);
+        const renderCart = () => {
+          const cart = getCart();
+          cartItemsContainer.innerHTML = '';
+          if (cart.length === 0) {
+            emptyCartMessage.classList.remove('hidden');
+            cartSummary.classList.add('hidden');
+          } else {
+            emptyCartMessage.classList.add('hidden');
+            cartSummary.classList.remove('hidden');
+            let total = 0;
+            cart.forEach(item => {
+              total += item.price * item.quantity;
+              const itemElement = document.createElement('div');
+              itemElement.className = 'cart-item flex flex-col sm:flex-row items-center justify-between gap-4 p-4 border-b border-gray-600';
+              itemElement.innerHTML = `
+                <div class="flex items-center gap-4 w-full sm:w-auto">
+                  <img src="${item.image}" alt="${item.name}" class="w-16 h-16 object-cover rounded-md">
+                  <div><p class="font-bold text-lg">${item.name}</p><p class="text-sm text-gray-300">Price: Rs. ${item.price.toFixed(2)}</p></div>
+                </div>
+                <div class="flex items-center gap-6">
+                  <div class="flex items-center">
+                    <button class="qty-btn qty-decrease" data-id="${item.id}">-</button>
+                    <span class="px-3 font-semibold">${item.quantity}</span>
+                    <button class="qty-btn qty-increase" data-id="${item.id}">+</button>
+                  </div>
+                  <p class="font-semibold w-24 text-right">Rs. ${(item.price * item.quantity).toFixed(2)}</p>
+                  <button class="remove-btn" data-id="${item.id}">Remove</button>
+                </div>
+              `;
+              cartItemsContainer.appendChild(itemElement);
             });
-
-            clearCartBtn.addEventListener('click', () => {
-                if (confirm('Are you sure you want to clear the entire cart?')) saveCart([]);
-            });
-            
-            checkoutBtn.addEventListener('click', () => {
-                const cart = getCart();
-                if (cart.length === 0) return alert("Your cart is empty.");
-                localStorage.setItem('chiyaGharCheckoutItems', JSON.stringify(cart));
-                window.location.href = 'checkout.html';
-            });
-            
-            renderCart();
+            cartTotalEl.textContent = `Rs. ${total.toFixed(2)}`;
+          }
+          updateCartIcon();
         };
 
-        checkAuth();
+        cartItemsContainer.addEventListener('click', (e) => {
+          const id = e.target.dataset.id;
+          if (!id) return;
+          let cart = getCart();
+          const itemIndex = cart.findIndex(item => item.id === id);
+          if (itemIndex === -1) return;
+          if (e.target.classList.contains('qty-increase')) cart[itemIndex].quantity++;
+          else if (e.target.classList.contains('qty-decrease')) {
+            if (cart[itemIndex].quantity > 1) cart[itemIndex].quantity--;
+            else cart.splice(itemIndex, 1);
+          } else if (e.target.classList.contains('remove-btn')) cart.splice(itemIndex, 1);
+          saveCart(cart);
+        });
+
+        clearCartBtn.addEventListener('click', () => {
+          if (confirm('Are you sure you want to clear the entire cart?')) saveCart([]);
+        });
+
+        checkoutBtn.addEventListener('click', () => {
+          const cart = getCart();
+          if (cart.length === 0) return alert("Your cart is empty.");
+          localStorage.setItem('chiyaGharCheckoutItems', JSON.stringify(cart));
+          window.location.href = 'checkout.html';
+        });
+
+        renderCart();
+      };
+
+      // Footer year
+      document.getElementById('current-year').textContent = new Date().getFullYear();
+
+      checkAuth();
     });
-</script>
+  </script>
 </body>
 </html>
