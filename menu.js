@@ -51,20 +51,23 @@ document.addEventListener('DOMContentLoaded', () => {
     loginContainer.classList.add('animate-slide-in');
   });
 
-  // Handle Sign Up (Modified: Allow overwrite for same username)
+  // Handle Sign Up
   signupForm.addEventListener('submit', (e) => {
     e.preventDefault();
     const username = document.getElementById('signup-username').value;
     const password = document.getElementById('signup-password').value;
     const users = JSON.parse(localStorage.getItem('chiyaGharUsers')) || {};
 
-    // Directly overwrite/save username and password
+    if (users[username]) {
+      signupError.textContent = 'Username already exists.';
+      signupError.classList.add('animate-shake');
+      setTimeout(() => signupError.classList.remove('animate-shake'), 500);
+      return;
+    }
+    
     users[username] = pseudoHash(password);
     localStorage.setItem('chiyaGharUsers', JSON.stringify(users));
     sessionStorage.setItem('chiyaGharUser', username);
-    
-    // Trigger confetti animation
-    triggerConfetti();
     checkAuth();
   });
 
@@ -85,56 +88,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // --- NEW: Logout Functionality ---
-  const addLogoutButton = () => {
-    const nav = document.querySelector('nav.hidden.md\\:flex'); // Desktop nav
-    if (nav) {
-      const logoutBtn = document.createElement('button');
-      logoutBtn.classList = 'nav-link hover:text-amber-400 relative transition-colors duration-300 after:content-[""] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-amber-400 after:transition-all after:duration-300 hover:after:w-full hover:scale-105';
-      logoutBtn.textContent = 'Logout';
-      logoutBtn.addEventListener('click', () => {
-        sessionStorage.clear();
-        location.reload(); // Reload to show auth overlay
-      });
-      nav.appendChild(logoutBtn);
-    }
-
-    // Add to mobile menu
-    const mobileNav = document.querySelector('#mobile-menu nav');
-    if (mobileNav) {
-      const mobileLogoutBtn = document.createElement('a');
-      mobileLogoutBtn.classList = 'nav-link-mobile hover:text-amber-400 transition-all duration-300 w-full py-3';
-      mobileLogoutBtn.textContent = 'Logout';
-      mobileLogoutBtn.addEventListener('click', () => {
-        sessionStorage.clear();
-        location.reload();
-      });
-      mobileNav.appendChild(mobileLogoutBtn);
-    }
-  };
-
-  // --- NEW: Confetti Animation on Signup Success ---
-  const triggerConfetti = () => {
-    const confettiContainer = document.createElement('div');
-    confettiContainer.classList = 'fixed inset-0 pointer-events-none z-[110]';
-    document.body.appendChild(confettiContainer);
-
-    for (let i = 0; i < 100; i++) {
-      const confetti = document.createElement('div');
-      confetti.classList = 'absolute w-2 h-2 bg-amber-400 rounded-full animate-confetti';
-      confetti.style.left = `${Math.random() * 100}%`;
-      confetti.style.top = `${Math.random() * 100}%`;
-      confetti.style.animationDelay = `${Math.random() * 0.5}s`;
-      confettiContainer.appendChild(confetti);
-    }
-
-    setTimeout(() => confettiContainer.remove(), 3000);
-  };
-
   // --- MAIN APPLICATION LOGIC ---
   const initializeMainApp = () => {
-    addLogoutButton(); // Add logout button after login
-
     // --- Mobile Menu Toggle ---
     const hamburgerButton = document.getElementById('hamburger-button');
     const mobileMenu = document.getElementById('mobile-menu');
