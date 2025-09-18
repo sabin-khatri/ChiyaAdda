@@ -264,6 +264,33 @@
     #hamburger-button:hover {
       transform: scale(1.2);
     }
+    /* Shake animation */
+.animate-shake {
+  animation: shake 0.5s;
+}
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(-10px); }
+  20%, 40%, 60%, 80% { transform: translateX(10px); }
+}
+
+/* Slide-in for forms */
+.animate-slide-in {
+  animation: slideIn 0.5s ease-out;
+}
+@keyframes slideIn {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+/* Confetti animation */
+.animate-confetti {
+  animation: confettiFall 3s ease-out forwards;
+}
+@keyframes confettiFall {
+  0% { transform: translateY(-100vh) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+}
   </style>
 </head>
 
