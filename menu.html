@@ -283,9 +283,19 @@
             <label for="login-username" class="block text-sm font-medium text-gray-300 mb-1">Username</label>
             <input type="text" id="login-username" required class="w-full px-4 py-2 bg-[#4A3A3A] border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 text-white transition-all duration-300 transform hover:scale-[1.01]">
           </div>
-          <div class="mb-6">
+          <div class="mb-4 relative">
             <label for="login-password" class="block text-sm font-medium text-gray-300 mb-1">Password</label>
-            <input type="password" id="login-password" required class="w-full px-4 py-2 bg-[#4A3A3A] border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 text-white transition-all duration-300 transform hover:scale-[1.01]">
+            <input type="password" id="login-password" required class="w-full px-4 py-2 bg-[#4A3A3A] border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 text-white transition-all duration-300 transform hover:scale-[1.01] pr-10">
+            <button type="button" id="toggle-password" class="absolute right-3 top-9 text-gray-400 hover:text-white transition-colors duration-300">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
+            </button>
+          </div>
+          <div class="flex items-center justify-between mb-6">
+            <label class="flex items-center text-sm text-gray-300">
+              <input type="checkbox" id="remember-me" class="mr-2 accent-amber-500">
+              Remember Me
+            </label>
+            <a href="#" id="forgot-password" class="text-sm text-amber-400 hover:text-amber-300 transition-colors duration-300 hover:underline">Forgot Password?</a>
           </div>
           <p id="login-error" class="text-red-400 text-sm mb-4 text-center h-5"></p>
           <button type="submit" class="w-full bg-amber-600 hover:bg-amber-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300 hover:scale-105 shadow-lg hover:shadow-amber-500/50">Login</button>
