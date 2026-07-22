@@ -32,7 +32,7 @@ const Home = () => {
               <motion.span 
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="inline-flex py-1.5 px-4 rounded-full bg-chiya-pink text-white border-2 border-chiya-ink text-xs font-display font-extrabold tracking-widest uppercase shadow-pop"
+                className="inline-flex py-1.5 px-4 rounded-full bg-chiya-pink text-white text-xs font-display font-extrabold tracking-widest uppercase shadow-[0_4px_12px_rgba(255,46,140,0.35)]"
               >
                 {siteContent.hero.welcomeBadge}
               </motion.span>
@@ -61,10 +61,10 @@ const Home = () => {
                 transition={{ delay: 0.45 }}
                 className="flex flex-wrap gap-4 pt-4"
               >
-                <Link to="/menu" className="btn-primary px-8 py-4 text-base shadow-pop">
+                <Link to="/menu" className="btn-primary px-8 py-4 text-base shadow-[0_10px_25px_rgba(255,90,31,0.25)] hover:shadow-[0_12px_30px_rgba(255,90,31,0.4)] hover:scale-105 transition-all">
                   {siteContent.hero.exploreBtn} <Coffee size={18} />
                 </Link>
-                <Link to="/about" className="btn-outline px-8 py-4 text-base shadow-pop">
+                <Link to="/about" className="btn-outline px-8 py-4 text-base shadow-[0_10px_25px_rgba(0,0,0,0.03)] hover:scale-105 transition-all">
                   {siteContent.hero.storyBtn}
                 </Link>
               </motion.div>
@@ -78,7 +78,7 @@ const Home = () => {
               className="relative w-full h-[450px] lg:h-[500px] flex items-center justify-center"
             >
               {/* Main Image Card (Tilted) */}
-              <div className="w-[300px] h-[380px] md:w-[320px] md:h-[420px] rounded-card-lg border-4 border-chiya-ink overflow-hidden shadow-pop rotate-[-4deg] bg-white relative z-10 hover:rotate-0 transition-transform duration-500">
+              <div className="w-[300px] h-[380px] md:w-[320px] md:h-[420px] rounded-[2.5rem] border-4 border-white overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.12)] rotate-[-4deg] bg-white relative z-10 hover:rotate-0 transition-transform duration-500">
                 <img 
                   src="/images/chiya_hero.jpg" 
                   alt="Nepali Masala Tea" 
@@ -89,7 +89,7 @@ const Home = () => {
               {/* Secondary Floating Card */}
               <motion.div 
                 whileHover={{ y: -5 }}
-                className="absolute top-12 right-6 md:right-12 z-20 bg-white border-2 border-chiya-ink rounded-card-sm p-4 shadow-pop rotate-[6deg] max-w-[200px]"
+                className="absolute top-12 right-6 md:right-12 z-20 bg-white/80 backdrop-blur-md border border-white/40 rounded-2xl p-4 shadow-xl rotate-[6deg] max-w-[200px]"
               >
                 <div className="flex gap-1 text-chiya-yellow mb-1">
                   {Array.from({ length: 5 }).map((_, i) => (
@@ -104,7 +104,7 @@ const Home = () => {
               <motion.div 
                 animate={{ rotate: 360 }}
                 transition={{ duration: 15, repeat: Infinity, ease: 'linear' }}
-                className="absolute bottom-10 left-6 md:left-12 z-20 w-24 h-24 bg-chiya-yellow border-2 border-chiya-ink rounded-full flex flex-col items-center justify-center text-center shadow-pop"
+                className="absolute bottom-10 left-6 md:left-12 z-20 w-24 h-24 bg-chiya-yellow border-2 border-white rounded-full flex flex-col items-center justify-center text-center shadow-lg"
               >
                 <span className="text-[9px] font-display font-black uppercase tracking-wider text-chiya-ink">Himalayan</span>
                 <span className="text-base font-display font-black text-chiya-orange">100%</span>
