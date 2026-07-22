@@ -73,9 +73,6 @@ const Footer = () => {
               <li><Link to="/rewards" className="text-chiya-cream/80 hover:text-chiya-yellow hover:pl-2 transition-all inline-block text-chiya-yellow animate-pulse">Rewards</Link></li>
               <li><Link to="/about" className="text-chiya-cream/80 hover:text-chiya-yellow hover:pl-2 transition-all inline-block">About Us</Link></li>
               <li><Link to="/gallery" className="text-chiya-cream/80 hover:text-chiya-yellow hover:pl-2 transition-all inline-block">Gallery</Link></li>
-              <li><Link to="/admin/login" className="text-chiya-cream/60 hover:text-chiya-yellow hover:pl-2 transition-all flex items-center gap-1 mt-4">
-                <Shield size={14} /> Admin Portal
-              </Link></li>
             </ul>
           </motion.div>
 
