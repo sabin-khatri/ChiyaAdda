@@ -25,12 +25,12 @@ const Navbar = () => {
 
   return (
     <div className="fixed top-4 left-0 w-full z-50 px-4 sm:px-6 lg:px-8">
-      <nav className="max-w-7xl mx-auto bg-chiya-cream/80 backdrop-blur-md border-2 border-chiya-ink rounded-full px-6 py-3 shadow-pop transition-all duration-300">
+      <nav className="max-w-7xl mx-auto bg-white/75 backdrop-blur-lg border border-chiya-ink/10 rounded-full px-6 py-2.5 shadow-[0_10px_30px_rgba(0,0,0,0.05)] transition-all duration-300">
         <div className="flex justify-between items-center">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-3 shrink-0">
-            <img src="/images/logo.png" alt="Chiya-Ghar Logo" className="h-10 w-auto" onError={(e) => e.target.style.display = 'none'} />
-            <span className="font-display text-xl font-extrabold text-chiya-ink tracking-tight">Chiya-Ghar</span>
+            <img src="/images/logo.png" alt="Chiya-Ghar Logo" className="h-9 w-auto" onError={(e) => e.target.style.display = 'none'} />
+            <span className="font-display text-lg font-extrabold text-chiya-ink tracking-tight">Chiya-Ghar</span>
           </Link>
 
           {/* Desktop Links */}
@@ -63,7 +63,7 @@ const Navbar = () => {
               )}
             </Link>
             
-            <Link to="/booking" className="px-5 py-2 text-xs font-display font-black bg-chiya-yellow border-2 border-chiya-ink rounded-full text-chiya-ink hover:bg-chiya-orange hover:text-white shadow-[2px_2px_0px_0px_rgba(43,33,24,1)] hover:translate-x-[-1px] hover:translate-y-[-1px] active:translate-y-0 transition-all flex items-center gap-1.5 cursor-pointer">
+            <Link to="/booking" className="px-5 py-2.5 text-xs font-display font-black bg-chiya-orange hover:bg-chiya-pink text-white rounded-full transition-all flex items-center gap-1.5 cursor-pointer shadow-[0_4px_14px_rgba(255,90,31,0.25)] hover:shadow-lg hover:scale-105 active:scale-100">
               <Calendar size={14} /> Book Table
             </Link>
           </div>
