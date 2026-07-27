@@ -1,24 +1,22 @@
-/* eslint-disable no-unused-vars */
 import React from 'react'
-import { motion } from 'framer-motion'
-
-const pageVariants = {
-  initial: { opacity: 0, y: 20 },
-  animate: { opacity: 1, y: 0, transition: { duration: 0.5, ease: 'easeOut' } },
-  exit: { opacity: 0, y: -20, transition: { duration: 0.3, ease: 'easeIn' } }
-}
+import { m } from 'framer-motion'
+import { useReducedMotion } from 'framer-motion'
+import { getPageTransition } from '../motion/variants'
 
 const AnimatedPage = ({ children, className = '' }) => {
+  const shouldReduce = useReducedMotion()
+  const variants = getPageTransition(shouldReduce)
+
   return (
-    <motion.div
-      variants={pageVariants}
+    <m.div
       initial="initial"
       animate="animate"
       exit="exit"
+      variants={variants}
       className={className}
     >
       {children}
-    </motion.div>
+    </m.div>
   )
 }
 
