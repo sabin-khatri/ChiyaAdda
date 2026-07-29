@@ -8,12 +8,13 @@ import useBodyScrollLock from '../../hooks/useBodyScrollLock'
 const primaryLinks = [
   { name: 'Home', path: '/' },
   { name: 'Menu', path: '/menu' },
+  { name: 'Vibe Match', path: '/match' },
   { name: 'Brew Lab', path: '/brew' },
-  { name: 'About', path: '/about' },
 ]
 
 const secondaryLinks = [
   { name: 'Rewards', path: '/rewards' },
+  { name: 'About', path: '/about' },
   { name: 'Gallery', path: '/gallery' },
   { name: 'Contact', path: '/contact' },
 ]
@@ -21,17 +22,25 @@ const secondaryLinks = [
 const allLinks = [...primaryLinks, ...secondaryLinks]
 
 function NavLink({ link, isActive, onClick, className = '' }) {
+  const active = isActive(link.path)
   return (
     <Link
       to={link.path}
       onClick={onClick}
-      className={`font-display font-bold text-xs uppercase tracking-wide whitespace-nowrap rounded-full px-3 py-2 transition-colors duration-200 ${
-        isActive(link.path)
-          ? 'text-chiya-orange bg-chiya-orange/10'
-          : 'text-chiya-ink/80 hover:text-chiya-orange hover:bg-chiya-cream/80'
+      className={`relative font-display font-bold text-xs uppercase tracking-wide whitespace-nowrap rounded-full px-4 py-2 transition-all duration-300 ${
+        active
+          ? 'text-chiya-orange bg-chiya-orange/5'
+          : 'text-chiya-ink/80 hover:text-chiya-orange hover:bg-chiya-cream/40'
       } ${className}`}
     >
-      {link.name}
+      <span className="relative z-10">{link.name}</span>
+      {active && (
+        <motion.div
+          layoutId="active-tubelight"
+          className="absolute bottom-0 left-3 right-3 h-[3px] bg-gradient-to-r from-chiya-orange to-chiya-pink rounded-full shadow-[0_0_8px_rgba(255,90,31,0.9),0_0_16px_rgba(255,46,140,0.6)] z-0"
+          transition={{ type: 'spring', stiffness: 380, damping: 28 }}
+        />
+      )}
     </Link>
   )
 }
