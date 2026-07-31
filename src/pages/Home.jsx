@@ -7,6 +7,7 @@ import { menuItems } from '../data/mockMenu'
 import { siteContent } from '../data/siteContent'
 import { getFadeUp, getCardHover } from '../motion/variants'
 import useDocumentTitle from '../hooks/useDocumentTitle'
+import LeafParticles from '../components/ui/LeafParticles'
 
 const Home = () => {
   useDocumentTitle('Home')
@@ -19,7 +20,9 @@ const Home = () => {
   return (
     <AnimatedPage>
       {/* Hero Section */}
-      <section className="relative min-h-[85vh] pt-6 sm:pt-10 pb-16 sm:pb-20 flex items-center justify-center overflow-hidden bg-chiya-cream">
+      <section className="relative min-h-[90vh] pt-32 pb-20 flex items-center justify-center overflow-hidden bg-chiya-cream">
+        {/* Leaf Canvas Physics */}
+        <LeafParticles />
         {/* Decorative background blobs */}
         <div className="absolute top-10 left-10 w-72 h-72 rounded-full bg-chiya-pink/10 blur-3xl pointer-events-none" />
         <div className="absolute bottom-10 right-10 w-96 h-96 rounded-full bg-chiya-yellow/15 blur-3xl pointer-events-none" />
