@@ -4,6 +4,7 @@ import { Flame, Info, Coffee, HelpCircle, RotateCcw } from 'lucide-react'
 import AnimatedPage from '../components/layout/AnimatedPage'
 import useDocumentTitle from '../hooks/useDocumentTitle'
 import toast from 'react-hot-toast'
+import LiquidCupCanvas from '../components/ui/LiquidCupCanvas'
 
 const BrewLab = () => {
   useDocumentTitle('Chiya Brew Lab')
@@ -151,22 +152,7 @@ const BrewLab = () => {
               <div className="w-48 h-36 border-4 border-chiya-ink rounded-b-[40px] bg-white relative overflow-hidden z-10 shadow-md">
                 
                 {/* Tea Liquid */}
-                <div 
-                  className="absolute bottom-0 left-0 w-full transition-all duration-500 ease-out"
-                  style={{ 
-                    height: '75%', 
-                    backgroundColor: getTeaColor() 
-                  }}
-                >
-                  {/* Bubbles / Froth */}
-                  {milkLevel > 0 && (
-                    <div className="absolute top-0 left-0 w-full h-2 bg-white/35 blur-sm flex justify-around">
-                      <span className="w-1 h-1 bg-white rounded-full animate-ping" />
-                      <span className="w-1.5 h-1.5 bg-white rounded-full opacity-60" />
-                      <span className="w-1 h-1 bg-white rounded-full opacity-80" />
-                    </div>
-                  )}
-                </div>
+                <LiquidCupCanvas teaColor={getTeaColor()} milkLevel={milkLevel} />
               </div>
               
               {/* Saucer */}
