@@ -1,0 +1,157 @@
+@import "tailwindcss";
+@config "../tailwind.config.js";
+
+:root {
+  --color-orange: #FF5A1F;
+  --color-pink: #FF2E8C;
+  --color-yellow: #FFD23F;
+  --color-teal: #05C7A6;
+  --color-ink: #1A1523;
+  --color-cream: #FFF9F0;
+}
+
+body.theme-midnight {
+  --color-orange: #FF6B35;
+  --color-pink: #FF2E8C;
+  --color-yellow: #FFE066;
+  --color-teal: #00E5C7;
+  --color-ink: #F5F3F7;
+  --color-cream: #0F0B14;
+}
+
+body.theme-pink {
+  --color-orange: #FF7A59;
+  --color-pink: #FF1F7A;
+  --color-yellow: #FFC94D;
+  --color-teal: #4FD1E5;
+  --color-ink: #2E0E1F;
+  --color-cream: #FFF0F6;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+
+  body {
+    @apply font-sans text-chiya-ink bg-chiya-cream selection:bg-chiya-pink selection:text-white transition-colors duration-300;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display text-chiya-ink font-extrabold;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply px-6 py-3 bg-gradient-to-r from-chiya-orange to-chiya-pink hover:from-chiya-pink hover:to-chiya-orange text-white rounded-full hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98] border-[3px] border-chiya-ink shadow-pop hover:shadow-pop transition-all duration-200 font-bold flex items-center justify-center gap-2 cursor-pointer;
+  }
+  
+  .btn-outline {
+    @apply px-6 py-3 bg-white text-chiya-ink border-[3px] border-chiya-ink rounded-full hover:bg-chiya-yellow hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98] shadow-pop hover:shadow-pop transition-all duration-200 font-bold flex items-center justify-center gap-2 cursor-pointer;
+  }
+
+  .gpu-layer {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+  }
+}
+
+/* Midnight Theme Custom Glassmorphism and Neon Glow overrides */
+body.theme-midnight .bg-white {
+  background-color: rgba(255, 255, 255, 0.05) !important;
+  backdrop-filter: blur(16px) !important;
+  border-color: rgba(255, 255, 255, 0.15) !important;
+  color: var(--color-ink) !important;
+}
+
+body.theme-midnight .btn-primary {
+  box-shadow: 0 0 15px rgba(255, 46, 140, 0.45), 4px 4px 0px 0px var(--color-ink) !important;
+}
+
+body.theme-midnight .btn-primary:hover {
+  box-shadow: 0 0 25px rgba(255, 46, 140, 0.7), 2px 2px 0px 0px var(--color-ink) !important;
+}
+
+body.theme-midnight .btn-outline {
+  box-shadow: 0 0 15px rgba(0, 229, 199, 0.25), 4px 4px 0px 0px var(--color-ink) !important;
+}
+
+body.theme-midnight .btn-outline:hover {
+  box-shadow: 0 0 25px rgba(0, 229, 199, 0.5), 2px 2px 0px 0px var(--color-ink) !important;
+}
+
+body.theme-midnight .border-chiya-ink {
+  border-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+body.theme-midnight .text-gray-900,
+body.theme-midnight .text-gray-800,
+body.theme-midnight .text-gray-700 {
+  color: var(--color-ink) !important;
+}
+
+@layer utilities {
+  .safe-top {
+    padding-top: max(0.5rem, env(safe-area-inset-top, 0px));
+  }
+
+  .safe-bottom {
+    padding-bottom: max(1rem, env(safe-area-inset-bottom, 0px));
+  }
+
+  /* Fixed navbar clearance: bar height + top margin + safe area */
+  .pt-nav-offset {
+    padding-top: calc(4.75rem + max(0.75rem, env(safe-area-inset-top, 0px)) + 0.5rem);
+  }
+
+  @media (min-width: 640px) {
+    .pt-nav-offset {
+      padding-top: calc(5.25rem + max(1rem, env(safe-area-inset-top, 0px)) + 0.25rem);
+    }
+  }
+
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  .steam-particle {
+    animation: steam-rise linear infinite;
+    will-change: transform, opacity;
+  }
+
+  @keyframes steam-rise {
+    0% {
+      transform: translateY(10%) scale(0.6);
+      opacity: 0;
+    }
+    15% {
+      opacity: 0.35;
+    }
+    85% {
+      opacity: 0.1;
+    }
+    100% {
+      transform: translateY(-110vh) scale(1.6);
+      opacity: 0;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .steam-particle {
+      animation: none;
+      display: none;
+    }
+  }
+}

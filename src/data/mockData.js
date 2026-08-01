@@ -1,0 +1,135 @@
+export const menuCategories = [
+  { id: 'tea', name: 'Special Tea' },
+  { id: 'coffee', name: 'Coffee' },
+  { id: 'snacks', name: 'Snacks & Bakery' },
+];
+
+export const menuItems = [
+  {
+    id: 1,
+    name: 'Classic Masala Chiya',
+    categoryId: 'tea',
+    description: 'Our signature black tea brewed with milk and aromatic Indian spices.',
+    price: 120,
+    image: '/images/masala-chiya.webp',
+    popular: true,
+  },
+  {
+    id: 2,
+    name: 'Dudh Chiya',
+    categoryId: 'tea',
+    description: 'Traditional milk tea, perfectly sweetened and brewed to perfection.',
+    price: 100,
+    image: '/images/dudh-chiya.webp',
+  },
+  {
+    id: 3,
+    name: 'Kalo Chiya',
+    categoryId: 'tea',
+    description: 'Strong black tea, refreshing and energizing.',
+    price: 80,
+    image: '/images/kalo-chiya.webp',
+    popular: true,
+  },
+  {
+    id: 4,
+    name: 'Lemon Ginger Chiya',
+    categoryId: 'tea',
+    description: 'A soothing blend of fresh ginger and lemon juice.',
+    price: 150,
+    image: '/images/lemon-ginger-chiya.webp',
+  },
+  {
+    id: 5,
+    name: 'Honey Lemon Ginger Chiya',
+    categoryId: 'tea',
+    description: 'Our lemon ginger tea enhanced with organic honey.',
+    price: 180,
+    image: '/images/honey-lemon-ginger-chiya.webp',
+    popular: true,
+  },
+  {
+    id: 6,
+    name: 'Pudina Chiya',
+    categoryId: 'tea',
+    description: 'Refreshing mint tea to calm your senses.',
+    price: 140,
+    image: '/images/Pudina-Chiya.webp',
+  },
+  {
+    id: 7,
+    name: 'Cappuccino / Coffee',
+    categoryId: 'coffee',
+    description: 'Rich espresso topped with equal parts steamed milk and thick foam.',
+    price: 220,
+    image: '/images/coffeecup.png',
+  },
+  {
+    id: 8,
+    name: 'Chicken Momo',
+    categoryId: 'snacks',
+    description: 'Authentic Nepali dumplings filled with spiced minced chicken.',
+    price: 250,
+    image: '/images/about1.jpg',
+    popular: true,
+  },
+  {
+    id: 9,
+    name: 'Espresso',
+    categoryId: 'coffee',
+    description: 'A concentrated form of coffee served in small, strong shots.',
+    price: 150,
+    image: '/images/gallery/photo-2.jpg',
+  },
+  {
+    id: 10,
+    name: 'Iced Latte',
+    categoryId: 'coffee',
+    description: 'Chilled espresso and milk over ice. Perfect for a warm day.',
+    price: 240,
+    image: '/images/gallery/photo-3.jpg',
+    popular: true,
+  },
+  {
+    id: 11,
+    name: 'Vegetable Samosa',
+    categoryId: 'snacks',
+    description: 'Crispy pastry filled with spiced potatoes and peas. Served with mint chutney.',
+    price: 80,
+    image: '/images/gallery/photo-6.jpg',
+  },
+  {
+    id: 12,
+    name: 'French Fries',
+    categoryId: 'snacks',
+    description: 'Crispy golden fries served with ketchup and mayonnaise.',
+    price: 180,
+    image: '/images/gallery/photo-7.jpg',
+  },
+  {
+    id: 13,
+    name: 'Chocolate Brownie',
+    categoryId: 'snacks',
+    description: 'Fudgy, rich chocolate brownie served warm.',
+    price: 200,
+    image: '/images/gallery/photo-8.jpg',
+    popular: true,
+  }
+];
+
+export const galleryImages = [
+  { id: 1, src: '/images/gallery/photo-1.jpg', alt: 'Chiya-Ghar ambiance' },
+  { id: 2, src: '/images/gallery/photo-2.jpg', alt: 'Tea brewing' },
+  { id: 3, src: '/images/gallery/photo-3.jpg', alt: 'Fresh tea cups' },
+  { id: 4, src: '/images/gallery/photo-4.jpg', alt: 'Friends enjoying tea' },
+  { id: 5, src: '/images/gallery/photo-5.jpg', alt: 'Cafe interior' },
+  { id: 6, src: '/images/gallery/photo-6.jpg', alt: 'Delicious snacks' },
+  { id: 7, src: '/images/gallery/photo-7.jpg', alt: 'Outdoor seating' },
+  { id: 8, src: '/images/gallery/photo-8.jpg', alt: 'Evening vibe at Chiya-Ghar' }
+];
+
+export const mockOrders = [
+  { id: '#ORD-001', customer: 'Rabin Sharma', items: '2x Masala Chiya, 1x Chicken Momo', total: 490, status: 'Preparing', date: '2026-06-20 10:30 AM' },
+  { id: '#ORD-002', customer: 'Sita Rai', items: '1x Cappuccino, 1x Chocolate Brownie', total: 420, status: 'Completed', date: '2026-06-20 09:15 AM' },
+  { id: '#ORD-003', customer: 'Aarav Thapa', items: '3x Dudh Chiya', total: 300, status: 'Pending', date: '2026-06-20 11:00 AM' },
+];

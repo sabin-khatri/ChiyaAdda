@@ -1,0 +1,17 @@
+{
+  "short_name": "ChiyaGhar",
+  "name": "Chiya-Ghar Tea House",
+  "description": "Authentic Nepali Tea & Snacks Experience",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "type": "image/svg+xml",
+      "sizes": "any"
+    }
+  ],
+  "start_url": "/",
+  "background_color": "#FFF6ED",
+  "theme_color": "#F2622E",
+  "display": "standalone",
+  "orientation": "portrait"
+}

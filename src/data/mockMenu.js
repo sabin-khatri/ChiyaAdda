@@ -13,7 +13,8 @@ export const menuItems = [
     price: 120,
     image: '/images/masala-chiya.webp',
     popular: true,
-    tags: ['Best Seller', 'Traditional', 'Spicy']
+    tags: ['Best Seller', 'Traditional', 'Spicy'],
+    customizationId: 'milk-tea',
   },
   {
     id: 2,
@@ -23,7 +24,8 @@ export const menuItems = [
     price: 100,
     image: '/images/dudh-chiya.jpg',
     popular: false,
-    tags: ['Classic', 'Comfort']
+    tags: ['Classic', 'Comfort'],
+    customizationId: 'milk-tea',
   },
   {
     id: 3,
@@ -33,7 +35,8 @@ export const menuItems = [
     price: 80,
     image: '/images/kalo-chiya.webp',
     popular: true,
-    tags: ['Vegan', 'Low Calorie']
+    tags: ['Vegan', 'Low Calorie'],
+    customizationId: 'black-tea',
   },
   {
     id: 4,
@@ -43,7 +46,8 @@ export const menuItems = [
     price: 150,
     image: '/images/lemon-ginger-chiya.webp',
     popular: false,
-    tags: ['Zesty', 'Healthy']
+    tags: ['Zesty', 'Healthy'],
+    customizationId: 'ginger-tea',
   },
   {
     id: 5,
@@ -53,7 +57,8 @@ export const menuItems = [
     price: 180,
     image: '/images/honey-lemon-ginger-chiya.webp',
     popular: true,
-    tags: ['Sweet & Sour', 'Organic']
+    tags: ['Sweet & Sour', 'Organic'],
+    customizationId: 'honey-ginger-tea',
   },
   {
     id: 6,
@@ -63,7 +68,8 @@ export const menuItems = [
     price: 140,
     image: '/images/Pudina-Chiya.webp',
     popular: false,
-    tags: ['Cooling', 'Minty']
+    tags: ['Cooling', 'Minty'],
+    customizationId: 'mint-tea',
   },
   {
     id: 7,
@@ -73,7 +79,8 @@ export const menuItems = [
     price: 220,
     image: '/images/coffeecup.png',
     popular: false,
-    tags: ['Creamy', 'Strong']
+    tags: ['Creamy', 'Strong'],
+    customizationId: 'cappuccino',
   },
   {
     id: 8,
@@ -83,7 +90,8 @@ export const menuItems = [
     price: 250,
     image: '/images/about1.jpg',
     popular: true,
-    tags: ['Himalayan Classic', 'Spicy']
+    tags: ['Himalayan Classic', 'Spicy'],
+    customizationId: 'momo',
   },
   {
     id: 9,
@@ -93,7 +101,8 @@ export const menuItems = [
     price: 150,
     image: '/images/gallery/photo-2.jpg',
     popular: false,
-    tags: ['Bold', 'Pure']
+    tags: ['Bold', 'Pure'],
+    customizationId: 'espresso',
   },
   {
     id: 10,
@@ -103,7 +112,8 @@ export const menuItems = [
     price: 240,
     image: '/images/gallery/photo-3.jpg',
     popular: true,
-    tags: ['Chilled', 'Creamy']
+    tags: ['Chilled', 'Creamy'],
+    customizationId: 'iced-latte',
   },
   {
     id: 11,
@@ -113,7 +123,8 @@ export const menuItems = [
     price: 80,
     image: '/images/gallery/photo-6.jpg',
     popular: false,
-    tags: ['Crispy', 'Vegetarian']
+    tags: ['Crispy', 'Vegetarian'],
+    customizationId: 'samosa',
   },
   {
     id: 12,
@@ -123,7 +134,8 @@ export const menuItems = [
     price: 180,
     image: '/images/gallery/photo-7.jpg',
     popular: false,
-    tags: ['Classic', 'Snack']
+    tags: ['Classic', 'Snack'],
+    customizationId: 'fries',
   },
   {
     id: 13,
@@ -133,6 +145,7 @@ export const menuItems = [
     price: 200,
     image: '/images/gallery/photo-8.jpg',
     popular: true,
-    tags: ['Sweet Tooth', 'Bakery']
+    tags: ['Sweet Tooth', 'Bakery'],
+    customizationId: 'brownie',
   }
 ];

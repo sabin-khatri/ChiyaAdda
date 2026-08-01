@@ -30,8 +30,8 @@ const useCartStore = create((set, get) => ({
     eta: mode === 'delivery' ? '35-45 Mins' : '15-20 Mins'
   }),
 
-  addItem: (item) => set((state) => {
-    // Generate unique ID based on options
+  addItem: (item, quantity = 1) => set((state) => {
+    const qty = Math.max(1, quantity)
     let cartItemId = `${item.id}`;
     if (item.options) {
       const optionsString = Object.entries(item.options)
@@ -45,11 +45,11 @@ const useCartStore = create((set, get) => ({
     if (existingItem) {
       return {
         items: state.items.map((i) => 
-          i.cartItemId === cartItemId ? { ...i, quantity: i.quantity + 1 } : i
+          i.cartItemId === cartItemId ? { ...i, quantity: i.quantity + qty } : i
         )
       };
     }
-    return { items: [...state.items, { ...item, cartItemId, quantity: 1 }] };
+    return { items: [...state.items, { ...item, cartItemId, quantity: qty }] };
   }),
 
   removeItem: (cartItemId) => set((state) => ({
