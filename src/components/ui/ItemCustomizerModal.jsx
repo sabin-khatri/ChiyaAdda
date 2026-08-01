@@ -1,136 +1,268 @@
-/* eslint-disable react-hooks/rules-of-hooks */
-/* eslint-disable no-unused-vars */
-import React, { useState } from 'react'
-import { motion, AnimatePresence, useReducedMotion } from 'framer-motion'
-import { X, Check } from 'lucide-react'
-import { getSpringScale } from '../../motion/variants'
+import React, { useState, useEffect, useMemo, useCallback, memo } from 'react'
+import { m, AnimatePresence, useReducedMotion } from 'framer-motion'
+import { X, Check, Minus, Plus } from 'lucide-react'
+import {
+  getCustomizationSchema,
+  getDefaultOptions,
+  calculateCustomizedPrice,
+} from '../../data/customizationSchemas'
+import useBodyScrollLock from '../../hooks/useBodyScrollLock'
+import { getModalBackdrop, getModalSheet, getFadeUp } from '../../motion/variants'
+
+const layoutWrap = {
+  row: 'flex flex-wrap gap-1',
+  'grid-2': 'flex flex-wrap gap-1',
+  'grid-3': 'flex flex-wrap gap-1',
+  'grid-4': 'flex flex-wrap gap-1',
+}
+
+const OptionRow = memo(function OptionRow({ group, value, onChange, index, shouldReduce }) {
+  const fadeUp = getFadeUp(shouldReduce)
+  const wrap = layoutWrap[group.layout] ?? layoutWrap.row
+
+  return (
+    <m.div
+      custom={index}
+      variants={fadeUp}
+      initial="hidden"
+      animate="visible"
+      className="flex items-start gap-2 sm:gap-3 py-2 border-b border-chiya-ink/8 last:border-0"
+    >
+      <div className="w-[4.5rem] sm:w-20 shrink-0 pt-1.5">
+        <span className="text-[10px] sm:text-[11px] font-display font-extrabold uppercase tracking-wide text-chiya-ink/55 leading-tight block">
+          <span aria-hidden className="mr-0.5">{group.icon}</span>
+          {group.shortLabel ?? group.label}
+        </span>
+      </div>
+      <div className={wrap} role="group" aria-label={group.label}>
+        {group.choices.map((choice) => {
+          const selected = value === choice.value
+          return (
+            <m.button
+              key={choice.value}
+              type="button"
+              onClick={() => onChange(group.id, choice.value)}
+              whileTap={shouldReduce ? undefined : { scale: 0.94 }}
+              className={`px-2 sm:px-2.5 py-1.5 rounded-lg border font-display font-bold text-[11px] sm:text-xs leading-tight cursor-pointer min-h-[32px] transition-colors ${
+                selected
+                  ? 'border-chiya-orange bg-chiya-orange text-white shadow-[1px_1px_0px_0px_var(--color-ink)]'
+                  : 'border-chiya-ink/15 bg-white text-chiya-ink/70 hover:border-chiya-ink/35 hover:text-chiya-ink'
+              }`}
+            >
+              {choice.shortLabel ?? choice.label}
+              {choice.priceModifier > 0 && (
+                <span className={`ml-0.5 font-sans font-semibold ${selected ? 'text-white/85' : 'text-chiya-orange'}`}>
+                  +{choice.priceModifier}
+                </span>
+              )}
+            </m.button>
+          )
+        })}
+      </div>
+    </m.div>
+  )
+})
 
 const ItemCustomizerModal = ({ isOpen, onClose, item, onAddToCart }) => {
-  if (!item) return null
-
   const shouldReduce = useReducedMotion()
-  const springScale = getSpringScale(shouldReduce)
+  const schema = useMemo(() => getCustomizationSchema(item), [item])
+  const backdrop = getModalBackdrop(shouldReduce)
+  const sheet = getModalSheet(shouldReduce)
 
-  // Default options
-  const [options, setOptions] = useState({
-    sugar: '100%',
-    milk: 'Regular',
-    temp: 'Hot'
-  })
-
+  const [options, setOptions] = useState({})
+  const [quantity, setQuantity] = useState(1)
   const [isAdded, setIsAdded] = useState(false)
 
-  const handleOptionChange = (category, value) => {
-    setOptions(prev => ({ ...prev, [category]: value }))
-  }
+  useBodyScrollLock(isOpen)
+
+  useEffect(() => {
+    if (item && schema) {
+      setOptions(getDefaultOptions(schema))
+      setQuantity(1)
+      setIsAdded(false)
+    }
+  }, [item, schema])
+
+  const handleOptionChange = useCallback((groupId, value) => {
+    setOptions((prev) => ({ ...prev, [groupId]: value }))
+  }, [])
+
+  if (!item || !schema) return null
+
+  const unitPrice = calculateCustomizedPrice(item.price, options, schema)
+  const totalPrice = unitPrice * quantity
 
   const handleAdd = () => {
-    onAddToCart({ ...item, options })
+    onAddToCart({
+      ...item,
+      price: unitPrice,
+      options,
+      customizationId: item.customizationId ?? schema.label,
+    }, quantity)
+
     setIsAdded(true)
     setTimeout(() => {
       setIsAdded(false)
       onClose()
-      // Reset options for next time
-      setOptions({ sugar: '100%', milk: 'Regular', temp: 'Hot' })
-    }, 1200)
+    }, 850)
   }
 
   return (
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center px-4">
-          <motion.div 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
+        <div className="fixed inset-0 z-[80] flex items-end sm:items-center justify-center p-0 sm:p-4">
+          <m.div
+            variants={backdrop}
+            initial="hidden"
+            animate="visible"
+            exit="exit"
             onClick={onClose}
-            className="absolute inset-0 bg-chiya-ink/50 backdrop-blur-sm"
+            className="absolute inset-0 bg-chiya-ink/60"
           />
-          
-          <motion.div 
-            layoutId={`item-card-${item.id}`}
-            className="bg-white rounded-card-lg border-4 border-chiya-ink shadow-pop w-full max-w-md overflow-hidden relative z-10"
+
+          <m.div
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="customizer-title"
+            variants={sheet}
+            initial="hidden"
+            animate="visible"
+            exit="exit"
+            className="relative z-10 w-full sm:max-w-xl bg-white border-4 border-chiya-ink shadow-[0_20px_60px_rgba(0,0,0,0.25)] flex flex-col overflow-hidden safe-bottom rounded-t-2xl sm:rounded-2xl"
+            style={{ maxHeight: 'min(100dvh, 640px)' }}
           >
-            <button 
-              onClick={onClose}
-              className="absolute top-4 right-4 p-2 bg-white/85 hover:bg-chiya-cream rounded-full border-2 border-chiya-ink text-chiya-ink transition z-20 backdrop-blur cursor-pointer shadow-pop"
-            >
-              <X size={18} />
-            </button>
-
-            <div className="h-48 relative border-b-2 border-chiya-ink">
-              <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
-              <div className="absolute inset-0 bg-gradient-to-t from-chiya-ink/90 to-transparent flex items-end p-6">
-                <h3 className="text-2xl font-display font-black text-white">{item.name}</h3>
+            <div className="flex items-center gap-3 p-3 sm:p-4 border-b-2 border-chiya-ink shrink-0 bg-chiya-cream">
+              <m.img
+                initial={shouldReduce ? false : { scale: 0.8, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ type: 'spring', stiffness: 400, damping: 22 }}
+                src={item.image}
+                alt=""
+                className="w-12 h-12 sm:w-14 sm:h-14 rounded-xl border-2 border-chiya-ink object-cover shrink-0"
+                loading="eager"
+                decoding="async"
+              />
+              <div className="flex-1 min-w-0 pr-8">
+                <h3 id="customizer-title" className="font-display font-black text-chiya-ink text-sm sm:text-base leading-tight truncate">
+                  {item.name}
+                </h3>
+                <p className="text-[11px] sm:text-xs text-chiya-ink/55 font-sans mt-0.5">
+                  Base Rs. {item.price}
+                  <span className="mx-1.5 text-chiya-ink/25">·</span>
+                  <m.span
+                    key={totalPrice}
+                    initial={shouldReduce ? false : { scale: 1.15 }}
+                    animate={{ scale: 1 }}
+                    className="text-chiya-orange font-display font-bold inline-block"
+                  >
+                    Total Rs. {totalPrice}
+                  </m.span>
+                </p>
               </div>
-            </div>
-
-            <div className="p-6 space-y-6 max-h-[60vh] overflow-y-auto">
-              {/* Temperature */}
-              <div>
-                <h4 className="font-display font-bold text-chiya-ink mb-3 text-xs uppercase tracking-wider">Temperature</h4>
-                <div className="flex gap-3">
-                  {['Hot', 'Iced'].map(temp => (
-                    <button
-                      key={temp}
-                      onClick={() => handleOptionChange('temp', temp)}
-                      className={`flex-1 py-2 rounded-xl border-2 font-display font-bold transition-all ${options.temp === temp ? 'border-chiya-orange bg-chiya-orange/10 text-chiya-orange shadow-[2px_2px_0px_0px_rgba(43,33,24,1)]' : 'border-gray-200 text-gray-500 hover:border-chiya-ink'}`}
-                    >
-                      {temp}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              {/* Sugar Level */}
-              <div>
-                <h4 className="font-display font-bold text-chiya-ink mb-3 text-xs uppercase tracking-wider">Sugar Level</h4>
-                <div className="grid grid-cols-4 gap-2">
-                  {['0%', '25%', '50%', '100%'].map(level => (
-                    <button
-                      key={level}
-                      onClick={() => handleOptionChange('sugar', level)}
-                      className={`py-2 rounded-xl border-2 font-display font-bold text-sm transition-all ${options.sugar === level ? 'border-chiya-orange bg-chiya-orange/10 text-chiya-orange shadow-[2px_2px_0px_0px_rgba(43,33,24,1)]' : 'border-gray-200 text-gray-500 hover:border-chiya-ink'}`}
-                    >
-                      {level}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              {/* Milk Type (only show if it's tea or coffee) */}
-              {(item.categoryId === 'tea' || item.categoryId === 'coffee') && (
-                <div>
-                  <h4 className="font-display font-bold text-chiya-ink mb-3 text-xs uppercase tracking-wider">Milk Type</h4>
-                  <div className="grid grid-cols-2 gap-3">
-                    {['Regular', 'Oat', 'Almond', 'Soy'].map(milk => (
-                      <button
-                        key={milk}
-                        onClick={() => handleOptionChange('milk', milk)}
-                        className={`py-2 rounded-xl border-2 font-display font-bold transition-all ${options.milk === milk ? 'border-chiya-orange bg-chiya-orange/10 text-chiya-orange shadow-[2px_2px_0px_0px_rgba(43,33,24,1)]' : 'border-gray-200 text-gray-500 hover:border-chiya-ink'}`}
-                      >
-                        {milk}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              )}
-            </div>
-
-            <div className="p-6 border-t-2 border-chiya-ink bg-chiya-cream flex items-center justify-between">
-              <span className="text-xl font-display font-black text-chiya-ink">Rs. {item.price}</span>
-              <button 
-                onClick={handleAdd}
-                className={`px-8 py-3 rounded-xl border-2 border-chiya-ink font-display font-bold flex items-center gap-2 transition-all shadow-pop cursor-pointer ${isAdded ? 'bg-green-500 text-white' : 'bg-chiya-orange text-white hover:bg-chiya-pink'}`}
+              <button
+                onClick={onClose}
+                type="button"
+                aria-label="Close"
+                className="absolute top-3 right-3 p-1.5 rounded-full border-2 border-chiya-ink/20 hover:bg-white transition cursor-pointer"
               >
-                {isAdded ? <><Check size={20} /> Added!</> : 'Add to Cart'}
+                <X size={16} />
               </button>
             </div>
-          </motion.div>
+
+            <div className="px-3 sm:px-4 py-1 sm:py-2 shrink-0">
+              {schema.groups.map((group, index) => (
+                <OptionRow
+                  key={group.id}
+                  group={group}
+                  value={options[group.id]}
+                  onChange={handleOptionChange}
+                  index={index}
+                  shouldReduce={shouldReduce}
+                />
+              ))}
+
+              <m.div
+                custom={schema.groups.length}
+                variants={getFadeUp(shouldReduce)}
+                initial="hidden"
+                animate="visible"
+                className="flex items-center gap-2 sm:gap-3 py-2"
+              >
+                <span className="w-[4.5rem] sm:w-20 shrink-0 text-[10px] sm:text-[11px] font-display font-extrabold uppercase tracking-wide text-chiya-ink/55">
+                  Qty
+                </span>
+                <div className="flex items-center border-2 border-chiya-ink rounded-lg overflow-hidden bg-white shadow-[1px_1px_0px_0px_rgba(43,33,24,1)]">
+                  <m.button
+                    type="button"
+                    whileTap={shouldReduce ? undefined : { scale: 0.9 }}
+                    onClick={() => setQuantity((q) => Math.max(1, q - 1))}
+                    disabled={quantity <= 1}
+                    className="px-2.5 py-1.5 text-chiya-ink hover:bg-chiya-cream transition cursor-pointer disabled:opacity-40 min-w-[36px] min-h-[36px] flex items-center justify-center"
+                  >
+                    <Minus size={14} />
+                  </m.button>
+                  <m.span
+                    key={quantity}
+                    initial={shouldReduce ? false : { y: -8, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    className="px-3 py-1.5 font-display font-extrabold border-x-2 border-chiya-ink min-w-[2.25rem] text-center text-sm text-chiya-ink"
+                  >
+                    {quantity}
+                  </m.span>
+                  <m.button
+                    type="button"
+                    whileTap={shouldReduce ? undefined : { scale: 0.9 }}
+                    onClick={() => setQuantity((q) => Math.min(20, q + 1))}
+                    className="px-2.5 py-1.5 text-chiya-ink hover:bg-chiya-cream transition cursor-pointer min-w-[36px] min-h-[36px] flex items-center justify-center"
+                  >
+                    <Plus size={14} />
+                  </m.button>
+                </div>
+                {quantity > 1 && (
+                  <span className="text-[10px] font-sans text-chiya-ink/50">Rs.{unitPrice} ea</span>
+                )}
+              </m.div>
+            </div>
+
+            <div className="p-3 sm:p-4 border-t-2 border-chiya-ink bg-chiya-cream shrink-0">
+              <m.button
+                onClick={handleAdd}
+                type="button"
+                whileTap={shouldReduce ? undefined : { scale: 0.98 }}
+                animate={isAdded ? { scale: [1, 1.03, 1] } : { scale: 1 }}
+                className={`w-full py-3 rounded-xl border-2 border-chiya-ink font-display font-bold flex items-center justify-center gap-2 shadow-[3px_3px_0px_0px_rgba(43,33,24,1)] cursor-pointer min-h-[44px] text-sm sm:text-base active:translate-y-px active:shadow-none transition-colors ${
+                  isAdded
+                    ? 'bg-green-500 text-white border-green-600 shadow-none'
+                    : 'bg-chiya-orange text-white hover:brightness-105'
+                }`}
+              >
+                <AnimatePresence mode="wait">
+                  {isAdded ? (
+                    <m.span
+                      key="added"
+                      initial={{ opacity: 0, y: 6 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="flex items-center gap-2"
+                    >
+                      <Check size={18} /> Added to Cart!
+                    </m.span>
+                  ) : (
+                    <m.span
+                      key="add"
+                      initial={{ opacity: 0, y: -6 }}
+                      animate={{ opacity: 1, y: 0 }}
+                    >
+                      Add to Cart — Rs. {totalPrice}
+                    </m.span>
+                  )}
+                </AnimatePresence>
+              </m.button>
+            </div>
+          </m.div>
         </div>
       )}
     </AnimatePresence>
   )
 }
 
-export default ItemCustomizerModal
+export default memo(ItemCustomizerModal)
