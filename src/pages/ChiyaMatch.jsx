@@ -2,7 +2,7 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion'
-import { Heart, Sparkles, ShoppingCart, ArrowRight, RefreshCw, Star, Info } from 'lucide-react'
+import { Heart, Sparkles, ShoppingCart, ArrowRight, RefreshCw, Star, ArrowLeft, Share2 } from 'lucide-react'
 import AnimatedPage from '../components/layout/AnimatedPage'
 import useDocumentTitle from '../hooks/useDocumentTitle'
 import useCartStore from '../store/cartStore'
@@ -21,6 +21,7 @@ const ChiyaMatch = () => {
     flavor: '',
     snack: ''
   })
+  const [copied, setCopied] = useState(false)
 
   // Quiz content
   const questions = [
@@ -62,6 +63,22 @@ const ChiyaMatch = () => {
   const selectOption = (key, val) => {
     setAnswers(prev => ({ ...prev, [key]: val }))
     setStep(prev => prev + 1)
+  }
+
+  const shareResult = async () => {
+    const shareText = `My Chiya Match: ${result.title} — ${result.tea?.name}${result.snack ? ` + ${result.snack.name}` : ''}!`
+    try {
+      if (navigator.share) {
+        await navigator.share({ title: 'My Chiya Match', text: shareText, url: window.location.href })
+      } else {
+        await navigator.clipboard.writeText(shareText)
+        setCopied(true)
+        window.setTimeout(() => setCopied(false), 2000)
+        toast.success('Match copied to clipboard!')
+      }
+    } catch (error) {
+      if (error.name !== 'AbortError') toast.error('Could not share your match.')
+    }
   }
 
   // Calculate Result Pairing
@@ -204,6 +221,11 @@ const ChiyaMatch = () => {
                 {questions[step - 1].subtitle}
               </p>
 
+              {step > 1 && (
+                <button onClick={() => setStep(current => current - 1)} className="mb-4 inline-flex items-center gap-2 text-sm font-display font-bold text-chiya-ink/60 hover:text-chiya-orange" aria-label="Go to previous question">
+                  <ArrowLeft size={16} /> Previous question
+                </button>
+              )}
               <div className="space-y-3">
                 {questions[step - 1].options.map((opt) => (
                   <button
@@ -303,6 +325,12 @@ const ChiyaMatch = () => {
 
               {/* Action Panel */}
               <div className="flex flex-col sm:flex-row gap-4">
+                <button
+                  onClick={shareResult}
+                  className="btn-outline py-4 px-6 text-base shadow-[4px_4px_0px_0px_var(--color-ink)] hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-2"
+                >
+                  <Share2 size={16} /> {copied ? 'Copied!' : 'Share Match'}
+                </button>
                 <button
                   onClick={handleAddPairing}
                   className="flex-1 btn-primary py-4 text-base shadow-[4px_4px_0px_0px_var(--color-ink)] hover:scale-105 active:scale-95 transition-all w-full flex items-center justify-center gap-2"
