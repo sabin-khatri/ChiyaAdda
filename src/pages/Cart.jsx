@@ -14,20 +14,18 @@ const Cart = () => {
     items, 
     removeItem, 
     updateQuantity, 
-    getCartTotal, 
+    getOrderTotals,
     pickupMode, 
     deliveryFee, 
     eta, 
     setPickupMode,
-    appliedPromo,
-    discountRate
+    appliedPromo
   } = useCartStore()
   
   const navigate = useNavigate()
   const shouldReduce = useReducedMotion()
   const fadeUp = getFadeUp(shouldReduce)
-  const total = getCartTotal()
-  const discount = Math.round(total * discountRate)
+  const { subtotal: total, discount, tax, total: grandTotal } = getOrderTotals()
 
   return (
     <AnimatedPage className="min-h-screen bg-chiya-cream py-12">
@@ -183,12 +181,12 @@ const Cart = () => {
                   </div>
                   <div className="flex justify-between">
                     <span>Tax (10%)</span>
-                    <span className="text-chiya-ink">Rs. {Math.round(total * 0.1)}</span>
+                    <span className="text-chiya-ink">Rs. {tax}</span>
                   </div>
                   <div className="border-t-2 border-chiya-ink pt-4 flex justify-between items-center text-chiya-ink">
                     <span className="font-display font-black text-lg">Total</span>
                     <span className="font-display font-black text-2xl text-chiya-orange">
-                      Rs. {total - discount + deliveryFee + Math.round(total * 0.1)}
+                      Rs. {grandTotal}
                     </span>
                   </div>
                 </div>
