@@ -1,6 +1,7 @@
 import { create } from 'zustand'
+import { createJSONStorage, persist } from 'zustand/middleware'
 
-const useCartStore = create((set, get) => ({
+const useCartStore = create(persist((set, get) => ({
   items: [],
   pickupMode: 'pickup', // 'pickup' or 'delivery'
   deliveryFee: 0,
@@ -68,9 +69,23 @@ const useCartStore = create((set, get) => ({
     return get().items.reduce((total, item) => total + (item.price * item.quantity), 0);
   },
 
+  getOrderTotals: () => {
+    const { items, deliveryFee, discountRate } = get()
+    const subtotal = items.reduce((total, item) => total + (item.price * item.quantity), 0)
+    const discount = Math.round(subtotal * discountRate)
+    const tax = Math.round(subtotal * 0.1)
+    return { subtotal, discount, tax, total: subtotal - discount + deliveryFee + tax }
+  },
+
   getCartCount: () => {
     return get().items.reduce((count, item) => count + item.quantity, 0);
   }
+}), {
+  name: 'chiya_cart',
+  storage: createJSONStorage(() => localStorage),
+  partialize: ({ items, pickupMode, deliveryFee, eta, appliedPromo, discountRate }) => ({
+    items, pickupMode, deliveryFee, eta, appliedPromo, discountRate
+  })
 }))
 
 export default useCartStore;
