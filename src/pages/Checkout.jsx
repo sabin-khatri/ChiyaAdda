@@ -12,7 +12,7 @@ import toast from 'react-hot-toast'
 
 const Checkout = () => {
   useDocumentTitle('Checkout')
-  const { items, getCartTotal, clearCart, pickupMode, deliveryFee, eta, appliedPromo, discountRate } = useCartStore()
+  const { items, getOrderTotals, clearCart, pickupMode, deliveryFee, eta, appliedPromo } = useCartStore()
   const addOrder = useOrdersStore(state => state.addOrder)
   const navigate = useNavigate()
   const shouldReduce = useReducedMotion()
@@ -22,28 +22,8 @@ const Checkout = () => {
   const [step, setStep] = useState(1) // 1: Order Review, 2: Guest Details, 3: Confirmation Success
   const [loading, setLoading] = useState(false)
   const [orderId, setOrderId] = useState('')
-  const [brewStage, setBrewStage] = useState(0)
 
-  useEffect(() => {
-    if (step === 3) {
-      const interval = setInterval(() => {
-        setBrewStage((prev) => {
-          if (prev < 4) {
-            return prev + 1
-          } else {
-            clearInterval(interval)
-            return prev
-          }
-        })
-      }, 5000)
-      return () => clearInterval(interval)
-    }
-  }, [step])
-
-  const subtotal = getCartTotal()
-  const discount = Math.round(subtotal * discountRate)
-  const tax = Math.round(subtotal * 0.1)
-  const total = subtotal - discount + deliveryFee + tax
+  const { subtotal, discount, tax, total } = getOrderTotals()
 
   const [formData, setFormData] = useState({
     name: '',
@@ -101,6 +81,8 @@ const Checkout = () => {
         addOrder({
           id: result.orderRef,
           customer: formData.name,
+          phone: formData.phone,
+          mode: pickupMode,
           items: orderItemsString,
           total: total,
           status: 'Pending',
@@ -390,56 +372,13 @@ const Checkout = () => {
                 <p className="text-2xl font-display font-black text-chiya-orange">{orderId}</p>
               </div>
 
-              {/* Live Brewing Progress Tracker */}
-              <div className="bg-chiya-cream/30 border-2 border-chiya-ink rounded-3xl p-5 text-left mb-6 space-y-4">
-                <div className="flex justify-between items-center">
-                  <span className="text-[10px] font-display font-black uppercase text-chiya-ink/40 tracking-wider">Kitchen Status</span>
-                  <span className="text-xs font-display font-black text-chiya-orange animate-pulse">
-                    Stage {brewStage + 1} of 5
-                  </span>
-                </div>
-                
-                <div>
-                  <h4 className="font-display font-black text-base text-chiya-ink">
-                    {
-                      [
-                        'Order Received',
-                        'Crushing Spices 🌶️',
-                        'Slow Boiling ☕',
-                        'Packing Order 📦',
-                        pickupMode === 'pickup' ? 'Ready for Pickup! 🎉' : 'Out for Delivery! 🛵'
-                      ][brewStage]
-                    }
-                  </h4>
-                  <p className="text-xs font-sans font-medium text-chiya-ink/60 mt-0.5">
-                    {
-                      [
-                        'Sent to Thamel kitchen, matching chef assigned.',
-                        'Crushing fresh local ginger, cardamom & cloves.',
-                        'Simmering tea leaves with fresh milk on active clay stove.',
-                        'Sealing in hot eco-friendly cups and checking items.',
-                        pickupMode === 'pickup' ? 'Grab it hot from the main counter!' : 'Our rider has picked it up and is on the way to you!'
-                      ][brewStage]
-                    }
-                  </p>
-                </div>
-
-                {/* Progress bar split in 4 segments */}
-                <div className="grid grid-cols-4 gap-1.5 h-2">
-                  {[0, 1, 2, 3].map((stepIdx) => {
-                    const isCompleted = brewStage > stepIdx
-                    const isActive = brewStage === stepIdx
-                    return (
-                      <div key={stepIdx} className="bg-chiya-ink/10 h-full rounded-full overflow-hidden">
-                        <div 
-                          className={`h-full transition-all duration-500 ${isCompleted ? 'bg-chiya-orange w-full' : isActive ? 'bg-gradient-to-r from-chiya-orange to-chiya-pink w-full animate-pulse' : 'w-0'}`} 
-                        />
-                      </div>
-                    )
-                  })}
-                </div>
-              </div>
-
+              <p className="text-sm text-chiya-ink/70 mb-5">Follow kitchen updates as your order is prepared.</p>
+              <button
+                onClick={() => navigate(`/track/${encodeURIComponent(orderId)}`)}
+                className="btn-primary w-full py-3 mb-3"
+              >
+                Track This Order
+              </button>
               <button 
                 onClick={() => navigate('/')}
                 className="btn-primary w-full py-3"
