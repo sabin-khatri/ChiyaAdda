@@ -44,7 +44,7 @@ const Home = () => {
                 initial={{ opacity: 0, y: 25 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.15 }}
-                className="text-5xl md:text-7xl font-display font-black text-chiya-ink leading-tight"
+                className="text-4xl sm:text-5xl md:text-7xl font-display font-black text-chiya-ink leading-tight"
               >
                 A Sip of <span className="bg-gradient-to-r from-chiya-orange to-chiya-pink bg-clip-text text-transparent">{siteContent.hero.title.split(' ')[2] || 'Tradition'}</span>
               </motion.h1>
@@ -78,10 +78,10 @@ const Home = () => {
               initial={{ opacity: 0, x: 50 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8, type: 'spring', stiffness: 80 }}
-              className="relative w-full h-[450px] lg:h-[500px] flex items-center justify-center"
+              className="relative w-full h-[360px] sm:h-[420px] lg:h-[500px] flex items-center justify-center"
             >
               {/* Main Image Card (Tilted) */}
-              <div className="w-[300px] h-[380px] md:w-[320px] md:h-[420px] rounded-[2.5rem] border-4 border-white overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.12)] rotate-[-4deg] bg-white relative z-10 hover:rotate-0 transition-transform duration-500">
+              <div className="w-[260px] h-[320px] sm:w-[300px] sm:h-[380px] md:w-[320px] md:h-[420px] rounded-[2.5rem] border-4 border-white overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.12)] rotate-[-4deg] bg-white relative z-10 hover:rotate-0 transition-transform duration-500">
                 <img 
                   src="/images/chiya_hero.jpg" 
                   alt="Nepali Masala Tea" 
