@@ -126,7 +126,114 @@ const Rewards = () => {
   }
 
   const handleDownloadMemeCard = () => {
-    toast.success('Meme card saved! Share it with your friends! 📸', { icon: '⚡' })
+    const canvas = document.createElement('canvas')
+    canvas.width = 800
+    canvas.height = 1120
+    const context = canvas.getContext('2d')
+    if (!context) {
+      toast.error('Could not create the card. Please try again.')
+      return
+    }
+
+    const palettes = {
+      sunset: ['#f97316', '#ec4899'],
+      mint: ['#14b8a6', '#17212b'],
+      cyber: ['#ec4899', '#9333ea'],
+      honey: ['#facc15', '#f97316'],
+    }
+    const paletteKey = cardGradient.includes('to-chiya-teal')
+      ? 'mint'
+      : cardGradient.includes('to-purple-600')
+        ? 'cyber'
+        : cardGradient.includes('to-chiya-yellow')
+          ? 'honey'
+          : 'sunset'
+    const gradient = context.createLinearGradient(0, 0, 800, 1120)
+    gradient.addColorStop(0, palettes[paletteKey][0])
+    gradient.addColorStop(1, palettes[paletteKey][1])
+    context.fillStyle = gradient
+    context.fillRect(0, 0, canvas.width, canvas.height)
+    context.strokeStyle = '#17212b'
+    context.lineWidth = 16
+    context.strokeRect(8, 8, 784, 1104)
+
+    context.fillStyle = 'rgba(255,255,255,0.2)'
+    context.beginPath()
+    context.roundRect(52, 52, 300, 48, 24)
+    context.fill()
+    context.fillStyle = '#ffffff'
+    context.font = 'bold 24px Arial, sans-serif'
+    context.fillText('CHIYA REVIEW CARD', 72, 84)
+    context.fillStyle = '#ffe45e'
+    context.font = 'bold 34px Arial, sans-serif'
+    context.fillText('★★★★★', 590, 88)
+
+    const drawWrappedText = (text, x, y, maxWidth, lineHeight) => {
+      let line = ''
+      text.split(' ').forEach((word) => {
+        const next = line ? `${line} ${word}` : word
+        if (context.measureText(next).width > maxWidth && line) {
+          context.fillText(line, x, y)
+          line = word
+          y += lineHeight
+        } else {
+          line = next
+        }
+      })
+      if (line) context.fillText(line, x, y)
+      return y
+    }
+
+    context.fillStyle = '#ffffff'
+    context.font = '900 54px Arial, sans-serif'
+    const titleBottom = drawWrappedText(selectedTea, 56, 210, 690, 68)
+    const statItems = [
+      ['CAFFEINE VIBE', stats.caffeine],
+      ['SWEETNESS', stats.sweetness],
+      ['SPICE BLEND', stats.spicy],
+      ['OVERALL VIBE', stats.vibes],
+    ]
+    const statsStart = Math.max(410, titleBottom + 120)
+    statItems.forEach(([label, value], index) => {
+      const y = statsStart + index * 120
+      context.fillStyle = '#ffffff'
+      context.font = 'bold 25px Arial, sans-serif'
+      context.fillText(label, 58, y)
+      context.textAlign = 'right'
+      context.fillText(`${value}%`, 742, y)
+      context.textAlign = 'left'
+      context.fillStyle = 'rgba(255,255,255,0.28)'
+      context.beginPath()
+      context.roundRect(58, y + 22, 684, 20, 10)
+      context.fill()
+      context.fillStyle = '#ffffff'
+      context.beginPath()
+      context.roundRect(58, y + 22, 684 * value / 100, 20, 10)
+      context.fill()
+    })
+
+    context.strokeStyle = 'rgba(255,255,255,0.5)'
+    context.beginPath()
+    context.moveTo(58, 944)
+    context.lineTo(742, 944)
+    context.stroke()
+    context.fillStyle = '#ffffff'
+    context.font = 'italic bold 34px Arial, sans-serif'
+    drawWrappedText(`“${memeQuote}”`, 58, 1000, 680, 44)
+
+    canvas.toBlob((blob) => {
+      if (!blob) {
+        toast.error('Could not save the card. Please try again.')
+        return
+      }
+      const url = URL.createObjectURL(blob)
+      const link = document.createElement('a')
+      link.href = url
+      link.download = 'chiya-review-card.png'
+      link.click()
+      URL.revokeObjectURL(url)
+      toast.success('Review card downloaded!')
+    }, 'image/png')
   }
 
   return (
@@ -252,7 +359,7 @@ const Rewards = () => {
                   </button>
                 </div>
               </div>
-            </div>
+            </div>  
 
             <div className="bg-chiya-teal/10 border-2 border-chiya-ink rounded-[2rem] p-6 shadow-[8px_8px_0px_0px_var(--color-ink)] space-y-4">
               <h3 className="text-lg font-display font-black text-chiya-teal">Chiya Club Rules</h3>
