@@ -3,8 +3,20 @@ import React from 'react'
 import { motion } from 'framer-motion'
 import { MapPin, Phone, Mail, Clock, Send } from 'lucide-react'
 import AnimatedPage from '../components/layout/AnimatedPage'
+import { siteContent } from '../data/siteContent'
 
 const Contact = () => {
+  const handleSubmit = (event) => {
+    event.preventDefault()
+    const formData = new FormData(event.currentTarget)
+    const name = formData.get('name')
+    const email = formData.get('email')
+    const subject = formData.get('subject')
+    const message = formData.get('message')
+    const body = `From: ${name} (${email})\n\n${message}`
+    window.location.href = `mailto:${siteContent.contact.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
+  }
+
   return (
     <AnimatedPage className="min-h-screen bg-primary-50 py-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -63,24 +75,25 @@ const Contact = () => {
           >
             <div className="bg-white rounded-2xl shadow-lg p-10 h-full">
               <h2 className="text-2xl font-bold font-serif mb-8">Send us a message</h2>
-              <form className="space-y-6" onSubmit={e => e.preventDefault()}>
+              <p className="text-sm text-gray-600 -mt-4 mb-6">Submitting opens your email app with your message ready to send.</p>
+              <form className="space-y-6" onSubmit={handleSubmit}>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">Your Name</label>
-                    <input type="text" className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none transition" placeholder="John Doe" />
+                    <input name="name" type="text" autoComplete="name" required className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none transition" placeholder="John Doe" />
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
-                    <input type="email" className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none transition" placeholder="john@example.com" />
+                    <input name="email" type="email" autoComplete="email" required className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none transition" placeholder="john@example.com" />
                   </div>
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">Subject</label>
-                  <input type="text" className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none transition" placeholder="How can we help?" />
+                  <input name="subject" type="text" required className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none transition" placeholder="How can we help?" />
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">Message</label>
-                  <textarea rows="5" className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none transition resize-none" placeholder="Your message here..."></textarea>
+                  <textarea name="message" rows="5" required className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none transition resize-none" placeholder="Your message here..."></textarea>
                 </div>
                 <button className="btn-primary flex items-center justify-center gap-2 py-3 px-8">
                   Send Message <Send size={18} />
