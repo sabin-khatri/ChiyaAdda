@@ -3,6 +3,7 @@ import { Outlet, Link, Navigate, useNavigate, useLocation } from 'react-router-d
 import { LayoutDashboard, ShoppingCart, Utensils, LogOut, Menu as MenuIcon, X, ChevronLeft, ChevronRight } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import useAuthStore from '../../store/authStore'
+import MotionProvider from '../../motion/MotionProvider'
 
 const AdminLayout = () => {
   const { isAuthenticated, logout } = useAuthStore()
@@ -84,6 +85,7 @@ const AdminLayout = () => {
   )
 
   return (
+    <MotionProvider>
     <div className="flex h-screen bg-chiya-cream overflow-hidden">
       
       {/* Mobile Header Banner */}
@@ -138,6 +140,7 @@ const AdminLayout = () => {
         <Outlet />
       </main>
     </div>
+    </MotionProvider>
   )
 }
 

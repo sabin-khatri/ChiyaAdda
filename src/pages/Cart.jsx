@@ -67,16 +67,16 @@ const Cart = () => {
                         animate={{ opacity: 1, height: 'auto' }}
                         exit={{ opacity: 0, height: 0 }}
                         transition={{ duration: 0.2 }}
-                        className="p-6 flex items-center sm:items-start gap-4 sm:gap-6 bg-white"
+                        className="p-4 sm:p-6 flex items-start gap-3 sm:gap-6 bg-white"
                       >
-                        <div className="w-24 h-24 sm:w-28 sm:h-28 shrink-0 rounded-card-sm border-2 border-chiya-ink overflow-hidden shadow-pop">
+                        <div className="w-20 h-20 sm:w-28 sm:h-28 shrink-0 rounded-card-sm border-2 border-chiya-ink overflow-hidden shadow-pop">
                           <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
                         </div>
                         
-                        <div className="flex-grow flex flex-col justify-between h-full">
+                        <div className="flex-grow min-w-0 flex flex-col justify-between h-full">
                           <div className="flex justify-between items-start mb-1">
-                            <div>
-                              <h3 className="text-lg font-display font-black text-chiya-ink">{item.name}</h3>
+                            <div className="min-w-0 pr-1">
+                              <h3 className="text-base sm:text-lg font-display font-black text-chiya-ink leading-snug break-words">{item.name}</h3>
                               {item.options && (() => {
                                 const schema = getCustomizationSchema(item)
                                 const summary = formatOptionsSummary(item.options, schema)
@@ -93,7 +93,8 @@ const Cart = () => {
                             </div>
                             <button 
                               onClick={() => removeItem(item.cartItemId)}
-                              className="text-chiya-pink hover:text-red-600 p-1 cursor-pointer transition-colors"
+                              aria-label={`Remove ${item.name} from cart`}
+                              className="shrink-0 text-chiya-pink hover:text-red-600 p-1 cursor-pointer transition-colors"
                             >
                               <Trash2 size={20} />
                             </button>
@@ -101,10 +102,11 @@ const Cart = () => {
                           
                           <p className="text-chiya-orange font-display font-black mb-4">Rs. {item.price}</p>
                           
-                          <div className="flex items-center gap-4">
+                          <div className="flex items-center gap-2 sm:gap-4">
                             <div className="flex items-center border-2 border-chiya-ink rounded-xl bg-white overflow-hidden shadow-[2px_2px_0px_0px_rgba(43,33,24,1)]">
                               <button 
                                 onClick={() => updateQuantity(item.cartItemId, item.quantity - 1)}
+                                aria-label={`Decrease ${item.name} quantity`}
                                 className="px-3 py-1.5 text-chiya-ink hover:bg-chiya-cream transition font-extrabold cursor-pointer"
                                 disabled={item.quantity <= 1}
                               >
@@ -115,12 +117,13 @@ const Cart = () => {
                               </span>
                               <button 
                                 onClick={() => updateQuantity(item.cartItemId, item.quantity + 1)}
+                                aria-label={`Increase ${item.name} quantity`}
                                 className="px-3 py-1.5 text-chiya-ink hover:bg-chiya-cream transition font-extrabold cursor-pointer"
                               >
                                 <Plus size={14} />
                               </button>
                             </div>
-                            <span className="font-display font-black text-chiya-ink ml-auto hidden sm:inline">
+                            <span className="font-display font-black text-chiya-ink text-sm sm:text-base ml-auto">
                               Rs. {item.price * item.quantity}
                             </span>
                           </div>

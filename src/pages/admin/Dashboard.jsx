@@ -1,6 +1,6 @@
 import React from 'react'
 import { motion } from 'framer-motion'
-import { TrendingUp, Users, ShoppingBag, DollarSign, ArrowRight } from 'lucide-react'
+import { Users, ShoppingBag, DollarSign, ArrowRight, PackageCheck } from 'lucide-react'
 import AnimatedPage from '../../components/layout/AnimatedPage'
 import useOrdersStore from '../../store/ordersStore'
 import { Link } from 'react-router-dom'
@@ -12,6 +12,20 @@ const Dashboard = () => {
   const revenue = orders.filter(o => o.status === 'Completed').reduce((acc, o) => acc + Number(o.total || 0), 0)
   const activeOrdersCount = orders.filter(o => o.status !== 'Completed' && o.status !== 'Cancelled').length
   const totalOrdersCount = orders.length
+  const completedOrdersCount = orders.filter(o => o.status === 'Completed').length
+  const topSellers = orders.reduce((items, order) => {
+    String(order.items || '').split(/[;,]/).forEach(line => {
+      const match = line.trim().match(/^(\d+)\s*x\s*(.+)$/i)
+      if (!match) return
+      const name = match[2].replace(/\s*\([^)]*\)\s*$/, '').trim()
+      if (!name) return
+      const key = name.toLowerCase()
+      items[key] = { name, quantity: (items[key]?.quantity || 0) + Number(match[1]) }
+    })
+    return items
+  }, {})
+  const rankedSellers = Object.values(topSellers).sort((a, b) => b.quantity - a.quantity).slice(0, 4)
+  const highestSellerCount = rankedSellers[0]?.quantity || 1
 
   const stats = [
     { 
@@ -36,9 +50,9 @@ const Dashboard = () => {
       shadow: 'shadow-chiya-pink/20' 
     },
     { 
-      label: 'Growth Rate', 
-      value: '+24.8%', 
-      icon: <TrendingUp size={22} />, 
+      label: 'Completed Orders', 
+      value: completedOrdersCount, 
+      icon: <PackageCheck size={22} />, 
       color: 'from-chiya-yellow to-amber-500', 
       shadow: 'shadow-chiya-yellow/20' 
     },
@@ -53,7 +67,7 @@ const Dashboard = () => {
             ☕ Admin Hub
           </h1>
           <p className="text-sm font-sans font-medium text-chiya-ink/65 mt-1">
-            Real-time shop sales performance, active kitchen queues, and user stats.
+            Order and sales summary from this browser's saved order data.
           </p>
         </div>
         
@@ -92,7 +106,7 @@ const Dashboard = () => {
         {/* Recent Orders Queue (Left columns) */}
         <div className="lg:col-span-2 bg-white border-2 border-chiya-ink rounded-[2.5rem] p-6 shadow-[8px_8px_0px_0px_var(--color-ink)] overflow-hidden">
           <div className="flex justify-between items-center mb-6">
-            <h2 className="text-xl font-display font-black text-chiya-ink">Recent Sales Pipeline</h2>
+            <h2 className="text-xl font-display font-black text-chiya-ink">Recent Orders</h2>
             <span className="text-[10px] font-display font-black bg-chiya-orange/10 text-chiya-orange px-2.5 py-1 rounded-full uppercase tracking-wider">
               Live Feed
             </span>
@@ -109,8 +123,8 @@ const Dashboard = () => {
                 </tr>
               </thead>
               <tbody className="divide-y divide-chiya-ink/5">
-                {orders.slice(0, 6).map((order, idx) => (
-                  <tr key={idx} className="hover:bg-chiya-cream/35 transition-colors">
+                {orders.slice(0, 6).map((order) => (
+                  <tr key={order.id} className="hover:bg-chiya-cream/35 transition-colors">
                     <td className="py-4 font-mono font-black text-xs text-chiya-ink">
                       {order.id}
                     </td>
@@ -149,23 +163,19 @@ const Dashboard = () => {
         <div className="bg-white border-2 border-chiya-ink rounded-[2.5rem] p-6 shadow-[8px_8px_0px_0px_var(--color-ink)] space-y-6">
           <h2 className="text-xl font-display font-black text-chiya-ink">Top Sellers</h2>
           
+          <p className="text-xs text-chiya-ink/55">Ranked by quantities in recorded orders</p>
           <div className="space-y-4">
-            {[
-              { name: 'Classic Masala Chiya', sales: '84 cups', share: '32%', color: 'w-[32%] bg-chiya-orange' },
-              { name: 'Juicy Chicken Momo', sales: '62 plates', share: '24%', color: 'w-[24%] bg-chiya-pink' },
-              { name: 'Dudh Chiya', sales: '45 cups', share: '18%', color: 'w-[18%] bg-chiya-yellow' },
-              { name: 'Samosa Veg', sales: '38 pcs', share: '15%', color: 'w-[15%] bg-chiya-teal' },
-            ].map((item, idx) => (
-              <div key={idx} className="space-y-1">
+            {rankedSellers.length > 0 ? rankedSellers.map((item) => (
+              <div key={item.name} className="space-y-1">
                 <div className="flex justify-between text-xs font-display font-bold">
                   <span className="text-chiya-ink">{item.name}</span>
-                  <span className="text-chiya-ink/50">{item.sales}</span>
+                  <span className="text-chiya-ink/50">{item.quantity} sold</span>
                 </div>
                 <div className="bg-chiya-ink/10 h-2 rounded-full overflow-hidden">
-                  <div className={`h-full ${item.color}`} />
+                  <div className="h-full bg-chiya-orange" style={{ width: `${Math.max(8, (item.quantity / highestSellerCount) * 100)}%` }} />
                 </div>
               </div>
-            ))}
+            )) : <p className="rounded-2xl bg-chiya-cream p-4 text-sm text-chiya-ink/60">Product totals will appear after orders with item details are recorded.</p>}
           </div>
 
           <div className="bg-chiya-cream p-4 rounded-3xl border border-chiya-ink/10 space-y-2 mt-4">

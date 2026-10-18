@@ -1,6 +1,7 @@
 import { create } from 'zustand'
+import { createJSONStorage, persist } from 'zustand/middleware'
 
-const useAuthStore = create((set) => ({
+const useAuthStore = create(persist((set) => ({
   isAuthenticated: false,
   user: null,
   login: (username, password) => {
@@ -14,6 +15,10 @@ const useAuthStore = create((set) => ({
   logout: () => {
     set({ isAuthenticated: false, user: null })
   }
+}), {
+  name: 'chiya_admin_session',
+  storage: createJSONStorage(() => sessionStorage),
+  partialize: ({ isAuthenticated, user }) => ({ isAuthenticated, user }),
 }))
 
 export default useAuthStore

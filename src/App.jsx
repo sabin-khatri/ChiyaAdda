@@ -18,6 +18,7 @@ const Booking = lazy(() => import('./pages/Booking'))
 const BrewLab = lazy(() => import('./pages/BrewLab'))
 const Rewards = lazy(() => import('./pages/Rewards'))
 const ChiyaMatch = lazy(() => import('./pages/ChiyaMatch'))
+const OrderTracking = lazy(() => import('./pages/OrderTracking'))
 const MomoGame = lazy(() => import('./pages/MomoGame'))
 const NotFound = lazy(() => import('./pages/NotFound'))
 
@@ -47,6 +48,7 @@ function App() {
             <Route path="menu" element={<Menu />} />
             <Route path="cart" element={<Cart />} />
             <Route path="checkout" element={<Checkout />} />
+            <Route path="track/:orderId" element={<OrderTracking />} />
             <Route path="booking" element={<Booking />} />
             <Route path="brew" element={<BrewLab />} />
             <Route path="rewards" element={<Rewards />} />

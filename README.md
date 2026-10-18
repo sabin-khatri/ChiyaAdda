@@ -33,16 +33,22 @@ Welcome to the **Chiya-Ghar** frontend project! This is a modern, beautifully an
    npm install
    ```
 
-2. **Start the Development Server**  
+2. **Configure the API mode**  
+   Copy `.env.example` to `.env`. The app uses mock order, booking, and availability
+   responses by default. To connect a backend, set `VITE_USE_MOCK_API=false` and
+   `VITE_API_BASE_URL` to its origin. The frontend expects `POST /api/orders`,
+   `GET /api/slots?date=YYYY-MM-DD`, and `POST /api/bookings`.
+
+3. **Start the Development Server**  
    Run the following command to start the application:
    ```bash
    npm run dev
    ```
 
-3. **View the Application**  
+4. **View the Application**  
    Open your browser and navigate to `http://localhost:5173`.
 
-4. **Access Admin Portal**  
+5. **Access Admin Portal**  
    To view the Admin Dashboard, navigate to `/admin/login`.  
    *(Demo Credentials: Username: `admin` | Password: `admin123`)*
 

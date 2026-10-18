@@ -1,4 +1,4 @@
-const CACHE_NAME = 'chiyaghar-v1';
+const CACHE_NAME = 'chiyaghar-v2';
 const ASSETS = [
   '/',
   '/index.html',
@@ -8,6 +8,15 @@ const ASSETS = [
   '/images/logo.png',
   '/images/chiya_hero.jpg'
 ];
+
+self.addEventListener('activate', (event) => {
+  event.waitUntil(
+    caches.keys().then((keys) => Promise.all(
+      keys.filter((key) => key.startsWith('chiyaghar-') && key !== CACHE_NAME)
+        .map((key) => caches.delete(key))
+    ))
+  );
+});
 
 self.addEventListener('install', (e) => {
   e.waitUntil(
