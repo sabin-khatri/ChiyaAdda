@@ -8,6 +8,7 @@ import { siteContent } from '../data/siteContent'
 import { getFadeUp, getCardHover } from '../motion/variants'
 import useDocumentTitle from '../hooks/useDocumentTitle'
 import LeafParticles from '../components/ui/LeafParticles'
+import toast from 'react-hot-toast'
 
 const Home = () => {
   useDocumentTitle('Home')
@@ -254,15 +255,32 @@ const Home = () => {
           >
             <h2 className="text-3xl md:text-5xl font-display font-black text-chiya-yellow mb-6">Join Our Tea Club</h2>
             <p className="text-chiya-cream/80 mb-10 text-lg font-medium font-sans">Subscribe to get special offers, free giveaways, and once-in-a-lifetime tea deals.</p>
-            <form className="flex flex-col sm:flex-row gap-4 justify-center" onSubmit={(e) => e.preventDefault()}>
+            <form
+              className="flex flex-col sm:flex-row gap-4 justify-center"
+              onSubmit={(event) => {
+                event.preventDefault()
+                const email = new FormData(event.currentTarget).get('email')?.toString().trim().toLowerCase()
+                if (!email) return
+                const savedEmails = JSON.parse(localStorage.getItem('chiya_newsletter_emails') || '[]')
+                if (savedEmails.includes(email)) {
+                  toast('You’re already on the list!')
+                } else {
+                  localStorage.setItem('chiya_newsletter_emails', JSON.stringify([...savedEmails, email]))
+                  toast.success('You’re on the Chiya-Ghar list! (Demo)')
+                }
+                event.currentTarget.reset()
+              }}
+            >
               <input 
+                name="email"
                 type="email" 
+                aria-label="Email address for the Chiya-Ghar newsletter"
                 placeholder="Enter your email address" 
                 className="px-6 py-4 rounded-full text-chiya-ink w-full sm:w-96 focus:outline-none focus:ring-4 focus:ring-chiya-orange border-2 border-chiya-ink bg-white font-bold"
                 required
               />
               <button className="bg-chiya-orange hover:bg-chiya-pink text-white font-extrabold px-8 py-4 rounded-full border-2 border-chiya-ink shadow-pop transition-all cursor-pointer">
-                Subscribe
+                Join the club
               </button>
             </form>
           </motion.div>
