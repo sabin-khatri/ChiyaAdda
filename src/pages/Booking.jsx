@@ -9,6 +9,12 @@ import { getFadeUp, getSpringScale } from '../motion/variants'
 import { useReducedMotion } from 'framer-motion'
 import toast from 'react-hot-toast'
 
+const getLocalDate = () => {
+  const date = new Date()
+  const localDate = new Date(date.getTime() - date.getTimezoneOffset() * 60_000)
+  return localDate.toISOString().slice(0, 10)
+}
+
 const Booking = () => {
   useDocumentTitle('Book a Table')
   const navigate = useNavigate()
@@ -18,7 +24,7 @@ const Booking = () => {
 
   const [step, setStep] = useState(1) // 1: Date & Guests, 2: Time Slots & Contact, 3: Success
   const [formData, setFormData] = useState({
-    date: new Date().toISOString().split('T')[0],
+    date: getLocalDate(),
     guests: '2',
     selectedTable: '',
     timeSlot: '',
@@ -48,9 +54,11 @@ const Booking = () => {
       getAvailableSlots(formData.date)
         .then(res => {
           setSlots(res)
+          setFormData(current => ({ ...current, timeSlot: '' }))
           setLoadingSlots(false)
         })
         .catch(() => {
+          setSlots([])
           toast.error("Failed to load time slots.")
           setLoadingSlots(false)
         })
@@ -154,7 +162,7 @@ const Booking = () => {
                     <label className="block text-xs font-display font-extrabold uppercase text-chiya-ink/60 mb-2">Select Date</label>
                     <input
                       type="date"
-                      min={new Date().toISOString().split('T')[0]}
+                      min={getLocalDate()}
                       value={formData.date}
                       onChange={(e) => setFormData({ ...formData, date: e.target.value })}
                       className="w-full px-4 py-3 rounded-xl border-2 border-chiya-ink focus:outline-none focus:ring-4 focus:ring-chiya-pink/20 font-bold"
@@ -191,6 +199,7 @@ const Booking = () => {
                         <button
                           type="button"
                           key={table.id}
+                          disabled={tooSmall}
                           onClick={() => setFormData({ ...formData, selectedTable: table.id })}
                           className={`p-4 rounded-xl border-2 border-chiya-ink text-left transition cursor-pointer ${isSelected ? 'bg-chiya-orange text-white shadow-pop' : tooSmall ? 'bg-gray-100 text-gray-400 border-dashed border-gray-300 opacity-60' : 'bg-white text-chiya-ink hover:bg-chiya-yellow/10 hover:shadow-pop transition-all'}`}
                         >
