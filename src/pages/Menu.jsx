@@ -1,4 +1,5 @@
 import React, { useState, memo, useCallback } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import { m, AnimatePresence, useReducedMotion } from 'framer-motion'
 import { Plus } from 'lucide-react'
 import AnimatedPage from '../components/layout/AnimatedPage'
@@ -84,7 +85,11 @@ const MenuCard = memo(function MenuCard({ item, index, onSelect, shouldReduce })
 
 const Menu = () => {
   useDocumentTitle('Our Menu')
-  const [activeCategory, setActiveCategory] = useState('all')
+  const [searchParams, setSearchParams] = useSearchParams()
+  const requestedCategory = searchParams.get('category')
+  const activeCategory = menuCategories.some((category) => category.id === requestedCategory)
+    ? requestedCategory
+    : 'all'
   const [selectedItem, setSelectedItem] = useState(null)
   const addItemToCart = useCartStore((state) => state.addItem)
   const shouldReduce = useReducedMotion()
@@ -148,7 +153,9 @@ const Menu = () => {
                 <m.button
                   key={cat.id}
                   layout
-                  onClick={() => setActiveCategory(cat.id)}
+                  onClick={() => {
+                    setSearchParams(cat.id === 'all' ? {} : { category: cat.id }, { replace: true })
+                  }}
                   whileTap={shouldReduce ? undefined : { scale: 0.95 }}
                   className={`relative shrink-0 px-4 py-2 rounded-full font-display font-bold text-xs sm:text-sm border-2 border-chiya-ink cursor-pointer transition-colors ${
                     active ? 'text-white' : 'bg-white text-chiya-ink hover:bg-chiya-cream'
