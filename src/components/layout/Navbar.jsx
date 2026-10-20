@@ -9,7 +9,6 @@ import useBodyScrollLock from '../../hooks/useBodyScrollLock'
 const navLinks = [
   { name: 'Home', path: '/' },
   { name: 'Menu', path: '/menu' },
-  { name: 'Vibe Match', path: '/match' },
   { name: 'Brew Lab', path: '/brew' },
   { name: 'Rewards', path: '/rewards' },
   { name: 'About', path: '/about' },
