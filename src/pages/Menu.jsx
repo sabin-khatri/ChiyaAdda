@@ -157,18 +157,18 @@ const Menu = () => {
                     setSearchParams(cat.id === 'all' ? {} : { category: cat.id }, { replace: true })
                   }}
                   whileTap={shouldReduce ? undefined : { scale: 0.95 }}
-                  className={`relative shrink-0 px-4 py-2 rounded-full font-display font-bold text-xs sm:text-sm border-2 border-chiya-ink cursor-pointer transition-colors ${
-                    active ? 'text-white' : 'bg-white text-chiya-ink hover:bg-chiya-cream'
+                  className={`relative isolate shrink-0 px-4 py-2 rounded-full font-display font-bold text-xs sm:text-sm border-2 border-chiya-ink cursor-pointer transition-colors ${
+                    active ? 'text-white shadow-pop' : 'bg-white text-chiya-ink hover:bg-chiya-cream'
                   }`}
                 >
                   {active && (
                     <m.span
                       layoutId="menu-category-pill"
-                      className="absolute inset-0 bg-chiya-orange rounded-full border-2 border-chiya-ink shadow-pop -z-10"
+                      className="absolute inset-0 z-0 bg-gradient-to-r from-chiya-orange to-chiya-pink rounded-full"
                       transition={{ type: 'spring', stiffness: 450, damping: 32 }}
                     />
                   )}
-                  {cat.name}
+                  <span className="relative z-10 drop-shadow-sm">{cat.name}</span>
                 </m.button>
               )
             })}
