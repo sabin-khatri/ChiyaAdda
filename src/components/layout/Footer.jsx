@@ -2,6 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { MapPin, Phone, Mail, Shield } from 'lucide-react'
 import { motion } from 'framer-motion'
+import { siteContent } from '../../data/siteContent'
 
 // Custom SVGs for Social Icons since lucide-react removed brand icons
 const Facebook = ({ size = 20 }) => (
@@ -35,7 +36,7 @@ const Footer = () => {
   }
 
   return (
-    <footer className="bg-primary-900 text-primary-50 pt-16 pb-8 overflow-hidden">
+    <footer className="bg-chiya-ink text-chiya-cream pt-16 pb-8 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div 
           className="grid grid-cols-1 md:grid-cols-4 gap-12 md:gap-8"
@@ -46,18 +47,18 @@ const Footer = () => {
         >
           
           <motion.div className="col-span-1 md:col-span-1" variants={itemVariants}>
-            <h3 className="text-2xl font-serif font-bold text-primary-200 mb-6">Chiya-Ghar</h3>
-            <p className="text-primary-100/80 mb-6">
+            <h3 className="text-2xl font-display font-black text-chiya-yellow mb-6">Chiya-Ghar</h3>
+            <p className="text-chiya-cream/75 mb-6">
               Experience the authentic taste of Nepali tea and delicacies in a warm, welcoming environment.
             </p>
             <div className="flex space-x-4">
-              <motion.a whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }} href="#" className="text-primary-200 hover:text-white transition bg-primary-800 p-2 rounded-full hover:bg-primary-700">
+              <motion.a whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }} href={siteContent.socials.facebook} target="_blank" rel="noreferrer" aria-label="Visit Chiya-Ghar on Facebook" className="text-chiya-yellow hover:text-white transition bg-white/10 p-2 rounded-full hover:bg-chiya-orange">
                 <Facebook size={20} />
               </motion.a>
-              <motion.a whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }} href="#" className="text-primary-200 hover:text-white transition bg-primary-800 p-2 rounded-full hover:bg-primary-700">
+              <motion.a whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }} href={siteContent.socials.instagram} target="_blank" rel="noreferrer" aria-label="Visit Chiya-Ghar on Instagram" className="text-chiya-yellow hover:text-white transition bg-white/10 p-2 rounded-full hover:bg-chiya-orange">
                 <Instagram size={20} />
               </motion.a>
-              <motion.a whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }} href="#" className="text-primary-200 hover:text-white transition bg-primary-800 p-2 rounded-full hover:bg-primary-700">
+              <motion.a whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }} href={siteContent.socials.twitter} target="_blank" rel="noreferrer" aria-label="Visit Chiya-Ghar on X" className="text-chiya-yellow hover:text-white transition bg-white/10 p-2 rounded-full hover:bg-chiya-orange">
                 <Twitter size={20} />
               </motion.a>
             </div>
@@ -79,29 +80,29 @@ const Footer = () => {
           <motion.div variants={itemVariants}>
             <h4 className="text-lg font-bold mb-6 text-white">Contact Info</h4>
             <ul className="space-y-4">
-              <li className="flex items-start gap-3 text-primary-100/80 group">
-                <MapPin size={20} className="shrink-0 mt-1 text-primary-300 group-hover:text-white transition-colors" />
-                <span>Thamel Marg, Kathmandu<br/>Nepal</span>
+              <li className="flex items-start gap-3 text-chiya-cream/75 group">
+                <MapPin size={20} className="shrink-0 mt-1 text-chiya-yellow group-hover:text-white transition-colors" />
+                <span>{siteContent.contact.address}</span>
               </li>
-              <li className="flex items-center gap-3 text-primary-100/80 group">
-                <Phone size={20} className="shrink-0 text-primary-300 group-hover:text-white transition-colors" />
-                <span>+977 1-4212345</span>
+              <li className="flex items-center gap-3 text-chiya-cream/75 group">
+                <Phone size={20} className="shrink-0 text-chiya-yellow group-hover:text-white transition-colors" />
+                <a href={`tel:${siteContent.contact.phone.replaceAll(' ', '')}`} className="hover:text-white">{siteContent.contact.phone}</a>
               </li>
-              <li className="flex items-center gap-3 text-primary-100/80 group">
-                <Mail size={20} className="shrink-0 text-primary-300 group-hover:text-white transition-colors" />
-                <span>hello@chiyaghar.com</span>
+              <li className="flex items-center gap-3 text-chiya-cream/75 group">
+                <Mail size={20} className="shrink-0 text-chiya-yellow group-hover:text-white transition-colors" />
+                <a href={`mailto:${siteContent.contact.email}`} className="hover:text-white">{siteContent.contact.email}</a>
               </li>
             </ul>
           </motion.div>
 
           <motion.div variants={itemVariants}>
             <h4 className="text-lg font-bold mb-6 text-white">Opening Hours</h4>
-            <ul className="space-y-3 text-primary-100/80">
-              <li className="flex justify-between border-b border-primary-800 pb-2">
+            <ul className="space-y-3 text-chiya-cream/75">
+              <li className="flex flex-col sm:flex-row sm:justify-between gap-1 border-b border-white/10 pb-2">
                 <span>Sunday - Thursday:</span>
                 <span className="font-medium text-white">7:00 AM - 9:00 PM</span>
               </li>
-              <li className="flex justify-between border-b border-primary-800 pb-2">
+              <li className="flex flex-col sm:flex-row sm:justify-between gap-1 border-b border-white/10 pb-2">
                 <span>Friday - Saturday:</span>
                 <span className="font-medium text-white">7:00 AM - 10:00 PM</span>
               </li>
@@ -111,7 +112,7 @@ const Footer = () => {
         </motion.div>
         
         <motion.div 
-          className="border-t border-primary-800 mt-12 pt-8 text-center text-primary-100/60 text-sm"
+          className="border-t border-white/10 mt-12 pt-8 text-center text-chiya-cream/55 text-sm"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
