@@ -17,9 +17,7 @@ const Gallery = lazy(() => import('./pages/Gallery'))
 const Booking = lazy(() => import('./pages/Booking'))
 const BrewLab = lazy(() => import('./pages/BrewLab'))
 const Rewards = lazy(() => import('./pages/Rewards'))
-const ChiyaMatch = lazy(() => import('./pages/ChiyaMatch'))
 const OrderTracking = lazy(() => import('./pages/OrderTracking'))
-const MomoGame = lazy(() => import('./pages/MomoGame'))
 const NotFound = lazy(() => import('./pages/NotFound'))
 
 // Lazy loaded Admin Pages
@@ -52,8 +50,6 @@ function App() {
             <Route path="booking" element={<Booking />} />
             <Route path="brew" element={<BrewLab />} />
             <Route path="rewards" element={<Rewards />} />
-            <Route path="match" element={<ChiyaMatch />} />
-            <Route path="game" element={<MomoGame />} />
             <Route path="about" element={<About />} />
             <Route path="contact" element={<Contact />} />
             <Route path="gallery" element={<Gallery />} />
