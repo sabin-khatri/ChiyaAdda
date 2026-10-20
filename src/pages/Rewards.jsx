@@ -1,6 +1,5 @@
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect, useRef } from 'react'
-import { Link } from 'react-router-dom'
 import { motion, useAnimation, useReducedMotion } from 'framer-motion'
 import { Gift, Sparkles, Trophy, Lock, Image, Download, Sliders, RefreshCw, Star } from 'lucide-react'
 import AnimatedPage from '../components/layout/AnimatedPage'
@@ -370,18 +369,6 @@ const Rewards = () => {
               </ul>
             </div>
 
-            <div className="bg-chiya-yellow/15 border-2 border-chiya-ink rounded-[2rem] p-6 shadow-[8px_8px_0px_0px_var(--color-ink)] space-y-4 text-left">
-              <h3 className="text-lg font-display font-black text-chiya-orange flex items-center gap-1.5">🕹️ Secret Momo Game</h3>
-              <p className="text-xs font-sans font-medium text-chiya-ink/75">
-                Play our retro Momo Catch arcade challenge and score 10 points to unlock a secret 25% OFF discount code!
-              </p>
-              <Link
-                to="/game"
-                className="w-full btn-primary py-3 justify-center text-xs shadow-[2px_2px_0px_0px_var(--color-ink)] inline-flex items-center"
-              >
-                Launch Momo Catcher
-              </Link>
-            </div>
           </div>
         </div>
 
